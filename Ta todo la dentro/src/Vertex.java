@@ -1,13 +1,17 @@
+import java.awt.Point;
 import java.util.*;
 
 
 public class Vertex{
+	
+	private int id;
 	
 	private ArrayList<Edge> adj;
 	private boolean visited;
 	private boolean processing;
 	private int indegree;
 	
+	private Point pos;
 	
 	
 	public ArrayList<Edge> getAdj() {
@@ -34,7 +38,17 @@ public class Vertex{
 	public void setIndegree(int indegree) {
 		this.indegree = indegree;
 	}
-	
-	
+	public Point getPos() {
+		return pos;
+	}
+	public void setPos(Point pos) {
+		this.pos = pos;
+	}
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
 	
 }

@@ -1,12 +1,11 @@
-
-
 public class Edge{
 	
 	private Vertex orig;
 	private Vertex dest;
 	
-	private double weight;
-	private float flow;
+	private double cost;
+	private double distance;
+	private boolean bidirectional;
 	
 	
 	public Vertex getOrig() {
@@ -21,17 +20,23 @@ public class Edge{
 	public void setDest(Vertex dest) {
 		this.dest = dest;
 	}
-	public double getWeight() {
-		return weight;
+	public double getCost() {
+		return cost;
 	}
-	public void setWeight(double weight) {
-		this.weight = weight;
+	public void setCost(double cost) {
+		this.cost = cost;
 	}
-	public float getFlow() {
-		return flow;
+	public double getDistance() {
+		return distance;
 	}
-	public void setFlow(float flow) {
-		this.flow = flow;
+	public void setDistance(double distance) {
+		this.distance = distance;
+	}
+	public boolean getBidirectional() {
+		return bidirectional;
+	}
+	public void setBidirectional(boolean bi) {
+		this.bidirectional = bi;
 	}
 	
 }
