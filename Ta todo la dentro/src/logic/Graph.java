@@ -1,3 +1,4 @@
+package logic;
 import java.util.*;
 
 public class Graph{
@@ -5,8 +6,6 @@ public class Graph{
 	
 	private Map<Integer, Vertex> vertices;
 	private Map<Integer, Edge> edges;
-	
-	
 	
 	
 	public Map<Integer, Vertex> getVertices() {
