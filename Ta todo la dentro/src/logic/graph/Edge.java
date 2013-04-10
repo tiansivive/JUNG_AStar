@@ -1,12 +1,27 @@
-package logic;
+package logic.graph;
+
+
 public class Edge{
 	
 	private Vertex orig;
 	private Vertex dest;
 	
-	private double cost;
+	private int speedLimit;
 	private double distance;
+	private int weight;
 	private boolean bidirectional;
+	
+	
+	public Edge(Vertex o, Vertex d, int speed, double dist, int w, boolean bidirection){
+		
+		this.orig = o;
+		this.dest = d;
+		this.speedLimit = speed;
+		this.distance = dist;
+		this.weight = w;
+		this.bidirectional = bidirection;
+
+	}
 	
 	
 	public Vertex getOrig() {
@@ -21,11 +36,11 @@ public class Edge{
 	public void setDest(Vertex dest) {
 		this.dest = dest;
 	}
-	public double getCost() {
-		return cost;
+	public int getSpeedLimit() {
+		return speedLimit;
 	}
-	public void setCost(double cost) {
-		this.cost = cost;
+	public void setsSpeedLimit(int speed) {
+		this.speedLimit = speed;
 	}
 	public double getDistance() {
 		return distance;
@@ -38,6 +53,12 @@ public class Edge{
 	}
 	public void setBidirectional(boolean bi) {
 		this.bidirectional = bi;
+	}
+	public int getWeight() {
+		return weight;
+	}
+	public void setWeight(int weight) {
+		this.weight = weight;
 	}
 	
 }

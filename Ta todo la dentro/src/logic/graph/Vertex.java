@@ -1,6 +1,9 @@
-package logic;
+package logic.graph;
 import java.awt.Point;
 import java.util.*;
+
+import magicNumbers.Values;
+
 
 
 public class Vertex{
@@ -13,6 +16,19 @@ public class Vertex{
 	private int indegree;
 	
 	private Point pos;
+	
+	public Vertex(){
+		
+		Values.VerticesCurrentID++;
+		
+		this.id = Values.VerticesCurrentID;
+		this.adj = new ArrayList<Edge>();
+		this.indegree = adj.size();
+		this.visited = false;
+		this.processing = false;
+		
+	}
+	
 	
 	
 	public ArrayList<Edge> getAdj() {

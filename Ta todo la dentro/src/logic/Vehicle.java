@@ -3,35 +3,33 @@ package logic;
 public class Vehicle {
 	
 	
-	int fuelTank;
-	int maxCapacity;
-	
-	/*public static void main(String[] args) {
-		// TODO Auto-generated method stub
-	}*/
+	private int currentFuel;
+	private int maxCapacity;
+	private int consumption;
+
 	
 	public Vehicle(int start, int max){
 		if(start > max){
-			fuelTank = max;
+			currentFuel = max;
 		} else {
-			fuelTank = start;
+			currentFuel = start;
 		}
 		maxCapacity = max;
 	}
 
-	public int getFuelTank(){
-		return fuelTank;
+	public int getCurrentFuel(){
+		return currentFuel;
 	}
 	
 	public int getMaxCapacity(){
 		return maxCapacity;
 	}
 	
-	public void setFuelTank(int fuel) {
+	public void setCurrentFuel(int fuel) {
 		if(fuel > maxCapacity){
-			fuelTank = maxCapacity;
+			currentFuel = maxCapacity;
 		} else {
-			fuelTank = fuel;
+			currentFuel = fuel;
 		}
 	}
 	
@@ -40,7 +38,15 @@ public class Vehicle {
 	}
 	
 	public void refill(){
-		fuelTank = maxCapacity;
+		currentFuel = maxCapacity;
+	}
+
+	public int getConsumption() {
+		return consumption;
+	}
+
+	public void setConsumption(int consumption) {
+		this.consumption = consumption;
 	}
 	
 }
