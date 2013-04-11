@@ -53,7 +53,7 @@ public class Edge{
 	public int getSpeedLimit() {
 		return speedLimit;
 	}
-	public void setsSpeedLimit(int speed) {
+	public void setSpeedLimit(int speed) {
 		this.speedLimit = speed;
 	}
 	public double getDistance() {
@@ -81,7 +81,11 @@ public class Edge{
 		this.capacity = capacity;
 	}
 	public String getName() {
-		return name;
+		if(name == null){
+			return "E" +id;
+		}else{
+			return name;
+		}
 	}
 	public void setName(String name) {
 		this.name = name;

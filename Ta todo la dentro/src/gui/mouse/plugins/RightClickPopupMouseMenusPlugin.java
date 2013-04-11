@@ -51,6 +51,7 @@ public class RightClickPopupMouseMenusPlugin<V,E> extends AbstractPopupGraphMous
 		}
 	}
 
+	
 	private void updateEdgeMenu(E edge, VisualizationViewer<V, E> vv, Point2D pos) {
 		if (edgePopup == null){
 			return;

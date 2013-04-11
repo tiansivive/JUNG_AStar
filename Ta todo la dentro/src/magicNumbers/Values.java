@@ -1,5 +1,7 @@
 package magicNumbers;
 
+import javax.swing.Icon;
+
 
 
 
@@ -26,5 +28,7 @@ public class Values{
 	
 	public static final String edge_popupMenu_delete_option = "Delete Edge";
 	public static final String edge_popupMenu_name = "Edge Menu";
+	public static final String edge_properties_editor_menu_entry = "Edit Edge Properties";
+	public static final String edge_properties_editor_frame_name = "Edge Properties";
 	
 }
