@@ -40,7 +40,7 @@ public class Edge{
 	
 	public String toString(){
 	
-		String toReturn = "Edge ";
+		String toReturn = "";
 		if(name != null){
 			toReturn += name;
 		}else{

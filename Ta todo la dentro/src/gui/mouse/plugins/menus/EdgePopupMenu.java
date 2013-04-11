@@ -54,7 +54,7 @@ public class EdgePopupMenu extends JPopupMenu {
 	
 		private static final long serialVersionUID = 2795508101247118760L;
 		public void setEdgeAndView(Edge e, VisualizationViewer<?, Edge>  visComp) {
-			this.setText("Distance " + e + ": " + e.getDistance());
+			this.setText("Distance of " + e + ": " + e.getDistance());
 		}
 	}
 

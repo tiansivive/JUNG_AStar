@@ -41,7 +41,7 @@ public class Vertex{
 	@Override
 	public String toString(){
 		
-		String toReturn = "Vertex ";
+		String toReturn = "";
 		if(name != null){
 			toReturn += name;
 		}else{

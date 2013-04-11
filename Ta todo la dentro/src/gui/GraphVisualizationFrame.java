@@ -3,6 +3,9 @@ package gui;
 import java.awt.Dimension;
 
 import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JPopupMenu;
 
 import logic.graph.Edge;
 import logic.graph.GraphNetwork;
@@ -11,9 +14,13 @@ import magicNumbers.Values;
 import edu.uci.ics.jung.algorithms.layout.Layout;
 import edu.uci.ics.jung.visualization.VisualizationViewer;
 import edu.uci.ics.jung.visualization.control.EditingModalGraphMouse;
+import edu.uci.ics.jung.visualization.control.ModalGraphMouse;
 import edu.uci.ics.jung.visualization.decorators.ToStringLabeller;
 import factories.GUI_EdgeFactory;
 import factories.GUI_VertexFactory;
+import gui.mouse.plugins.RightClickPopupMouseMenusPlugin;
+import gui.mouse.plugins.menus.EdgePopupMenu;
+import gui.mouse.plugins.menus.VertexPopupMenu;
 
 public class GraphVisualizationFrame extends JFrame{
 
@@ -45,29 +52,36 @@ public class GraphVisualizationFrame extends JFrame{
 		vertexFactory = new GUI_VertexFactory();
 		edgeFactory = new GUI_EdgeFactory();
 		
+		// Create a graph mouse and add it to the visualization viewer
 		gm = new EditingModalGraphMouse<Vertex, Edge>(vv.getRenderContext(), vertexFactory, edgeFactory);
+		RightClickPopupMouseMenusPlugin<Vertex, Edge> rightClickPopupMenus = new RightClickPopupMouseMenusPlugin<Vertex, Edge>();
 		
+		// Add some popup menus for the edges and vertices to the mouse plugin
+		JPopupMenu edgeMenu = new EdgePopupMenu(new JFrame());
+		JPopupMenu vertexMenu = new VertexPopupMenu();
 		
+		rightClickPopupMenus.setEdgePopup(edgeMenu);
+		rightClickPopupMenus.setVertexPopup(vertexMenu);
+		gm.remove(gm.getPopupEditingPlugin());
+		gm.add(rightClickPopupMenus);
 		
+		vv.setGraphMouse(gm);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.getContentPane().add(vv);
 		
-		/*
-		 try { // code retrieved from http://docs.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
-	            // Set System L&F
-	        UIManager.setLookAndFeel(
-	            UIManager.getSystemLookAndFeelClassName());
-	    } 
-	    catch (UnsupportedLookAndFeelException e) {
-	       // handle exception
-	    }
-	    catch (ClassNotFoundException e) {
-	       // handle exception
-	    }
-	    catch (InstantiationException e) {
-	       // handle exception
-	    }
-	    catch (IllegalAccessException e) {
-	       // handle exception
-	    }*/
+		 // add a menu for changing mouse modes
+        JMenuBar menuBar = new JMenuBar();
+        JMenu modeMenu = gm.getModeMenu();
+        modeMenu.setText("Mouse Mode");
+        modeMenu.setIcon(null); // I'm using this in a main menu
+        modeMenu.setPreferredSize(new Dimension(80,20)); // Change the size so I can see the text
+        
+        menuBar.add(modeMenu);
+        this.setJMenuBar(menuBar);
+        gm.setMode(ModalGraphMouse.Mode.EDITING); // Start off in editing mode
+        this.pack();
+        this.setVisible(true);  
+		
 	}
 	
 	
