@@ -1,41 +1,55 @@
 package logic.graph;
 
+import magicNumbers.Values;
+
 
 public class Edge{
 	
-	private Vertex orig;
-	private Vertex dest;
+	private int id;
 	
 	private int speedLimit;
 	private double distance;
-	private int weight;
+	private double weight;
+	private double capacity; //TODO not for now
 	private boolean bidirectional;
 	
+	private String name;
 	
-	public Edge(Vertex o, Vertex d, int speed, double dist, int w, boolean bidirection){
-		
-		this.orig = o;
-		this.dest = d;
+	
+	public Edge(int speed, double dist, double w, boolean bidirection){
+
+		Values.EdgesCurrentID++;
+		this.id = Values.EdgesCurrentID;
 		this.speedLimit = speed;
 		this.distance = dist;
 		this.weight = w;
 		this.bidirectional = bidirection;
+		this.capacity = -1;
+	}
 
+	public Edge(int speed, double dist, double w, double c, boolean bidirection){
+		
+		Values.EdgesCurrentID++;
+		this.id = Values.EdgesCurrentID;
+		this.speedLimit = speed;
+		this.distance = dist;
+		this.weight = w;
+		this.capacity = c;
+		this.bidirectional = bidirection;
 	}
 	
+	public String toString(){
 	
-	public Vertex getOrig() {
-		return orig;
+		String toReturn = "Edge ";
+		if(name != null){
+			toReturn += name;
+		}else{
+			toReturn += "E" +id;
+		}
+		return toReturn;
 	}
-	public void setOrig(Vertex orig) {
-		this.orig = orig;
-	}
-	public Vertex getDest() {
-		return dest;
-	}
-	public void setDest(Vertex dest) {
-		this.dest = dest;
-	}
+
+	
 	public int getSpeedLimit() {
 		return speedLimit;
 	}
@@ -48,17 +62,28 @@ public class Edge{
 	public void setDistance(double distance) {
 		this.distance = distance;
 	}
-	public boolean getBidirectional() {
+	public boolean isBidirectional() {
 		return bidirectional;
 	}
 	public void setBidirectional(boolean bi) {
 		this.bidirectional = bi;
 	}
-	public int getWeight() {
+	public double getWeight() {
 		return weight;
 	}
-	public void setWeight(int weight) {
+	public void setWeight(double weight) {
 		this.weight = weight;
 	}
-	
+	public double getCapacity() {
+		return capacity;
+	}
+	public void setCapacity(double capacity) {
+		this.capacity = capacity;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
 }

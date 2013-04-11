@@ -1,42 +1,55 @@
 package logic.graph;
+
 import java.awt.Point;
-import java.util.*;
-
 import magicNumbers.Values;
-
-
 
 public class Vertex{
 	
 	private int id;
+	private String name;
 	
-	private ArrayList<Edge> adj;
 	private boolean visited;
 	private boolean processing;
-	private int indegree;
 	
 	private Point pos;
 	
-	public Vertex(){
-		
-		Values.VerticesCurrentID++;
-		
+	public Vertex(){	
+		Values.VerticesCurrentID++;		
 		this.id = Values.VerticesCurrentID;
-		this.adj = new ArrayList<Edge>();
-		this.indegree = adj.size();
+		this.name = null;
 		this.visited = false;
 		this.processing = false;
+		this.pos = null;
+	}
+	public Vertex(Point p){	
+		Values.VerticesCurrentID++;		
+		this.id = Values.VerticesCurrentID;
+		this.name = null;
+		this.visited = false;
+		this.processing = false;
+		this.pos = p;
+	}	
+	public Vertex(int x, int y){	
+		Values.VerticesCurrentID++;		
+		this.id = Values.VerticesCurrentID;
+		this.name = null;
+		this.visited = false;
+		this.processing = false;
+		this.pos = new Point(x,y);
+	}
+	
+	@Override
+	public String toString(){
 		
+		String toReturn = "Vertex ";
+		if(name != null){
+			toReturn += name;
+		}else{
+			toReturn += "V" +id;
+		}
+		return toReturn;
 	}
 	
-	
-	
-	public ArrayList<Edge> getAdj() {
-		return adj;
-	}
-	public void setAdj(ArrayList<Edge> adj) {
-		this.adj = adj;
-	}
 	public boolean isVisited() {
 		return visited;
 	}
@@ -48,12 +61,6 @@ public class Vertex{
 	}
 	public void setProcessing(boolean processing) {
 		this.processing = processing;
-	}
-	public int getIndegree() {
-		return indegree;
-	}
-	public void setIndegree(int indegree) {
-		this.indegree = indegree;
 	}
 	public Point getPos() {
 		return pos;
@@ -67,5 +74,10 @@ public class Vertex{
 	public void setId(int id) {
 		this.id = id;
 	}
-	
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}	
 }
