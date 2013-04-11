@@ -21,4 +21,10 @@ public class Values{
 	public static final boolean default_edge_bidirectionality = true;
 	
 	
+	public static final String vertex_popupMenu_delete_option = "Delete Vertex";
+	public static final String vertex_popupMenu_name = "Vertex Menu";
+	
+	public static final String edge_popupMenu_delete_option = "Delete Edge";
+	public static final String edge_popupMenu_name = "Edge Menu";
+	
 }

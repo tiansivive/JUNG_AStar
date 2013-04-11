@@ -37,16 +37,37 @@ public class GraphVisualizationFrame extends JFrame{
 		roadNetworkLayout = new CustomLayout<Vertex, Edge>(graph.getRoadNetwork());
 		roadNetworkLayout.setSize(new Dimension(Values.window_initial_x_resolution, Values.window_initial_y_resolution));
 		
-		vv = new VisualizationViewer<>(roadNetworkLayout);
-		vv.setPreferredSize(new Dimension(Values.window_initial_x_resolution +72, Values.window_initial_y_resolution +45));
+		vv = new VisualizationViewer<Vertex,Edge>(roadNetworkLayout);
+		vv.setPreferredSize(new Dimension(Values.window_initial_x_resolution +72, Values.window_initial_y_resolution +45)); //Valores para manter a proporcao da resolucao da janela
 		vv.getRenderContext().setVertexLabelTransformer(new ToStringLabeller<Vertex>());
 		vv.getRenderContext().setEdgeLabelTransformer(new ToStringLabeller<Edge>());
 		
 		vertexFactory = new GUI_VertexFactory();
 		edgeFactory = new GUI_EdgeFactory();
 		
-		gm = new EditingModalGraphMouse<>(vv.getRenderContext(), vertexFactory, edgeFactory);
+		gm = new EditingModalGraphMouse<Vertex, Edge>(vv.getRenderContext(), vertexFactory, edgeFactory);
 		
+		
+		
+		
+		/*
+		 try { // code retrieved from http://docs.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
+	            // Set System L&F
+	        UIManager.setLookAndFeel(
+	            UIManager.getSystemLookAndFeelClassName());
+	    } 
+	    catch (UnsupportedLookAndFeelException e) {
+	       // handle exception
+	    }
+	    catch (ClassNotFoundException e) {
+	       // handle exception
+	    }
+	    catch (InstantiationException e) {
+	       // handle exception
+	    }
+	    catch (IllegalAccessException e) {
+	       // handle exception
+	    }*/
 	}
 	
 	
