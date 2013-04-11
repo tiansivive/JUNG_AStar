@@ -46,6 +46,8 @@ public class RightClickPopupMouseMenusPlugin<V,E> extends AbstractPopupGraphMous
 					System.out.println(edge + " was right clicked");
 					updateEdgeMenu(edge, vv, pos);
 					edgePopup.show(vv, e.getX(), e.getY());
+				}else{
+					System.out.println("Right Click elsewhere");
 				}
 			}
 		}

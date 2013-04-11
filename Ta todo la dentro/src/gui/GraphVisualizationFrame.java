@@ -13,6 +13,7 @@ import logic.graph.Vertex;
 import magicNumbers.Values;
 import edu.uci.ics.jung.algorithms.layout.Layout;
 import edu.uci.ics.jung.visualization.VisualizationViewer;
+import edu.uci.ics.jung.visualization.control.DefaultModalGraphMouse;
 import edu.uci.ics.jung.visualization.control.EditingModalGraphMouse;
 import edu.uci.ics.jung.visualization.control.ModalGraphMouse;
 import edu.uci.ics.jung.visualization.decorators.ToStringLabeller;
@@ -31,7 +32,7 @@ public class GraphVisualizationFrame extends JFrame{
 	private GraphNetwork graph;
 	private VisualizationViewer<Vertex, Edge> vv;
 	private EditingModalGraphMouse<Vertex, Edge> gm;
-	
+	//private DefaultModalGraphMouse<Vertex, Edge> gm;
 	
 	private GUI_VertexFactory vertexFactory;
 	private GUI_EdgeFactory edgeFactory;
@@ -54,7 +55,9 @@ public class GraphVisualizationFrame extends JFrame{
 		
 		// Create a graph mouse and add it to the visualization viewer
 		gm = new EditingModalGraphMouse<Vertex, Edge>(vv.getRenderContext(), vertexFactory, edgeFactory);
+		//gm = new DefaultModalGraphMouse<Vertex, Edge>();
 		RightClickPopupMouseMenusPlugin<Vertex, Edge> rightClickPopupMenus = new RightClickPopupMouseMenusPlugin<Vertex, Edge>();
+		
 		
 		// Add some popup menus for the edges and vertices to the mouse plugin
 		JPopupMenu edgeMenu = new EdgePopupMenu(new JFrame());
@@ -63,6 +66,7 @@ public class GraphVisualizationFrame extends JFrame{
 		rightClickPopupMenus.setEdgePopup(edgeMenu);
 		rightClickPopupMenus.setVertexPopup(vertexMenu);
 		gm.remove(gm.getPopupEditingPlugin());
+		gm.add(rightClickPopupMenus);
 		gm.add(rightClickPopupMenus);
 		
 		vv.setGraphMouse(gm);
