@@ -29,7 +29,7 @@ public class DeleteVertexMenuOption<V> extends JMenuItem implements VertexMenuLi
 	public void setVertexAndView(V vert, VisualizationViewer<V, ?> visComp) {
 		this.vertex = vert;
 		this.visComp = visComp;
-		this.setText(vert.toString()); //TODO something else in message
+		this.setText("Delete " + vert.toString()); //TODO something else in message
 
 	}
 

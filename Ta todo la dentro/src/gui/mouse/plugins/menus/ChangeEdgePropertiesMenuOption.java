@@ -36,7 +36,7 @@ public class ChangeEdgePropertiesMenuOption extends JMenuItem implements EdgeMen
 		super(Values.edge_properties_editor_menu_entry);
 		this.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				EdgePropertyDialog dialog = new EdgePropertyDialog(frame, edge);
+				EdgePropertyDialog dialog = new EdgePropertyDialog(edge);
 				dialog.setLocation((int)pos.getX() + frame.getX(), (int)pos.getY() + frame.getY());
 				dialog.setVisible(true);
 			}

@@ -19,7 +19,9 @@ import edu.uci.ics.jung.visualization.control.ModalGraphMouse;
 import edu.uci.ics.jung.visualization.decorators.ToStringLabeller;
 import factories.GUI_EdgeFactory;
 import factories.GUI_VertexFactory;
+import gui.mouse.InteractiveModalGraphMouse;
 import gui.mouse.plugins.ClickMenusGraphMousePlugin;
+import gui.mouse.plugins.ModifiedEditGraphModalMousePlugin;
 import gui.mouse.plugins.menus.EdgePopupMenu;
 import gui.mouse.plugins.menus.VertexPopupMenu;
 
@@ -31,7 +33,7 @@ public class GraphVisualizationFrame extends JFrame{
 	private Layout<Vertex,Edge> roadNetworkLayout;
 	private GraphNetwork graph;
 	private VisualizationViewer<Vertex, Edge> vv;
-	private EditingModalGraphMouse<Vertex, Edge> gm;
+	private InteractiveModalGraphMouse<Vertex, Edge> gm;
 	
 	private GUI_VertexFactory vertexFactory;
 	private GUI_EdgeFactory edgeFactory;
@@ -53,20 +55,9 @@ public class GraphVisualizationFrame extends JFrame{
 		edgeFactory = new GUI_EdgeFactory();
 		
 		// Create a graph mouse and add it to the visualization viewer
-		gm = new EditingModalGraphMouse<Vertex, Edge>(vv.getRenderContext(), vertexFactory, edgeFactory);
+		gm = new InteractiveModalGraphMouse<Vertex, Edge>(vv.getRenderContext(), vertexFactory, edgeFactory);
 
-		ClickMenusGraphMousePlugin<Vertex, Edge> clickMenusPlugin = new ClickMenusGraphMousePlugin<Vertex, Edge>();
-		
-		
-		// Add some popup menus for the edges and vertices to the mouse plugin
-		JPopupMenu edgeMenu = new EdgePopupMenu(new JFrame());
-		JPopupMenu vertexMenu = new VertexPopupMenu();
-		
-		clickMenusPlugin.setEdgeClickPopup(edgeMenu);
-		clickMenusPlugin.setVertexClickPopup(vertexMenu);
-		gm.remove(gm.getPopupEditingPlugin());
-		gm.add(clickMenusPlugin);
-		gm.add(clickMenusPlugin);
+	
 		
 		vv.setGraphMouse(gm);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
