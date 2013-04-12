@@ -2,31 +2,22 @@ package gui.mouse;
 
 import org.apache.commons.collections15.Factory;
 
+import edu.uci.ics.jung.visualization.RenderContext;
 import edu.uci.ics.jung.visualization.control.DefaultModalGraphMouse;
+import edu.uci.ics.jung.visualization.control.EditingModalGraphMouse;
 import edu.uci.ics.jung.visualization.control.GraphMousePlugin;
 
-public class InteractiveModalGraphMouse<V, E> extends DefaultModalGraphMouse<V, E> {
+public class InteractiveModalGraphMouse<V, E> extends EditingModalGraphMouse<V, E> {
 
 	
-	private GraphMousePlugin editingPlugin;
 	
-	public InteractiveModalGraphMouse(){
-		
-		
-		
-	}
-	
-	public InteractiveModalGraphMouse(Factory<V> v_factory, Factory<E> e_factory){
-		
+	public InteractiveModalGraphMouse(RenderContext<V, E> rc, Factory<V> vertexFactory, Factory<E> edgeFactory) {
+		super(rc, vertexFactory, edgeFactory);
+		// TODO Auto-generated constructor stub
 	}
 
-	public GraphMousePlugin getEditingPlugin() {
-		return editingPlugin;
-	}
-
-	public void setEditingPlugin(GraphMousePlugin editingPlugin) {
-		this.editingPlugin = editingPlugin;
-	}
+	
+	
 	
 	
 }
