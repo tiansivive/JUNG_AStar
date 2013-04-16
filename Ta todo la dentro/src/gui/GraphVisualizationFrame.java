@@ -3,7 +3,6 @@ package gui;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Paint;
-import java.awt.Shape;
 
 import javax.swing.JFrame;
 import javax.swing.JMenu;

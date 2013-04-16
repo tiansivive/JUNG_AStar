@@ -1,7 +1,5 @@
 package dataStructure.graph;
 
-import java.awt.Point;
-
 import magicNumbers.Values;
 import dataStructure.city.infraStructure.CityZone;
 
@@ -13,40 +11,38 @@ public class Vertex{
 	private boolean visited;
 	private boolean processing;
 	
-	private Point pos;	
 	private CityZone zone;
 	
-	
+	private VertexType type;
+
 	public Vertex(){	
 		Values.VerticesCurrentID++;		
 		this.id = Values.VerticesCurrentID;
 		this.name = null;
 		this.visited = false;
 		this.processing = false;
-		this.pos = null;
 		this.zone = null;
 	}
-	
-	public Vertex(Point p){	
-		Values.VerticesCurrentID++;		
-		this.id = Values.VerticesCurrentID;
-		this.name = null;
-		this.visited = false;
-		this.processing = false;
-		this.zone = null;
-		this.pos = p;
-	}	
 
 	
-	public Vertex(Point p, CityZone z){	
+	public Vertex(CityZone z){	
 		Values.VerticesCurrentID++;		
 		this.id = Values.VerticesCurrentID;
 		this.name = null;
 		this.visited = false;
 		this.processing = false;
-		this.pos = p;
 		this.zone = z;
 	}	
+	
+	public Vertex(String vName, CityZone cZone, VertexType vType){
+		Values.VerticesCurrentID++;		
+		this.id = Values.VerticesCurrentID;
+		this.name = vName;
+		this.visited = false;
+		this.processing = false;
+		this.zone = cZone;
+		this.type = vType;
+	}
 
 	
 	@Override
@@ -73,12 +69,6 @@ public class Vertex{
 	public void setProcessing(boolean processing) {
 		this.processing = processing;
 	}
-	public Point getPos() {
-		return pos;
-	}
-	public void setPos(Point pos) {
-		this.pos = pos;
-	}
 	public int getId() {
 		return id;
 	}
@@ -96,5 +86,11 @@ public class Vertex{
 	}
 	public void setZone(CityZone zone) {
 		this.zone = zone;
+	}
+	public VertexType getType() {
+		return type;
+	}
+	public void setType(VertexType type) {
+		this.type = type;
 	}	
 }
