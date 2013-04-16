@@ -4,13 +4,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Point2D;
 
+import dataStructure.graph.Edge;
 import edu.uci.ics.jung.visualization.VisualizationViewer;
 import gui.mouse.plugins.menus.auxiliarInterfaces.EdgeMenuListener;
 import gui.mouse.plugins.menus.auxiliarInterfaces.MenuPointListener;
 
 import javax.swing.JFrame;
 import javax.swing.JMenuItem;
-import logic.graph.Edge;
 import magicNumbers.Values;
 
 public class ChangeEdgePropertiesMenuOption extends JMenuItem implements EdgeMenuListener<Edge>, MenuPointListener {

@@ -14,7 +14,8 @@ import javax.swing.JTextField;
 import javax.swing.LayoutStyle;
 import javax.swing.WindowConstants;
 
-import logic.graph.Edge;
+import dataStructure.graph.Edge;
+
 import magicNumbers.Values;
 
 

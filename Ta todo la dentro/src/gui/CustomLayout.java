@@ -5,7 +5,8 @@ import java.awt.geom.Point2D;
 
 import org.apache.commons.collections15.Transformer;
 
-import logic.graph.*;
+import dataStructure.graph.Edge;
+import dataStructure.graph.Vertex;
 import edu.uci.ics.jung.algorithms.layout.AbstractLayout;
 import edu.uci.ics.jung.graph.Graph;
 

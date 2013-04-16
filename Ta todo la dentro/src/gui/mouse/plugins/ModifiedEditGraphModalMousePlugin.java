@@ -118,6 +118,7 @@ public class ModifiedEditGraphModalMousePlugin<V,E> extends AbstractGraphMousePl
 
                 	
                     V newVertex = vertexFactory.create();
+                    
                     Layout<V,E> layout = vv.getModel().getGraphLayout();
                     graph.addVertex(newVertex);
                     layout.setLocation(newVertex, vv.getRenderContext().getMultiLayerTransformer().inverseTransform(e.getPoint()));
@@ -169,8 +170,7 @@ public class ModifiedEditGraphModalMousePlugin<V,E> extends AbstractGraphMousePl
                     transformArrowShape(down, e.getPoint());
                 }
             }
-            VisualizationViewer<V,E> vv =
-                (VisualizationViewer<V,E>)e.getSource();
+            VisualizationViewer<V,E> vv =(VisualizationViewer<V,E>)e.getSource();
             vv.repaint();
         }
     }

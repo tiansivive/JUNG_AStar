@@ -1,4 +1,4 @@
-package logic.graph;
+package dataStructure.graph;
 
 
 import edu.uci.ics.jung.graph.DirectedSparseMultigraph;

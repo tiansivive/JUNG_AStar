@@ -1,4 +1,4 @@
-package logic;
+package dataStructure.city.infraStructure;
 
 public class Vehicle {
 	

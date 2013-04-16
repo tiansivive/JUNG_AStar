@@ -1,4 +1,4 @@
-package logic.buildings;
+package dataStructure.city.infraStructure;
 
 import java.awt.*;
 

@@ -19,10 +19,11 @@ import javax.swing.JPopupMenu;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.plaf.basic.BasicIconFactory;
 
-import logic.graph.Edge;
-import logic.graph.Vertex;
 
 import org.apache.commons.collections15.Factory;
+
+import dataStructure.graph.Edge;
+import dataStructure.graph.Vertex;
 
 import edu.uci.ics.jung.visualization.MultiLayerTransformer;
 import edu.uci.ics.jung.visualization.RenderContext;

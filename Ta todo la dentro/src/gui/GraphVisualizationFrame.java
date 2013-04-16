@@ -7,9 +7,10 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JPopupMenu;
 
-import logic.graph.Edge;
-import logic.graph.GraphNetwork;
-import logic.graph.Vertex;
+import dataStructure.graph.Edge;
+import dataStructure.graph.GraphNetwork;
+import dataStructure.graph.Vertex;
+
 import magicNumbers.Values;
 import edu.uci.ics.jung.algorithms.layout.Layout;
 import edu.uci.ics.jung.visualization.VisualizationViewer;

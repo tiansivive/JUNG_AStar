@@ -1,4 +1,4 @@
-package logic.graph;
+package dataStructure.graph;
 
 import magicNumbers.Values;
 

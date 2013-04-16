@@ -2,7 +2,8 @@ package gui.mouse.plugins.menus;
 
 import javax.swing.JPopupMenu;
 
-import logic.graph.Vertex;
+import dataStructure.graph.Vertex;
+
 import magicNumbers.Values;
 
 public class VertexPopupMenu extends JPopupMenu {

@@ -1,7 +1,9 @@
-package logic.graph;
+package dataStructure.graph;
 
 import java.awt.Point;
+
 import magicNumbers.Values;
+import dataStructure.city.infraStructure.CityZone;
 
 public class Vertex{
 	
@@ -11,7 +13,9 @@ public class Vertex{
 	private boolean visited;
 	private boolean processing;
 	
-	private Point pos;
+	private Point pos;	
+	private CityZone zone;
+	
 	
 	public Vertex(){	
 		Values.VerticesCurrentID++;		
@@ -20,23 +24,30 @@ public class Vertex{
 		this.visited = false;
 		this.processing = false;
 		this.pos = null;
+		this.zone = null;
 	}
+	
 	public Vertex(Point p){	
 		Values.VerticesCurrentID++;		
 		this.id = Values.VerticesCurrentID;
 		this.name = null;
 		this.visited = false;
 		this.processing = false;
+		this.zone = null;
 		this.pos = p;
 	}	
-	public Vertex(int x, int y){	
+
+	
+	public Vertex(Point p, CityZone z){	
 		Values.VerticesCurrentID++;		
 		this.id = Values.VerticesCurrentID;
 		this.name = null;
 		this.visited = false;
 		this.processing = false;
-		this.pos = new Point(x,y);
-	}
+		this.pos = p;
+		this.zone = z;
+	}	
+
 	
 	@Override
 	public String toString(){
@@ -79,5 +90,11 @@ public class Vertex{
 	}
 	public void setName(String name) {
 		this.name = name;
+	}
+	public CityZone getZone() {
+		return zone;
+	}
+	public void setZone(CityZone zone) {
+		this.zone = zone;
 	}	
 }

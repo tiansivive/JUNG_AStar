@@ -5,10 +5,11 @@ import gui.mouse.plugins.menus.EdgePropertyDialog;
 import java.awt.MouseInfo;
 import java.awt.Point;
 
-import logic.graph.Edge;
 import magicNumbers.Values;
 
 import org.apache.commons.collections15.Factory;
+
+import dataStructure.graph.Edge;
 
 public class GUI_EdgeFactory implements Factory<Edge>{
 
