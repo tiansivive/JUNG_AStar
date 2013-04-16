@@ -2,27 +2,26 @@ package gui;
 
 import java.awt.Dimension;
 import java.awt.geom.Point2D;
+import java.util.Map;
 
 import org.apache.commons.collections15.Transformer;
 
-import dataStructure.graph.Edge;
-import dataStructure.graph.Vertex;
 import edu.uci.ics.jung.algorithms.layout.AbstractLayout;
 import edu.uci.ics.jung.graph.Graph;
 
-public class CustomLayout<V, E> extends AbstractLayout<Vertex, Edge>{
+public class CustomLayout<V, E> extends AbstractLayout<V, E>{
 
-	
-	public CustomLayout(Graph<Vertex, Edge> graph) {
-		super(graph);
+
+	public CustomLayout(Graph<V, E> graph) {
+		super(graph);	
 	}
-	protected CustomLayout(Graph<Vertex, Edge> graph, Dimension size) {
+	protected CustomLayout(Graph<V, E> graph, Dimension size) {
 		super(graph, size);
 	}
-	protected CustomLayout(Graph<Vertex, Edge> graph, Transformer<Vertex, Point2D> initializer) {
+	protected CustomLayout(Graph<V, E> graph, Transformer<V, Point2D> initializer) {
 		super(graph, initializer);	
 	}
-	protected CustomLayout(Graph<Vertex, Edge> graph, Transformer<Vertex, Point2D> initializer, Dimension size) {
+	protected CustomLayout(Graph<V, E> graph, Transformer<V, Point2D> initializer, Dimension size) {
 		super(graph, initializer, size);
 	}
 
@@ -35,6 +34,9 @@ public class CustomLayout<V, E> extends AbstractLayout<Vertex, Edge>{
 		System.out.println("CALLED RESET ON CUSTOM_LAYOUT");
 	}
 
-	
+	public Map<V,Point2D> getLocation(){
+		return this.locations;
+	}
+
 
 }

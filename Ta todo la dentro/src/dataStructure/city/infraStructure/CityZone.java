@@ -8,26 +8,26 @@ import magicNumbers.Values;
 
 public class CityZone {
 
-	
+
 	private String name;
 	private int id;
-	
+
 	private Map<Class<?>,Color> colorRepresentations; 
-	
-	
+
+
 	public CityZone(){
-		
+
 		Values.CityZonesCurrentID++;
 		this.id = Values.CityZonesCurrentID;
 		this.name = null;
 		this.colorRepresentations = new HashMap<Class<?>, Color>();
-		
-		
+
+
 	}
 
-	
+
 	public String toString(){
-		
+
 		String toReturn = "Zone ";
 		if(name != null){
 			toReturn += name;
@@ -55,5 +55,14 @@ public class CityZone {
 	public void setColorRepresentations(Map<Class<?>, Color> colorRepresentations) {
 		this.colorRepresentations = colorRepresentations;
 	}
-	
+	public Color getObjectsColor(Class<?> key){
+		if(colorRepresentations.containsKey(key)){
+			return colorRepresentations.get(key);
+		}else{
+			return null;
+		}
+	}
+	public void setObjectsColor(Class<?> key, Color c){
+		colorRepresentations.put(key, c);
+	}
 }

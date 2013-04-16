@@ -62,8 +62,7 @@ public class ModifiedEditGraphModalMousePlugin<V,E> extends AbstractGraphMousePl
         super(modifiers);
         this.vertexFactory = vertexFactory;
         this.edgeFactory = edgeFactory;
-        rawEdge.setCurve(0.0f, 0.0f, 0.33f, 100, .66f, -50,
-                1.0f, 0.0f);
+        rawEdge.setCurve(0.0f, 0.0f, 0.33f, 100, .66f, -50,1.0f, 0.0f);
         rawArrowShape = ArrowFactory.getNotchedArrow(20, 16, 8);
         edgePaintable = new EdgePaintable();
         arrowPaintable = new ArrowPaintable();
@@ -116,9 +115,8 @@ public class ModifiedEditGraphModalMousePlugin<V,E> extends AbstractGraphMousePl
                     }
                 } else { // make a new vertex
 
-                	
+                	System.out.println("EVENT:\nX: " + e.getPoint().x + "\nY: " + e.getPoint().y);
                     V newVertex = vertexFactory.create();
-                    
                     Layout<V,E> layout = vv.getModel().getGraphLayout();
                     graph.addVertex(newVertex);
                     layout.setLocation(newVertex, vv.getRenderContext().getMultiLayerTransformer().inverseTransform(e.getPoint()));
