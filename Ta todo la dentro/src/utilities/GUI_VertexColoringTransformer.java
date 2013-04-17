@@ -22,13 +22,16 @@ public class GUI_VertexColoringTransformer implements Transformer<Vertex,Paint> 
 		public Paint transform(Vertex arg0) {
 			if(vv.getPickedVertexState().getPicked().contains(arg0)){
 				return Color.YELLOW;
-			}
-			
+			}else{
+			/*
 			if(arg0.getZone() == null){
 				return Values.default_unassigned_zone_color;
 			}else{
 				return arg0.getZone().getObjectsColor(Vertex.class);
+			}*/
+				return Color.BLUE;
 			}
+			
 		}
 	
 }

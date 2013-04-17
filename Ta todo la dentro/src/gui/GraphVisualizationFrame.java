@@ -52,17 +52,18 @@ public class GraphVisualizationFrame extends JFrame{
 		roadNetworkLayout = new CustomLayout<Vertex, Edge>(graph.getRoadNetwork());
 		roadNetworkLayout.setSize(new Dimension(Values.window_initial_x_resolution, Values.window_initial_y_resolution));
 
+
+		vv = new VisualizationViewer<Vertex,Edge>(roadNetworkLayout);
+		vv.setPreferredSize(new Dimension(Values.window_initial_x_resolution +72, Values.window_initial_y_resolution +45)); //Valores para manter a proporcao da resolucao da janela
+		
+		
 		vertexFactory = new GUI_VertexFactory();
 		edgeFactory = new GUI_EdgeFactory();
 		vertexColoringTransformer = new GUI_VertexColoringTransformer(vv);
 		vertexShapeTransformer = new GUI_VertexShapeTransformer();
-
-		vv = new VisualizationViewer<Vertex,Edge>(roadNetworkLayout);
-		vv.setPreferredSize(new Dimension(Values.window_initial_x_resolution +72, Values.window_initial_y_resolution +45)); //Valores para manter a proporcao da resolucao da janela
+		
 		vv.getRenderContext().setVertexLabelTransformer(new ToStringLabeller<Vertex>());
 		vv.getRenderContext().setEdgeLabelTransformer(new ToStringLabeller<Edge>());
-		
-
 		vv.getRenderContext().setVertexFillPaintTransformer(vertexColoringTransformer);
 		//vv.getRenderContext().setVertexShapeTransformer(vertexSize);
 

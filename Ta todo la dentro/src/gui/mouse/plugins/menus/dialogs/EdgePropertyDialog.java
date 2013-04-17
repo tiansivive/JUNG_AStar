@@ -1,4 +1,4 @@
-package gui.mouse.plugins.menus;
+package gui.mouse.plugins.menus.dialogs;
 
 
 import java.awt.event.ActionEvent;

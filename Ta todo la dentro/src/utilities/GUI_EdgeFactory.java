@@ -1,6 +1,6 @@
 package utilities;
 
-import gui.mouse.plugins.menus.EdgePropertyDialog;
+import gui.mouse.plugins.menus.dialogs.EdgePropertyDialog;
 
 import java.awt.MouseInfo;
 import java.awt.Point;
