@@ -2,6 +2,7 @@ package dataStructure.graph;
 
 import magicNumbers.Values;
 import dataStructure.city.infraStructure.CityZone;
+import dataStructure.city.infraStructure.PointOfInterest;
 
 public class Vertex{
 	
@@ -12,6 +13,7 @@ public class Vertex{
 	private boolean processing;
 	
 	private CityZone zone;
+	private PointOfInterest pointOfInterest;
 	
 	private VertexType type;
 
@@ -22,6 +24,7 @@ public class Vertex{
 		this.visited = false;
 		this.processing = false;
 		this.zone = null;
+		this.pointOfInterest = null;
 	}
 
 	
@@ -32,6 +35,7 @@ public class Vertex{
 		this.visited = false;
 		this.processing = false;
 		this.zone = z;
+		this.pointOfInterest = null;
 	}	
 	
 	public Vertex(String vName, CityZone cZone, VertexType vType){
@@ -42,6 +46,24 @@ public class Vertex{
 		this.processing = false;
 		this.zone = cZone;
 		this.type = vType;
+		this.pointOfInterest = null;
+	}
+	
+	public Vertex(String vName, CityZone cZone, VertexType vType, PointOfInterest poi){
+		Values.VerticesCurrentID++;		
+		this.id = Values.VerticesCurrentID;
+		this.name = vName;
+		this.visited = false;
+		this.processing = false;
+		this.zone = cZone;
+		this.type = vType;
+		if(vType != VertexType.BUILDING_CONNECTION){
+			System.err.println("ERROR: cannot create Vertex with non-null PointOfInterest if VertexType not BUILDING_CONNECTION");
+			throw new IllegalArgumentException();
+		}else{
+			this.pointOfInterest = poi;
+			cZone.addPointOfInterest(poi);
+		}
 	}
 
 	
@@ -92,5 +114,11 @@ public class Vertex{
 	}
 	public void setType(VertexType type) {
 		this.type = type;
+	}
+	public PointOfInterest getPointOfInterest() {
+		return pointOfInterest;
+	}
+	public void setPointOfInterest(PointOfInterest pointOfInterest) {
+		this.pointOfInterest = pointOfInterest;
 	}	
 }

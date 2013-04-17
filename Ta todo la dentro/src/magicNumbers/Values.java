@@ -32,5 +32,6 @@ public class Values{
 	public static final String edge_properties_editor_menu_entry = "Edit Edge Properties";
 	public static final String edge_properties_editor_frame_name = "Edge Properties";
 	
-	public static final Color default_unassigned_zone_color = Color.BLACK;	
+	public static final Color default_unassigned_zone_color = Color.BLACK;
+	public static final Color default_selected_vertex_color = Color.YELLOW;	
 }

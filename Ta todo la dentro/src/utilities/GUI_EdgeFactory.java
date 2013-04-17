@@ -1,4 +1,4 @@
-package factories;
+package utilities;
 
 import gui.mouse.plugins.menus.EdgePropertyDialog;
 

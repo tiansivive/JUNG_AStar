@@ -12,6 +12,11 @@ import magicNumbers.Values;
 
 import org.apache.commons.collections15.Transformer;
 
+import utilities.GUI_EdgeFactory;
+import utilities.GUI_VertexColoringTransformer;
+import utilities.GUI_VertexFactory;
+import utilities.GUI_VertexShapeTransformer;
+
 import dataStructure.graph.CityGraphNetwork;
 import dataStructure.graph.Edge;
 import dataStructure.graph.Vertex;
@@ -19,8 +24,6 @@ import edu.uci.ics.jung.algorithms.layout.Layout;
 import edu.uci.ics.jung.visualization.VisualizationViewer;
 import edu.uci.ics.jung.visualization.control.ModalGraphMouse;
 import edu.uci.ics.jung.visualization.decorators.ToStringLabeller;
-import factories.GUI_EdgeFactory;
-import factories.GUI_VertexFactory;
 import gui.mouse.InteractiveModalGraphMouse;
 
 public class GraphVisualizationFrame extends JFrame{
@@ -35,6 +38,9 @@ public class GraphVisualizationFrame extends JFrame{
 
 	private GUI_VertexFactory vertexFactory;
 	private GUI_EdgeFactory edgeFactory;
+	
+	private GUI_VertexColoringTransformer vertexColoringTransformer;
+	private GUI_VertexShapeTransformer vertexShapeTransformer;
 
 
 
@@ -48,6 +54,8 @@ public class GraphVisualizationFrame extends JFrame{
 
 		vertexFactory = new GUI_VertexFactory();
 		edgeFactory = new GUI_EdgeFactory();
+		vertexColoringTransformer = new GUI_VertexColoringTransformer(vv);
+		vertexShapeTransformer = new GUI_VertexShapeTransformer();
 
 		vv = new VisualizationViewer<Vertex,Edge>(roadNetworkLayout);
 		vv.setPreferredSize(new Dimension(Values.window_initial_x_resolution +72, Values.window_initial_y_resolution +45)); //Valores para manter a proporcao da resolucao da janela
@@ -55,31 +63,7 @@ public class GraphVisualizationFrame extends JFrame{
 		vv.getRenderContext().setEdgeLabelTransformer(new ToStringLabeller<Edge>());
 		
 
-
-		Transformer<Vertex,Paint> vertexColor = new Transformer<Vertex,Paint>() {
-			
-			
-			@Override
-			public Paint transform(Vertex arg0) {
-				if(vv.getPickedVertexState().getPicked().contains(arg0)){
-					return Color.YELLOW;
-				}
-				
-				if(arg0.getZone() == null){
-					return Values.default_unassigned_zone_color;
-				}else{
-					return arg0.getZone().getObjectsColor(Vertex.class);
-				}
-			}
-		};
-		/*Transformer<Vertex,Shape> vertexSize = new Transformer<Vertex,Shape>(){ 
-			@Override
-			public Shape transform(Vertex arg0) {
-				// TODO Auto-generated method stub
-				return null;
-			}
-	     };*/
-		vv.getRenderContext().setVertexFillPaintTransformer(vertexColor);
+		vv.getRenderContext().setVertexFillPaintTransformer(vertexColoringTransformer);
 		//vv.getRenderContext().setVertexShapeTransformer(vertexSize);
 
 

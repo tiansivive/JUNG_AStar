@@ -1,4 +1,4 @@
-package factories;
+package utilities;
 
 
 import org.apache.commons.collections15.Factory;

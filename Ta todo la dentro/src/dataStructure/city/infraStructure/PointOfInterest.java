@@ -3,7 +3,7 @@ package dataStructure.city.infraStructure;
 import java.awt.*;
 
 
-public class Building{
+public class PointOfInterest{
 	
 	private Point pos;
 	private float width;

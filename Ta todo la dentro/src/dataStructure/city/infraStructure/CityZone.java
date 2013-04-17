@@ -3,6 +3,7 @@ package dataStructure.city.infraStructure;
 import java.awt.Color;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import magicNumbers.Values;
 
@@ -12,9 +13,9 @@ public class CityZone {
 	private String name;
 	private int id;
 
-	private Map<Class<?>,Color> colorRepresentations; 
-
-
+	private Map<Class<?>,Color> colorRepresentations;
+	private Set<PointOfInterest> pointsOfInterest;
+	
 	public CityZone(){
 
 		Values.CityZonesCurrentID++;
@@ -22,10 +23,13 @@ public class CityZone {
 		this.name = null;
 		this.colorRepresentations = new HashMap<Class<?>, Color>();
 
-
 	}
 
-
+	public void addPointOfInterest(PointOfInterest poi){
+		this.pointsOfInterest.add(poi);
+	}
+	
+	
 	public String toString(){
 
 		String toReturn = "Zone ";
@@ -64,5 +68,11 @@ public class CityZone {
 	}
 	public void setObjectsColor(Class<?> key, Color c){
 		colorRepresentations.put(key, c);
+	}
+	public Set<PointOfInterest> getPointsOfInterest() {
+		return pointsOfInterest;
+	}
+	public void setPointsOfInterest(Set<PointOfInterest> pointsOfInterest) {
+		this.pointsOfInterest = pointsOfInterest;
 	}
 }
