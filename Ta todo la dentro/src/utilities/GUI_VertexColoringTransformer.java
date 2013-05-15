@@ -7,9 +7,7 @@ import java.awt.Paint;
 
 import org.apache.commons.collections15.Transformer;
 
-import dataStructure.graph.RoadNetworkGraph;
 import dataStructure.graph.Vertex;
-import edu.uci.ics.jung.graph.Graph;
 
 public class GUI_VertexColoringTransformer implements Transformer<Vertex,Paint> {
 
@@ -32,7 +30,7 @@ public class GUI_VertexColoringTransformer implements Transformer<Vertex,Paint> 
 			}else{
 				return arg0.getZone().getObjectsColor(Vertex.class);
 			}*/
-				return Color.BLUE;
+				return Color.RED;
 			}
 			
 

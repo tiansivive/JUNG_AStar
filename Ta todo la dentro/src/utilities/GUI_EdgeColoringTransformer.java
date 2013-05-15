@@ -9,8 +9,6 @@ import org.apache.commons.collections15.Transformer;
 
 import dataStructure.graph.Edge;
 import dataStructure.graph.RoadNetworkGraph;
-import dataStructure.graph.Vertex;
-import edu.uci.ics.jung.graph.DirectedSparseMultigraph;
 import edu.uci.ics.jung.graph.Graph;
 
 public class GUI_EdgeColoringTransformer implements Transformer<Edge,Paint> {
