@@ -1,25 +1,28 @@
 package utilities;
 
+import gui.CustomVisualizationViewer;
+
 import java.awt.Color;
 import java.awt.Paint;
 
-import magicNumbers.Values;
-
 import org.apache.commons.collections15.Transformer;
 
+import dataStructure.graph.RoadNetworkGraph;
 import dataStructure.graph.Vertex;
-import edu.uci.ics.jung.visualization.VisualizationViewer;
+import edu.uci.ics.jung.graph.Graph;
 
 public class GUI_VertexColoringTransformer implements Transformer<Vertex,Paint> {
 
 	
-		private VisualizationViewer<Vertex, ?> vv;
-		public GUI_VertexColoringTransformer(VisualizationViewer<Vertex, ?> vv){
+		private CustomVisualizationViewer<Vertex, ?> vv;
+		public GUI_VertexColoringTransformer(CustomVisualizationViewer<Vertex, ?> vv){
 			this.vv = vv;
 		}
 					
 		@Override
 		public Paint transform(Vertex arg0) {
+			
+							
 			if(vv.getPickedVertexState().getPicked().contains(arg0)){
 				return Color.YELLOW;
 			}else{
@@ -32,6 +35,7 @@ public class GUI_VertexColoringTransformer implements Transformer<Vertex,Paint> 
 				return Color.BLUE;
 			}
 			
+
 		}
 	
 }

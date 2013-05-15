@@ -1,27 +1,21 @@
 package gui;
 
-import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Paint;
 
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 
 import magicNumbers.Values;
-
-import org.apache.commons.collections15.Transformer;
-
+import utilities.GUI_EdgeColoringTransformer;
 import utilities.GUI_EdgeFactory;
 import utilities.GUI_VertexColoringTransformer;
 import utilities.GUI_VertexFactory;
 import utilities.GUI_VertexShapeTransformer;
-
 import dataStructure.graph.CityGraphNetwork;
 import dataStructure.graph.Edge;
 import dataStructure.graph.Vertex;
 import edu.uci.ics.jung.algorithms.layout.Layout;
-import edu.uci.ics.jung.visualization.VisualizationViewer;
 import edu.uci.ics.jung.visualization.control.ModalGraphMouse;
 import edu.uci.ics.jung.visualization.decorators.ToStringLabeller;
 import gui.mouse.InteractiveModalGraphMouse;
@@ -33,7 +27,7 @@ public class GraphVisualizationFrame extends JFrame{
 	private String title;
 	private Layout<Vertex,Edge> roadNetworkLayout;
 	private CityGraphNetwork graph;
-	private VisualizationViewer<Vertex, Edge> vv;
+	private CustomVisualizationViewer<Vertex, Edge> vv;
 	private InteractiveModalGraphMouse<Vertex, Edge> gm;
 
 	private GUI_VertexFactory vertexFactory;
@@ -41,6 +35,7 @@ public class GraphVisualizationFrame extends JFrame{
 	
 	private GUI_VertexColoringTransformer vertexColoringTransformer;
 	private GUI_VertexShapeTransformer vertexShapeTransformer;
+	private GUI_EdgeColoringTransformer edgeColoringTransformer;
 
 
 
@@ -53,7 +48,7 @@ public class GraphVisualizationFrame extends JFrame{
 		roadNetworkLayout.setSize(new Dimension(Values.window_initial_x_resolution, Values.window_initial_y_resolution));
 
 
-		vv = new VisualizationViewer<Vertex,Edge>(roadNetworkLayout);
+		vv = new CustomVisualizationViewer<Vertex,Edge>(roadNetworkLayout);
 		vv.setPreferredSize(new Dimension(Values.window_initial_x_resolution +72, Values.window_initial_y_resolution +45)); //Valores para manter a proporcao da resolucao da janela
 		
 		
@@ -61,10 +56,13 @@ public class GraphVisualizationFrame extends JFrame{
 		edgeFactory = new GUI_EdgeFactory();
 		vertexColoringTransformer = new GUI_VertexColoringTransformer(vv);
 		vertexShapeTransformer = new GUI_VertexShapeTransformer();
+		edgeColoringTransformer = new GUI_EdgeColoringTransformer(vv);
 		
 		vv.getRenderContext().setVertexLabelTransformer(new ToStringLabeller<Vertex>());
 		vv.getRenderContext().setEdgeLabelTransformer(new ToStringLabeller<Edge>());
 		vv.getRenderContext().setVertexFillPaintTransformer(vertexColoringTransformer);
+		//vv.getRenderContext().setEdgeFillPaintTransformer(edgeColoringTransformer);
+		vv.getRenderContext().setEdgeDrawPaintTransformer(edgeColoringTransformer);
 		//vv.getRenderContext().setVertexShapeTransformer(vertexSize);
 
 

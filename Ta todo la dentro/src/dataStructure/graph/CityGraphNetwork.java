@@ -1,25 +1,23 @@
 package dataStructure.graph;
 
 
-import edu.uci.ics.jung.graph.DirectedSparseMultigraph;
-import edu.uci.ics.jung.graph.util.EdgeType;
 
 public class CityGraphNetwork{
 	
-	private DirectedSparseMultigraph<Vertex, Edge> roadNetwork;
+	private RoadNetworkGraph<Vertex, Edge> roadNetwork;
 
 	public CityGraphNetwork(){
-		roadNetwork = new DirectedSparseMultigraph<Vertex, Edge>();
+		roadNetwork = new RoadNetworkGraph<Vertex, Edge>();
 	}
 	
-	public CityGraphNetwork(DirectedSparseMultigraph<Vertex, Edge> network){
+	public CityGraphNetwork(RoadNetworkGraph<Vertex, Edge> network){
 		roadNetwork = network;
 	}
 	
-	public DirectedSparseMultigraph<Vertex, Edge> getRoadNetwork() {
+	public RoadNetworkGraph<Vertex, Edge> getRoadNetwork() {
 		return roadNetwork;
 	}
-	public void setRoadNetwork(DirectedSparseMultigraph<Vertex, Edge> roadNetwork) {
+	public void setRoadNetwork(RoadNetworkGraph<Vertex, Edge> roadNetwork) {
 		this.roadNetwork = roadNetwork;
 	}
 	

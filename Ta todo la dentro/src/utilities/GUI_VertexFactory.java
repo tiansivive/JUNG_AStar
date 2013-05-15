@@ -25,11 +25,11 @@ public class GUI_VertexFactory implements Factory<Vertex>{
 	@Override
 	public Vertex create() {
 		
-		VertexCreationDialog v = new VertexCreationDialog();
+		/*VertexCreationDialog v = new VertexCreationDialog();
 		Point pos = MouseInfo.getPointerInfo().getLocation();
 
 		v.setLocation((int)pos.getX(), (int)pos.getY()); //TODO some kind of offset might be needed
-		v.setVisible(true);
+		v.setVisible(true);*/
 		return new Vertex();
 	}
 	
