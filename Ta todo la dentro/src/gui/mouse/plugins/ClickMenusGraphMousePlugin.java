@@ -13,16 +13,17 @@ import gui.mouse.plugins.menus.auxiliarInterfaces.EdgeMenuListener;
 import gui.mouse.plugins.menus.auxiliarInterfaces.MenuPointListener;
 import gui.mouse.plugins.menus.auxiliarInterfaces.VertexMenuListener;
 
-public class RightClickPopupMouseMenusPlugin<V,E> extends AbstractPopupGraphMousePlugin{
+public class ClickMenusGraphMousePlugin<V,E> extends AbstractPopupGraphMousePlugin{
 
-	private JPopupMenu edgePopup;
-	private JPopupMenu vertexPopup;
+	private JPopupMenu edgeClickPopup;
+	private JPopupMenu vertexClickPopup;
+	private JPopupMenu clickAnywherePlugin;
 
-	public RightClickPopupMouseMenusPlugin(){	
+	public ClickMenusGraphMousePlugin(){	
 		this(MouseEvent.BUTTON3_MASK);
 	}
 
-	public RightClickPopupMouseMenusPlugin(int modifiers) {
+	public ClickMenusGraphMousePlugin(int modifiers) {
 		super(modifiers);
 	}
 
@@ -39,13 +40,13 @@ public class RightClickPopupMouseMenusPlugin<V,E> extends AbstractPopupGraphMous
 			if(vertex != null) {
 				System.out.println(vertex + " was right clicked");
 				updateVertexMenu(vertex, vv, pos);
-				vertexPopup.show(vv, e.getX(), e.getY());
+				vertexClickPopup.show(vv, e.getX(), e.getY());
 			} else {
 				final E edge = pickSupport.getEdge(vv.getGraphLayout(), pos.getX(), pos.getY());
 				if(edge != null) {
 					System.out.println(edge + " was right clicked");
 					updateEdgeMenu(edge, vv, pos);
-					edgePopup.show(vv, e.getX(), e.getY());
+					edgeClickPopup.show(vv, e.getX(), e.getY());
 				}else{
 					System.out.println("Right Click elsewhere");
 				}
@@ -55,10 +56,10 @@ public class RightClickPopupMouseMenusPlugin<V,E> extends AbstractPopupGraphMous
 
 	
 	private void updateEdgeMenu(E edge, VisualizationViewer<V, E> vv, Point2D pos) {
-		if (edgePopup == null){
+		if (edgeClickPopup == null){
 			return;
 		}else{
-			Component[] menuComps = edgePopup.getComponents();
+			Component[] menuComps = edgeClickPopup.getComponents();
 			for (Component comp: menuComps) {
 				if (comp instanceof EdgeMenuListener) {
 					((EdgeMenuListener<E>)comp).setEdgeAndView(edge, vv);
@@ -72,10 +73,10 @@ public class RightClickPopupMouseMenusPlugin<V,E> extends AbstractPopupGraphMous
 
 	private void updateVertexMenu(V v, VisualizationViewer<V, E> vv, Point2D pos) {
 
-		if(vertexPopup == null){
+		if(vertexClickPopup == null){
 			return;
 		}else{
-			Component[] menuComps = vertexPopup.getComponents();
+			Component[] menuComps = vertexClickPopup.getComponents();
 			for (Component comp: menuComps) {
 				if (comp instanceof VertexMenuListener) {
 					((VertexMenuListener<V>)comp).setVertexAndView(v, vv);
@@ -87,16 +88,22 @@ public class RightClickPopupMouseMenusPlugin<V,E> extends AbstractPopupGraphMous
 		}
 	}
 
-	public JPopupMenu getEdgePopup() {
-		return edgePopup;
+	public JPopupMenu getEdgeClickPopup() {
+		return edgeClickPopup;
 	}
-	public void setEdgePopup(JPopupMenu edgePopup) {
-		this.edgePopup = edgePopup;
+	public void setEdgeClickPopup(JPopupMenu edgePopup) {
+		this.edgeClickPopup = edgePopup;
 	}
-	public JPopupMenu getVertexPopup() {
-		return vertexPopup;
+	public JPopupMenu getVertexClickPopup() {
+		return vertexClickPopup;
 	}
-	public void setVertexPopup(JPopupMenu vertexPopup) {
-		this.vertexPopup = vertexPopup;
+	public void setVertexClickPopup(JPopupMenu vertexPopup) {
+		this.vertexClickPopup = vertexPopup;
+	}
+	public JPopupMenu getClickAnywherePlugin() {
+		return clickAnywherePlugin;
+	}
+	public void setClickAnywherePlugin(JPopupMenu clickAnywherePlugin) {
+		this.clickAnywherePlugin = clickAnywherePlugin;
 	}
 }

@@ -1,7 +1,6 @@
-package gui.mouse.plugins.menus;
+package gui.mouse.plugins.menus.dialogs;
 
 
-import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -9,11 +8,14 @@ import javax.swing.GroupLayout;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFormattedTextField;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JTextField;
 import javax.swing.LayoutStyle;
 import javax.swing.WindowConstants;
 
-import logic.graph.Edge;
+import dataStructure.graph.Edge;
+
 import magicNumbers.Values;
 
 
@@ -34,8 +36,8 @@ public class EdgePropertyDialog extends JDialog {
   
     
     /** Creates new form EdgePropertyDialog */
-    public EdgePropertyDialog(Frame parent, Edge edge) {
-        super(parent, true);
+    public EdgePropertyDialog(Edge edge) {
+        super(new JFrame(), true);
         initComponents();
         this.edge = edge;
         setTitle(Values.edge_properties_editor_frame_name);
@@ -56,7 +58,13 @@ public class EdgePropertyDialog extends JDialog {
         weightFormattedTextField = new JFormattedTextField();
         distanceFormattedTextField = new JFormattedTextField();
         speedLimitFormattedTextField = new JFormattedTextField();
-
+  
+        capacityFormattedTextField.setHorizontalAlignment(JTextField.RIGHT);
+        weightFormattedTextField.setHorizontalAlignment(JTextField.RIGHT);
+        distanceFormattedTextField.setHorizontalAlignment(JTextField.RIGHT);
+        speedLimitFormattedTextField.setHorizontalAlignment(JTextField.RIGHT);
+        
+        
         setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         jButton1.setText("OK");
         jButton1.addActionListener(new ActionListener() {
@@ -82,16 +90,16 @@ public class EdgePropertyDialog extends JDialog {
                         .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(capacityFormattedTextField,  GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,  GroupLayout.PREFERRED_SIZE))
+                                .addComponent(capacityFormattedTextField,  GroupLayout.PREFERRED_SIZE, 50,  GroupLayout.PREFERRED_SIZE))
                             .addGroup( GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(weightFormattedTextField,  GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,  GroupLayout.PREFERRED_SIZE))
+                                .addComponent(weightFormattedTextField,  GroupLayout.PREFERRED_SIZE, 50,  GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
                                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(distanceFormattedTextField,  GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,  GroupLayout.PREFERRED_SIZE))
+                                .addComponent(distanceFormattedTextField,  GroupLayout.PREFERRED_SIZE, 50,  GroupLayout.PREFERRED_SIZE))
                             .addGroup( GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(speedLimitFormattedTextField,  GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,  GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(speedLimitFormattedTextField,  GroupLayout.PREFERRED_SIZE, 50,  GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap( GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(

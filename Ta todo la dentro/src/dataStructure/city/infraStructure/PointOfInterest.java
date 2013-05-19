@@ -1,10 +1,15 @@
-package logic.buildings;
+package dataStructure.city.infraStructure;
 
-import java.awt.*;
+import java.awt.Point;
+import java.io.Serializable;
 
 
-public class Building{
+public class PointOfInterest implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3738590622246075385L;
 	private Point pos;
 	private float width;
 	private float length;

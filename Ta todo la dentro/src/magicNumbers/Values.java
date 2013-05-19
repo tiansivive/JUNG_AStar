@@ -1,6 +1,6 @@
 package magicNumbers;
 
-import javax.swing.Icon;
+import java.awt.Color;
 
 
 
@@ -10,6 +10,7 @@ public class Values{
 	
 	public static int VerticesCurrentID = 0;
 	public static int EdgesCurrentID = 0;
+	public static int CityZonesCurrentID = 0;
 	public static final int roadWeight = 5;
 	
 	public static final int window_initial_x_resolution = 720;
@@ -31,4 +32,6 @@ public class Values{
 	public static final String edge_properties_editor_menu_entry = "Edit Edge Properties";
 	public static final String edge_properties_editor_frame_name = "Edge Properties";
 	
+	public static final Color default_unassigned_zone_color = Color.BLACK;
+	public static final Color default_selected_vertex_color = Color.YELLOW;	
 }

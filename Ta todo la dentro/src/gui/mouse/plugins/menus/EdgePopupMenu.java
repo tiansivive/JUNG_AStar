@@ -5,10 +5,11 @@ import javax.swing.JFrame;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 
+import dataStructure.graph.Edge;
+
 import edu.uci.ics.jung.visualization.VisualizationViewer;
 import gui.mouse.plugins.menus.auxiliarInterfaces.EdgeMenuListener;
 
-import logic.graph.Edge;
 import magicNumbers.Values;
 
 
