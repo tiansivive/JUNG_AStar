@@ -15,6 +15,17 @@ public class Vehicle {
 			currentFuel = start;
 		}
 		maxCapacity = max;
+		consumption = 1;
+	}
+	
+	public Vehicle(int start, int max, int cons){
+		if(start > max){
+			currentFuel = max;
+		} else {
+			currentFuel = start;
+		}
+		maxCapacity = max;
+		consumption = cons;
 	}
 
 	public int getCurrentFuel(){
@@ -25,6 +36,10 @@ public class Vehicle {
 		return maxCapacity;
 	}
 	
+	public int getConsumption() {
+		return consumption;
+	}
+	
 	public void setCurrentFuel(int fuel) {
 		if(fuel > maxCapacity){
 			currentFuel = maxCapacity;
@@ -33,20 +48,20 @@ public class Vehicle {
 		}
 	}
 	
-	public void setMaxCapacity(int cap){
-		maxCapacity = cap;
+	public void travel(int distance) {
+		currentFuel -= distance*consumption;
 	}
 	
 	public void refill(){
 		currentFuel = maxCapacity;
 	}
-
-	public int getConsumption() {
-		return consumption;
+	
+	public void setMaxCapacity(int cap){
+		maxCapacity = cap;
 	}
 
-	public void setConsumption(int consumption) {
-		this.consumption = consumption;
+	public void setConsumption(int cons) {
+		consumption = cons;
 	}
 	
 }
