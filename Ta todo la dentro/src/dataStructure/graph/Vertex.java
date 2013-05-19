@@ -15,9 +15,6 @@ public class Vertex implements Serializable{
 	private int id;
 	private String name;
 	
-	private boolean visited;
-	private boolean processing;
-	
 	private CityZone zone;
 	private PointOfInterest pointOfInterest;
 	
@@ -27,8 +24,6 @@ public class Vertex implements Serializable{
 		Values.VerticesCurrentID++;		
 		this.id = Values.VerticesCurrentID;
 		this.name = null;
-		this.visited = false;
-		this.processing = false;
 		this.zone = null;
 		this.pointOfInterest = null;
 	}
@@ -38,8 +33,6 @@ public class Vertex implements Serializable{
 		Values.VerticesCurrentID++;		
 		this.id = Values.VerticesCurrentID;
 		this.name = null;
-		this.visited = false;
-		this.processing = false;
 		this.zone = z;
 		this.pointOfInterest = null;
 	}	
@@ -48,8 +41,6 @@ public class Vertex implements Serializable{
 		Values.VerticesCurrentID++;		
 		this.id = Values.VerticesCurrentID;
 		this.name = vName;
-		this.visited = false;
-		this.processing = false;
 		this.zone = cZone;
 		this.type = vType;
 		this.pointOfInterest = null;
@@ -59,8 +50,6 @@ public class Vertex implements Serializable{
 		Values.VerticesCurrentID++;		
 		this.id = Values.VerticesCurrentID;
 		this.name = vName;
-		this.visited = false;
-		this.processing = false;
 		this.zone = cZone;
 		this.type = vType;
 		if(vType != VertexType.BUILDING_CONNECTION){
@@ -71,32 +60,8 @@ public class Vertex implements Serializable{
 			cZone.addPointOfInterest(poi);
 		}
 	}
-
 	
-	@Override
-	public String toString(){
-		
-		String toReturn = "";
-		if(name != null){
-			toReturn += name;
-		}else{
-			toReturn += "V" +id;
-		}
-		return toReturn;
-	}
 	
-	public boolean isVisited() {
-		return visited;
-	}
-	public void setVisited(boolean visited) {
-		this.visited = visited;
-	}
-	public boolean isProcessing() {
-		return processing;
-	}
-	public void setProcessing(boolean processing) {
-		this.processing = processing;
-	}
 	public int getId() {
 		return id;
 	}
@@ -126,5 +91,35 @@ public class Vertex implements Serializable{
 	}
 	public void setPointOfInterest(PointOfInterest pointOfInterest) {
 		this.pointOfInterest = pointOfInterest;
+	}
+
+	public double distance(Vertex vertex) {
+		return this.pointOfInterest.getPos().distance(vertex.getPointOfInterest().getPos());
+	}
+	
+	@Override
+	public String toString(){
+		
+		String toReturn = "";
+		if(name != null){
+			toReturn += name;
+		}else{
+			toReturn += "V" +id;
+		}
+		return toReturn;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Vertex other = (Vertex) obj;
+		if (id != other.id)
+			return false;
+		return true;
 	}	
 }
