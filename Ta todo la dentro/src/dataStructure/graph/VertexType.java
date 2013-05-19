@@ -1,6 +1,8 @@
 package dataStructure.graph;
 
-public enum VertexType {
+import java.io.Serializable;
+
+public enum VertexType implements Serializable{
 	INTERSECTION,
 	U_TURN,
 	BUILDING_CONNECTION

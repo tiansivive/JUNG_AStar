@@ -1,11 +1,17 @@
 package dataStructure.graph;
 
+import java.io.Serializable;
+
 import magicNumbers.Values;
 import dataStructure.city.infraStructure.CityZone;
 import dataStructure.city.infraStructure.PointOfInterest;
 
-public class Vertex{
-	
+public class Vertex implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5790657416363651850L;
 	private int id;
 	private String name;
 	

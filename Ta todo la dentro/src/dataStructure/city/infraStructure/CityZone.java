@@ -1,15 +1,20 @@
 package dataStructure.city.infraStructure;
 
 import java.awt.Color;
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
 import magicNumbers.Values;
 
-public class CityZone {
+public class CityZone implements Serializable {
 
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6428675141467588918L;
 	private String name;
 	private int id;
 

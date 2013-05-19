@@ -3,12 +3,14 @@ package gui;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.geom.Point2D;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.Map;
 
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -37,7 +39,7 @@ public class GraphVisualizationFrame extends JFrame implements Serializable, Act
 	private JMenuItem loadOption;
 
 	private String title;
-	private Layout<Vertex,Edge> roadNetworkLayout;
+	private CustomLayout<Vertex,Edge> roadNetworkLayout;
 	private CityGraphNetwork graph;
 	private CustomVisualizationViewer<Vertex, Edge> vv;
 	private InteractiveModalGraphMouse<Vertex, Edge> gm;
@@ -108,7 +110,7 @@ public class GraphVisualizationFrame extends JFrame implements Serializable, Act
 		graph = new CityGraphNetwork();
 		roadNetworkLayout = new CustomLayout<Vertex, Edge>(graph.getRoadNetwork());
 		roadNetworkLayout.setSize(new Dimension(Values.window_initial_x_resolution, Values.window_initial_y_resolution));
-
+		
 		vv = new CustomVisualizationViewer<Vertex,Edge>(roadNetworkLayout);
 		vv.setPreferredSize(new Dimension(Values.window_initial_x_resolution +72, Values.window_initial_y_resolution +45)); //Valores para manter a proporcao da resolucao da janela
 
@@ -156,23 +158,23 @@ public class GraphVisualizationFrame extends JFrame implements Serializable, Act
 	private void load() {
 		 try
 	      {
-	         FileInputStream fileIn = new FileInputStream("RoadNetworkLayout.ser");
-	         ObjectInputStream in = new ObjectInputStream(fileIn);
-	         roadNetworkLayout = (CustomLayout<Vertex, Edge>) in.readObject();
-	         in.close();
-	         fileIn.close();
-	         
-	         fileIn = new FileInputStream("Graph.ser");
-	         in = new ObjectInputStream(fileIn);
+			 
+			 FileInputStream fileIn = new FileInputStream("Graph.ser");
+			 ObjectInputStream in = new ObjectInputStream(fileIn);
 	         graph = (CityGraphNetwork)in.readObject();
 	         in.close();
 	         fileIn.close();
 	         
-	         fileIn = new FileInputStream("GraphVisualization.ser");
+	         fileIn = new FileInputStream("RoadNetworkLayout.ser");
 	         in = new ObjectInputStream(fileIn);
-	         vv = (CustomVisualizationViewer<Vertex, Edge>)in.readObject();
+	         roadNetworkLayout = new CustomLayout<Vertex, Edge>(graph.getRoadNetwork());
+	 		 roadNetworkLayout.setSize(new Dimension(Values.window_initial_x_resolution, Values.window_initial_y_resolution));
+	 		 roadNetworkLayout.setLocations((Map<Vertex, Point2D>) in.readObject());
 	         in.close();
 	         fileIn.close();
+
+	         vv = new CustomVisualizationViewer<Vertex,Edge>(roadNetworkLayout);
+	         vv.repaint();
 	      }catch(IOException i)
 	      {
 	         i.printStackTrace();
@@ -192,7 +194,7 @@ public class GraphVisualizationFrame extends JFrame implements Serializable, Act
 		try {
 			FileOutputStream fileOut = new FileOutputStream("RoadNetworkLayout.ser");
 			ObjectOutputStream out = new ObjectOutputStream(fileOut);
-			out.writeObject(roadNetworkLayout);
+			out.writeObject(roadNetworkLayout.getLocations());
 			out.close();
 			fileOut.close();
 
@@ -202,11 +204,7 @@ public class GraphVisualizationFrame extends JFrame implements Serializable, Act
 			out.close();
 			fileOut.close();
 
-			fileOut = new FileOutputStream("GraphVisualization.ser");
-			out = new ObjectOutputStream(fileOut);
-			out.writeObject(vv);
-			out.close();
-			fileOut.close();
+
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

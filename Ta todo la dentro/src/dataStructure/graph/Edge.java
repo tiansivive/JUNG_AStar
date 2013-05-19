@@ -1,10 +1,17 @@
 package dataStructure.graph;
 
+import java.io.Serializable;
+
 import magicNumbers.Values;
 
 
-public class Edge{
+public class Edge implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1678390781343595348L;
+
 	private int id;
 	
 	private int speedLimit;

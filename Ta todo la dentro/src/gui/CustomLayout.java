@@ -13,13 +13,13 @@ public class CustomLayout<V, E> extends AbstractLayout<V, E>{
 
 
 	public CustomLayout(Graph<V, E> graph) {
-		super(graph);	
+		super(graph);   
 	}
 	protected CustomLayout(Graph<V, E> graph, Dimension size) {
 		super(graph, size);
 	}
 	protected CustomLayout(Graph<V, E> graph, Transformer<V, Point2D> initializer) {
-		super(graph, initializer);	
+		super(graph, initializer);      
 	}
 	protected CustomLayout(Graph<V, E> graph, Transformer<V, Point2D> initializer, Dimension size) {
 		super(graph, initializer, size);
@@ -34,8 +34,12 @@ public class CustomLayout<V, E> extends AbstractLayout<V, E>{
 		System.out.println("CALLED RESET ON CUSTOM_LAYOUT");
 	}
 
-	public Map<V,Point2D> getLocation(){
+	public Map<V,Point2D> getLocations(){
 		return this.locations;
+	}
+	
+	public void setLocations(Map<V,Point2D> locs){
+		this.locations = locs;
 	}
 
 
