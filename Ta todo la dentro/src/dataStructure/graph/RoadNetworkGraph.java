@@ -1,8 +1,11 @@
 package dataStructure.graph;
 
+import java.awt.Point;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
+import edu.uci.ics.jung.algorithms.layout.AbstractLayout;
 import edu.uci.ics.jung.graph.DirectedSparseMultigraph;
 
 public class RoadNetworkGraph<V, E> extends DirectedSparseMultigraph<V, E>{
@@ -16,7 +19,20 @@ public class RoadNetworkGraph<V, E> extends DirectedSparseMultigraph<V, E>{
 		super();
 		setSelectedEdges(new HashSet<E>());
 	}
-
+	
+	
+	@SuppressWarnings("unchecked")
+	public void updateVertexPositions(AbstractLayout<Vertex, Edge> layout){
+		
+		for(Vertex v : (Collection<Vertex>)getVertices()){
+			
+			Point position = new Point();
+			position.setLocation(layout.getX(v), layout.getY(v));
+			v.setPosition(position);	
+		}		
+	}
+	
+	
 	public void addSelectedEdge(E edge){	
 		if(super.getEdges().contains(edge)){
 			selectedEdges.add(edge);
@@ -42,6 +58,5 @@ public class RoadNetworkGraph<V, E> extends DirectedSparseMultigraph<V, E>{
 	public void setSelectedEdges(Set<E> selectedEdges) {
 		this.selectedEdges = selectedEdges;
 	}
-	
 
 }

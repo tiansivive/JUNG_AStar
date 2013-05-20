@@ -3,6 +3,7 @@ package gui;
 import gui.mouse.InteractiveModalGraphMouse;
 
 import java.awt.Dimension;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedWriter;
@@ -16,22 +17,24 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.xml.parsers.ParserConfigurationException;
 
 import magicNumbers.Values;
 
-import org.apache.commons.collections15.BidiMap;
 import org.apache.commons.collections15.Transformer;
+import org.xml.sax.SAXException;
 
 import utilities.GUI_EdgeColoringTransformer;
 import utilities.GUI_EdgeFactory;
 import utilities.GUI_VertexColoringTransformer;
 import utilities.GUI_VertexFactory;
 import utilities.GUI_VertexShapeTransformer;
+import utilities.Load_EdgeFactory;
+import utilities.Load_VertexFactory;
 import dataStructure.graph.CityGraphNetwork;
 import dataStructure.graph.Edge;
 import dataStructure.graph.RoadNetworkGraph;
 import dataStructure.graph.Vertex;
-import edu.uci.ics.jung.graph.DirectedGraph;
 import edu.uci.ics.jung.io.GraphMLMetadata;
 import edu.uci.ics.jung.io.GraphMLReader;
 import edu.uci.ics.jung.io.GraphMLWriter;
@@ -66,6 +69,10 @@ public class GraphVisualizationFrame extends JFrame implements Serializable, Act
 		this.setTitle(title);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+		graph = new CityGraphNetwork();
+		roadNetworkLayout = new CustomLayout<Vertex, Edge>(graph.getRoadNetwork());
+		roadNetworkLayout.setSize(new Dimension(Values.window_initial_x_resolution, Values.window_initial_y_resolution));
+		
 		initVisualizationViewer();
 		initMouse();
 		initMenuBar();
@@ -114,10 +121,6 @@ public class GraphVisualizationFrame extends JFrame implements Serializable, Act
 
 
 	private void initVisualizationViewer(){
-		graph = new CityGraphNetwork();
-		roadNetworkLayout = new CustomLayout<Vertex, Edge>(graph.getRoadNetwork());
-		roadNetworkLayout.setSize(new Dimension(Values.window_initial_x_resolution, Values.window_initial_y_resolution));
-
 		vv = new CustomVisualizationViewer<Vertex,Edge>(roadNetworkLayout);
 		vv.setPreferredSize(new Dimension(Values.window_initial_x_resolution +72, Values.window_initial_y_resolution +45)); //Valores para manter a proporcao da resolucao da janela
 
@@ -163,60 +166,81 @@ public class GraphVisualizationFrame extends JFrame implements Serializable, Act
 
 
 
-	@SuppressWarnings("unchecked")
 	private void load() {
-	/*	try
-		{
+		try{
 
-			GraphMLReader<RoadNetworkGraph<Vertex,Edge>,Vertex, Edge> gmlr = new GraphMLReader<RoadNetworkGraph<Vertex,Edge>,Vertex, Edge>(new VertexFactory(), new EdgeFactory());
+			GraphMLReader<RoadNetworkGraph<Vertex,Edge>,Vertex, Edge> graphReader = new GraphMLReader<RoadNetworkGraph<Vertex,Edge>,Vertex, Edge>(new Load_VertexFactory(), new Load_EdgeFactory());			 
+			RoadNetworkGraph<Vertex,Edge> tmpGraph = new RoadNetworkGraph<Vertex,Edge>();
+			graphReader.load("roadNetworkGraph", tmpGraph);
+				
+			Map<String, GraphMLMetadata<Vertex>> vertex_meta = graphReader.getVertexMetadata(); //Our vertex Metadata is stored in a map.
+			Map<String, GraphMLMetadata<Edge>> edge_meta = graphReader.getEdgeMetadata(); // Our edge Metadata is stored in a map.
 			 
-			//Next we need a Graph to store the data that we are reading in from GraphML. This is also an Undirected Graph because it needs to match to the type of graph we are reading in.
-			final RoadNetworkGraph<Vertex,Edge> graph = new RoadNetworkGraph<Vertex,Edge>();
-			 
-			//Here we read in our graph. filename is our .graphml file, and graph is where we will store our graph.
-			gmlr.load("roadNetworkGraph", graph);
-			
-			BidiMap<Vertex, String> vertex_ids = gmlr.getVertexIDs();  //The vertexIDs are stored in a BidiMap.
-			Map<String, GraphMLMetadata<Vertex>> vertex_color = gmlr.getVertexMetadata(); //Our vertex Metadata is stored in a map.
-			Map<String, GraphMLMetadata<Edge>> edge_meta = gmlr.getEdgeMetadata(); // Our edge Metadata is stored in a map.
-			 
-			// Here we iterate through our vertices, n, and we set the value and the color of our nodes from the data we have
-			// in the vertex_ids map and vertex_color map.
-			for (Vertex n : graph.getVertices())
-			{
-				n.setValue(vertex_ids.get(n)); //Set the value of the node to the vertex_id which was read in from the GraphML Reader.
-				n.setColor(vertex_color.get("d0").transformer.transform(n)); // Set the color, which we get from the Map vertex_color.            //Let's print out the data so we can get a good understanding of what we've got going on.
-				System.out.println("ID: "+n.getID()+", Value: "+n.getValue()+", Color: "+n.getColor());
+			for (Vertex v : tmpGraph.getVertices())
+			{	
+				v.setId(Integer.parseInt(vertex_meta.get("id").transformer.transform(v)));
+				v.setName(vertex_meta.get("name").transformer.transform(v));
+				
+				double x = Double.parseDouble(vertex_meta.get("x").transformer.transform(v));
+				double y = Double.parseDouble(vertex_meta.get("y").transformer.transform(v));
+				
+				Point pos = new Point();
+				pos.setLocation(x, y);
+				v.setPosition(pos);
+			}	
+			for (Edge e : tmpGraph.getEdges())
+			{		
+				e.setId(Integer.parseInt(edge_meta.get("id").transformer.transform(e)));
+				e.setName(edge_meta.get("name").transformer.transform(e));
+				e.setSpeedLimit(Integer.parseInt(edge_meta.get("speedLimit").transformer.transform(e)));
+				e.setDistance(Double.parseDouble(edge_meta.get("distance").transformer.transform(e)));
+				e.setWeight(Double.parseDouble(edge_meta.get("weight").transformer.transform(e)));
+				e.setCapacity(Double.parseDouble(edge_meta.get("capacity").transformer.transform(e)));
 			}
-			 // Just as we added the vertices to the graph, we add the edges as well.
-			for (Edge e : graph.getEdges())
-			{
-				e.setValue(edge_meta.get("d1").transformer.transform(e)); //Set the edge's value.
-				System.out.println("Edge ID: "+e.getID());
+	
+			graph = new CityGraphNetwork();
+			graph.setRoadNetwork(tmpGraph);
+			
+			roadNetworkLayout = new CustomLayout<Vertex, Edge>(graph.getRoadNetwork());
+			roadNetworkLayout.setSize(new Dimension(Values.window_initial_x_resolution, Values.window_initial_y_resolution));
+			
+			for(Vertex v : graph.getRoadNetwork().getVertices()){			
+				roadNetworkLayout.setLocation(v, v.getPosition());
 			}
 			
-		}catch(IOException i)
-		{
+			initVisualizationViewer();
+			initMouse();
+			initMenuBar();
+			
+			gm.setMode(ModalGraphMouse.Mode.EDITING);
+			vv.repaint();
+	
+			this.pack();
+			this.setVisible(true);  
+				
+		}catch(IOException i){
 			i.printStackTrace();
 			return;
-		}catch(ClassNotFoundException c)
-		{
-			System.out.println("Employee class not found");
-			c.printStackTrace();
-			return;
+		} catch (ParserConfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SAXException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-*/
+
 	}
 
 
 
 	private void save() {
 		try {
+			
+			graph.getRoadNetwork().updateVertexPositions(roadNetworkLayout);
+			
+			
 			GraphMLWriter<Vertex, Edge> graphWriter = new GraphMLWriter<Vertex, Edge> ();
-
 			PrintWriter out = new PrintWriter( new BufferedWriter( new FileWriter("roadNetworkGraph")));
-
-
 
 			graphWriter.addVertexData("x", "The X coordinate", "0", new Transformer<Vertex, String>(){
 				public String transform(Vertex v) {
@@ -238,6 +262,9 @@ public class GraphVisualizationFrame extends JFrame implements Serializable, Act
 					return Integer.toString(v.getId());
 				}
 			});
+			
+			
+			
 			
 			graphWriter.addEdgeData("name", "The Edge name", "E", new Transformer<Edge, String>(){
 				public String transform(Edge v){
@@ -270,9 +297,8 @@ public class GraphVisualizationFrame extends JFrame implements Serializable, Act
 				}
 			});
 			
+			
 			graphWriter.save(graph.getRoadNetwork(), out);
-
-
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

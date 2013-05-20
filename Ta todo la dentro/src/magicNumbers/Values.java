@@ -14,7 +14,7 @@ public class Values{
 	public static final int roadWeight = 5;
 	
 	public static final int window_initial_x_resolution = 720;
-	public static final int window_initial_y_resolution = 450;
+	public static final int window_initial_y_resolution = 550;
 	
 	
 	public static final int default_edge_speedLimit = -1;

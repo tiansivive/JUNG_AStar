@@ -28,8 +28,7 @@ public class GUI_EdgeFactory implements Factory<Edge>{
 		Edge e = new Edge(Values.default_edge_speedLimit,
 				Values.default_edge_distance,
 				Values.default_edge_weight,
-				Values.default_edge_capacity,
-				Values.default_edge_bidirectionality);
+				Values.default_edge_capacity);
 
 		if(default_mode){
 			EdgePropertyDialog dialog = new EdgePropertyDialog(e);

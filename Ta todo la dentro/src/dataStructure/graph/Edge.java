@@ -18,23 +18,31 @@ public class Edge implements Serializable{
 	private double distance;
 	private double weight;
 	private double capacity; //TODO not for now
-	private boolean bidirectional;
 	
 	private String name;
 	
+	public Edge(){
+		
+		Values.EdgesCurrentID++;
+		this.id = Values.EdgesCurrentID;
+		this.speedLimit = Values.default_edge_speedLimit;
+		this.distance = Values.default_edge_distance;
+		this.weight = Values.default_edge_weight;
+		this.capacity = Values.default_edge_capacity;
+		
+	}
 	
-	public Edge(int speed, double dist, double w, boolean bidirection){
+	public Edge(int speed, double dist, double w){
 
 		Values.EdgesCurrentID++;
 		this.id = Values.EdgesCurrentID;
 		this.speedLimit = speed;
 		this.distance = dist;
 		this.weight = w;
-		this.bidirectional = bidirection;
 		this.capacity = -1;
 	}
 
-	public Edge(int speed, double dist, double w, double c, boolean bidirection){
+	public Edge(int speed, double dist, double w, double c){
 		
 		Values.EdgesCurrentID++;
 		this.id = Values.EdgesCurrentID;
@@ -42,7 +50,7 @@ public class Edge implements Serializable{
 		this.distance = dist;
 		this.weight = w;
 		this.capacity = c;
-		this.bidirectional = bidirection;
+
 	}
 	
 	public String toString(){
@@ -69,12 +77,6 @@ public class Edge implements Serializable{
 	public void setDistance(double distance) {
 		this.distance = distance;
 	}
-	public boolean isBidirectional() {
-		return bidirectional;
-	}
-	public void setBidirectional(boolean bi) {
-		this.bidirectional = bi;
-	}
 	public double getWeight() {
 		return weight;
 	}
@@ -100,5 +102,10 @@ public class Edge implements Serializable{
 
 	public int getId() {	
 		return id;
+	}
+
+	public void setId(int ID) {
+		
+		this.id = ID;
 	}
 }

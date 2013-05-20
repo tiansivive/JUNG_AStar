@@ -16,6 +16,8 @@ public class Vertex implements Serializable{
 	private int id;
 	private String name;
 	
+	private Point pos;
+	
 	private CityZone zone;
 	private PointOfInterest pointOfInterest;
 	
@@ -98,11 +100,12 @@ public class Vertex implements Serializable{
 		return this.getPosition().distance(vertex.getPosition());
 	}
 	
-	public Point getPosition() { //TODO: VILA-VERDE faz isto mazé!
-		if(pointOfInterest != null) {
-			return pointOfInterest.getPos();
-		}
-		return new Point(0,0);
+	public Point getPosition() { 
+		return pos;
+	}
+	
+	public void setPosition(Point p) {
+		this.pos = p;
 	}
 	
 	@Override
