@@ -29,7 +29,7 @@ public class GUI_EdgeColoringTransformer implements Transformer<Edge,Paint> {
 					
 					return Color.MAGENTA;
 				}else{
-					System.out.println("Not selected");
+					//System.out.println("Not selected");
 				}
 				
 			}else{

@@ -8,6 +8,7 @@ import java.util.Set;
 
 import magicNumbers.Values;
 
+@Deprecated
 public class CityZone implements Serializable {
 
 

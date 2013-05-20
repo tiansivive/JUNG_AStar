@@ -31,7 +31,7 @@ public class GUI_EdgeFactory implements Factory<Edge>{
 				Values.default_edge_capacity,
 				Values.default_edge_bidirectionality);
 
-		if(!default_mode){
+		if(default_mode){
 			EdgePropertyDialog dialog = new EdgePropertyDialog(e);
 
 			Point pos = MouseInfo.getPointerInfo().getLocation();

@@ -1,9 +1,7 @@
 package logic;
 
-import java.awt.Point;
 import java.util.Vector;
 
-import dataStructure.graph.Edge;
 import dataStructure.graph.Vertex;
 
 public class State {
