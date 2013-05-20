@@ -1,5 +1,6 @@
 package dataStructure.graph;
 
+import java.awt.Point;
 import java.io.Serializable;
 
 import magicNumbers.Values;
@@ -94,7 +95,14 @@ public class Vertex implements Serializable{
 	}
 
 	public double distance(Vertex vertex) {
-		return this.pointOfInterest.getPos().distance(vertex.getPointOfInterest().getPos());
+		return this.getPosition().distance(vertex.getPosition());
+	}
+	
+	public Point getPosition() { //TODO: VILA-VERDE faz isto mazé!
+		if(pointOfInterest != null) {
+			return pointOfInterest.getPos();
+		}
+		return new Point(0,0);
 	}
 	
 	@Override

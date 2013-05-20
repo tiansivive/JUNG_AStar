@@ -1,6 +1,5 @@
 package algorithms;
 
-import java.awt.Point;
 import java.util.Vector;
 
 import dataStructure.city.infraStructure.Vehicle;
@@ -143,9 +142,6 @@ public class State {
 
 	public Vector<State> getNeighbor(RoadNetworkGraph<Vertex, Edge> roadNetwork, Vertex end) {
 		Vector<State> neighbor = new Vector<State>();
-		//TODO: correct this
-		
-		
 		Vector<Edge> paths = (Vector<Edge>) roadNetwork.getOutEdges(position);
 		
 		for(Edge edge : paths) {
