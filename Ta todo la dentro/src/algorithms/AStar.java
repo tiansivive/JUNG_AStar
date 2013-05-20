@@ -3,6 +3,8 @@ package algorithms;
 import java.util.Vector;
 
 import dataStructure.city.infraStructure.Vehicle;
+import dataStructure.graph.Edge;
+import dataStructure.graph.RoadNetworkGraph;
 import dataStructure.graph.Vertex;
 
 public class AStar {
@@ -15,7 +17,7 @@ public class AStar {
 		closedlist = new Vector<State>();
 	}
 	
-	public boolean getPath(Vertex start, Vertex end, Vector<Vertex> toVisit, Vehicle vehicle) {
+	public boolean getPath(Vertex start, Vertex end, Vector<Vertex> toVisit, Vehicle vehicle, RoadNetworkGraph<Vertex, Edge> roadNetwork) {
 		openlist = new Vector<State>();
 		closedlist = new Vector<State>();
 		
@@ -32,7 +34,7 @@ public class AStar {
 					return true; //TODO: change this, return path or current;
 				}
 				
-				Vector<State> neighbor = current.getNeighbor();
+				Vector<State> neighbor = current.getNeighbor(roadNetwork, end);
 				for (State state_neigh : neighbor) {
 					/* THERE IS NO EQUAL STATES, 'cause fuel
 					// apply score to state_neigh if not applied at getNeightbor

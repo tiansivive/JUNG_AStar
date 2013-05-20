@@ -7,6 +7,11 @@ public class Vehicle {
 	private double maxCapacity;
 	private double consumption;
 
+	public Vehicle(Vehicle car) {
+		currentFuel = car.getCurrentFuel();
+		maxCapacity = car.getMaxCapacity();
+		consumption = car.getConsumption();
+	}
 	
 	public Vehicle(double start, double max){
 		if(start > max){
