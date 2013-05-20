@@ -1,7 +1,10 @@
-package logic;
+package algorithms;
 
 import java.util.Vector;
 
+import dataStructure.city.infraStructure.Vehicle;
+import dataStructure.graph.Edge;
+import dataStructure.graph.RoadNetworkGraph;
 import dataStructure.graph.Vertex;
 
 public class State {
@@ -137,29 +140,24 @@ public class State {
 	}	
 	
 
-	public Vector<State> getNeighbor() {
+	public Vector<State> getNeighbor(RoadNetworkGraph<Vertex, Edge> roadNetwork, Vertex end) {
 		Vector<State> neighbor = new Vector<State>();
 		//TODO: correct this
-		/*
-		Vector<Edge> paths = position.getEdges();
+		
+		
+		Vector<Edge> paths = (Vector<Edge>) roadNetwork.getOutEdges(position);
 		
 		for(Edge edge : paths) {
-			Vertex newVertex = new Vertex();
-			
-			if(edge.from.equals.position) {
-				newVertex = edge.to;
-			} else {
-				newVertex = edge.from;
-			}
+			Vertex newVertex = roadNetwork.getDest(edge);
 			
 			double distance = edge.getDistance();
 			double newCost = this.cost + distance;
-			Vehicle newCar = car.clone();
+			Vehicle newCar = new Vehicle(car);
 			newCar.travel(distance);
-			
-			neighbor.add(new State(this,newVertex,newCost,toVisit,newCar));
+			if(newCar.getCurrentFuel() >= 0) {
+				neighbor.add(new State(this,newVertex,newCost,toVisit,newCar, end));
+			}
 		}
-		*/
 		return neighbor;
 	}
 
