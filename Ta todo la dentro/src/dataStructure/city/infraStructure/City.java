@@ -2,6 +2,8 @@ package dataStructure.city.infraStructure;
 
 import java.util.Set;
 
+
+@Deprecated
 public class City {
 
 	
