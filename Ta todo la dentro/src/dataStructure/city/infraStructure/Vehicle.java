@@ -3,26 +3,41 @@ package dataStructure.city.infraStructure;
 public class Vehicle {
 	
 	
-	private int currentFuel;
-	private int maxCapacity;
-	private int consumption;
+	private double currentFuel;
+	private double maxCapacity;
+	private double consumption;
 
 	
-	public Vehicle(int start, int max){
+	public Vehicle(double start, double max){
 		if(start > max){
 			currentFuel = max;
 		} else {
 			currentFuel = start;
 		}
 		maxCapacity = max;
+		consumption = 1;
+	}
+	
+	public Vehicle(double start, double max, double cons){
+		if(start > max){
+			currentFuel = max;
+		} else {
+			currentFuel = start;
+		}
+		maxCapacity = max;
+		consumption = cons;
 	}
 
-	public int getCurrentFuel(){
+	public double getCurrentFuel(){
 		return currentFuel;
 	}
 	
-	public int getMaxCapacity(){
+	public double getMaxCapacity(){
 		return maxCapacity;
+	}
+	
+	public double getConsumption() {
+		return consumption;
 	}
 	
 	public void setCurrentFuel(int fuel) {
@@ -33,20 +48,20 @@ public class Vehicle {
 		}
 	}
 	
-	public void setMaxCapacity(int cap){
-		maxCapacity = cap;
+	public void travel(double distance) {
+		currentFuel -= distance*consumption;
 	}
 	
 	public void refill(){
 		currentFuel = maxCapacity;
 	}
-
-	public int getConsumption() {
-		return consumption;
+	
+	public void setMaxCapacity(double cap){
+		maxCapacity = cap;
 	}
 
-	public void setConsumption(int consumption) {
-		this.consumption = consumption;
+	public void setConsumption(double cons) {
+		consumption = cons;
 	}
 	
 }

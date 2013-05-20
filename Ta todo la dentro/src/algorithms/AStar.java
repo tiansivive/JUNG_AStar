@@ -1,12 +1,14 @@
-package logic;
+package algorithms;
 
 import java.util.Vector;
+
+import dataStructure.city.infraStructure.Vehicle;
 import dataStructure.graph.Vertex;
 
 public class AStar {
 
-	Vector<State> openlist; //to change vector to a priority queue
-	Vector<State> closedlist; //to change vector to a priority queue
+	Vector<State> openlist; //TODO change vector to a priority queue
+	Vector<State> closedlist; //TODO change vector to a priority queue
 	
 	public AStar() {
 		openlist = new Vector<State>();
