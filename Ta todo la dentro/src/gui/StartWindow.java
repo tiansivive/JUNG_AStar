@@ -11,6 +11,7 @@ import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -20,6 +21,7 @@ import javax.swing.ButtonGroup;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -29,6 +31,7 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.filechooser.FileFilter;
 import javax.xml.parsers.ParserConfigurationException;
 
 import magicNumbers.Values;
@@ -342,11 +345,27 @@ public class StartWindow implements ActionListener {
 
 	private void save() {
 		try {
+			
+			JFileChooser chooser = new JFileChooser();
+			GraphML_FileExtensionFilter filter = new GraphML_FileExtensionFilter();
+		    chooser.setFileFilter(filter);
+		  
+		    String filename = null;
+		    int returnVal = chooser.showSaveDialog(null);
+		    if(returnVal == JFileChooser.APPROVE_OPTION) {
+		    	if(!chooser.getSelectedFile().getAbsolutePath().endsWith(Values.file_extension)){
+					filename = chooser.getSelectedFile().getAbsolutePath() + Values.file_extension;
+				}else{
+					filename = chooser.getSelectedFile().getAbsolutePath();
+				}
+		    }else{
+		    	return;
+		    }
 
 			graph.getRoadNetwork().updateVertexPositions(roadNetworkLayout);
 
 			GraphMLWriter<Vertex, Edge> graphWriter = new GraphMLWriter<Vertex, Edge> ();
-			PrintWriter out = new PrintWriter( new BufferedWriter( new FileWriter("roadNetworkGraph")));
+			PrintWriter out = new PrintWriter( new BufferedWriter( new FileWriter(filename)));
 
 			graphWriter.addVertexData("x", "The X coordinate", "0", new Transformer<Vertex, String>(){
 				public String transform(Vertex v) {
@@ -418,8 +437,18 @@ public class StartWindow implements ActionListener {
 	private void load(){
 
 		try{
-
-			String filename = "RoadNetworkGraph";
+			
+			JFileChooser chooser = new JFileChooser();
+			GraphML_FileExtensionFilter filter = new GraphML_FileExtensionFilter();
+		    chooser.setFileFilter(filter);
+		  
+		    String filename = null;
+		    int returnVal = chooser.showOpenDialog(null);
+		    if(returnVal == JFileChooser.APPROVE_OPTION) {
+		    	filename = chooser.getSelectedFile().getAbsolutePath();
+		    }else{
+		    	return;
+		    }
 
 			GraphMLReader<RoadNetworkGraph<Vertex,Edge>,Vertex, Edge> graphReader = new GraphMLReader<RoadNetworkGraph<Vertex,Edge>,Vertex, Edge>(new Load_VertexFactory(), new Load_EdgeFactory());			 
 			RoadNetworkGraph<Vertex,Edge> tmpGraph = new RoadNetworkGraph<Vertex,Edge>();

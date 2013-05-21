@@ -34,4 +34,7 @@ public class Values{
 	
 	public static final Color default_unassigned_zone_color = Color.BLACK;
 	public static final Color default_selected_vertex_color = Color.YELLOW;	
+	
+	
+	public static final String file_extension = ".graphml";
 }
