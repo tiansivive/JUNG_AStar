@@ -37,11 +37,13 @@ import magicNumbers.Values;
 import org.apache.commons.collections15.Transformer;
 import org.xml.sax.SAXException;
 
+import utilities.EdgeLabel;
 import utilities.GraphML_FileExtensionFilter;
 import utilities.factories.GUI_EdgeFactory;
 import utilities.factories.GUI_VertexFactory;
 import utilities.factories.Load_EdgeFactory;
 import utilities.factories.Load_VertexFactory;
+import utilities.transformers.EdgeLabellerTransformer;
 import utilities.transformers.GUI_EdgeColoringTransformer;
 import utilities.transformers.GUI_VertexColoringTransformer;
 import utilities.transformers.GUI_VertexShapeTransformer;
@@ -55,6 +57,7 @@ import edu.uci.ics.jung.io.GraphMLReader;
 import edu.uci.ics.jung.io.GraphMLWriter;
 import edu.uci.ics.jung.visualization.control.ModalGraphMouse;
 import edu.uci.ics.jung.visualization.decorators.ToStringLabeller;
+import javax.swing.JRadioButtonMenuItem;
 
 public class StartWindow implements ActionListener {
 
@@ -74,6 +77,7 @@ public class StartWindow implements ActionListener {
 	private GUI_VertexColoringTransformer vertexColoringTransformer;
 	private GUI_VertexShapeTransformer vertexShapeTransformer;
 	private GUI_EdgeColoringTransformer edgeColoringTransformer;
+	private EdgeLabellerTransformer edgeLabelTransformer;
 
 	private JButton new_button;
 	private JButton save_button;
@@ -82,13 +86,24 @@ public class StartWindow implements ActionListener {
 	private JRadioButton vertexType_intersection_radioButton;
 	private JRadioButton vertexType_gasStation_radioButton;	
 	private JRadioButton vertexType_building_radioButton;
-	private ButtonGroup radioButtonsGroup;
 	
+	private ButtonGroup radioButtonsGroup;
+	private ButtonGroup edgeLabelMenuButtonGroup;
 	
 	private GroupLayout gl_buttonsPanel;
 	private GroupLayout gl_leftPanel;
 	private GroupLayout gl_contentPane;
 	private GroupLayout gl_radioButtonPanel;
+	
+	private JMenuBar menuBar;
+	private JMenu modeMenu;
+	private JMenu edgeLabelMenu;
+	private JRadioButtonMenuItem nameLabel_radioButton;
+	private JRadioButtonMenuItem speedLimitLabel_radioButton;
+	private JRadioButtonMenuItem distanceLabel_radioButton;
+	private JRadioButtonMenuItem weightLabel_radioButton;
+	private JRadioButtonMenuItem capacityLabel_radioButton;
+
 
 	/**
 	 * Launch the application.
@@ -318,25 +333,59 @@ public class StartWindow implements ActionListener {
 		vertexColoringTransformer = new GUI_VertexColoringTransformer(vv);
 		vertexShapeTransformer = new GUI_VertexShapeTransformer();
 		edgeColoringTransformer = new GUI_EdgeColoringTransformer(vv);
-
+		edgeLabelTransformer = new EdgeLabellerTransformer();
+		
 		vv.getRenderContext().setVertexLabelTransformer(new ToStringLabeller<Vertex>());
-		vv.getRenderContext().setEdgeLabelTransformer(new ToStringLabeller<Edge>());
+		vv.getRenderContext().setEdgeLabelTransformer(edgeLabelTransformer);
 		vv.getRenderContext().setVertexFillPaintTransformer(vertexColoringTransformer);
 		vv.getRenderContext().setEdgeDrawPaintTransformer(edgeColoringTransformer);
 		//vv.getRenderContext().setVertexShapeTransformer(vertexSize);
-
 
 	}
 
 	private void initMenuBar() {
 
-		JMenuBar menuBar = new JMenuBar();
-		JMenu modeMenu = gm.getModeMenu();
+		menuBar = new JMenuBar();
+		modeMenu = gm.getModeMenu();
 		modeMenu.setText("Mouse Mode");
 		modeMenu.setIcon(null); // I'm using this in a main menu
 		modeMenu.setPreferredSize(new Dimension(80,20)); // Change the size so I can see the text
 		menuBar.add(modeMenu);
 		frame.setJMenuBar(menuBar);
+		
+		
+		edgeLabelMenu = new JMenu("Edge Label");
+		edgeLabelMenuButtonGroup = new ButtonGroup();
+		
+		nameLabel_radioButton = new JRadioButtonMenuItem("Name");
+		nameLabel_radioButton.addActionListener(this);
+		nameLabel_radioButton.setSelected(true);
+		
+		speedLimitLabel_radioButton = new JRadioButtonMenuItem("Speed Limit");
+		speedLimitLabel_radioButton.addActionListener(this);
+		
+		distanceLabel_radioButton = new JRadioButtonMenuItem("Distance");
+		distanceLabel_radioButton.addActionListener(this);
+		
+		weightLabel_radioButton = new JRadioButtonMenuItem("Weight");
+		weightLabel_radioButton.addActionListener(this);
+		
+		capacityLabel_radioButton = new JRadioButtonMenuItem("Capacity");
+		capacityLabel_radioButton.addActionListener(this);
+		
+		
+		edgeLabelMenuButtonGroup.add(nameLabel_radioButton);
+		edgeLabelMenuButtonGroup.add(speedLimitLabel_radioButton);
+		edgeLabelMenuButtonGroup.add(distanceLabel_radioButton);
+		edgeLabelMenuButtonGroup.add(weightLabel_radioButton);
+		edgeLabelMenuButtonGroup.add(capacityLabel_radioButton);
+		
+		edgeLabelMenu.add(nameLabel_radioButton);
+		edgeLabelMenu.add(speedLimitLabel_radioButton);
+		edgeLabelMenu.add(distanceLabel_radioButton);
+		edgeLabelMenu.add(weightLabel_radioButton);
+		edgeLabelMenu.add(capacityLabel_radioButton);
+		menuBar.add(edgeLabelMenu);
 
 		gm.setMode(ModalGraphMouse.Mode.EDITING); // Start off in editing mode
 	}
@@ -584,6 +633,28 @@ public class StartWindow implements ActionListener {
 				}
 				if(source.equals(vertexType_building_radioButton)){
 					vertexFactory.setType(VertexType.BUILDING);
+				}
+				
+			}else{
+				if(e.getSource() instanceof JRadioButtonMenuItem){
+					JRadioButtonMenuItem source = (JRadioButtonMenuItem) e.getSource();
+					
+					if(source.equals(nameLabel_radioButton)){
+						edgeLabelTransformer.setLabelType(EdgeLabel.NAME);
+					}
+					if(source.equals(speedLimitLabel_radioButton)){
+						edgeLabelTransformer.setLabelType(EdgeLabel.SPEED_LIMIT);
+					}
+					if(source.equals(distanceLabel_radioButton)){
+						edgeLabelTransformer.setLabelType(EdgeLabel.DISTANCE);
+					}
+					if(source.equals(weightLabel_radioButton)){
+						edgeLabelTransformer.setLabelType(EdgeLabel.WEIGHT);
+					}
+					if(source.equals(capacityLabel_radioButton)){
+						edgeLabelTransformer.setLabelType(EdgeLabel.CAPACITY);
+					}
+					vv.repaint();
 				}
 				
 			}
