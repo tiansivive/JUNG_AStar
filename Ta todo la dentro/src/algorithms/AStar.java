@@ -10,6 +10,8 @@ import dataStructure.graph.RoadNetworkGraph;
 import dataStructure.graph.Vertex;
 
 public class AStar {
+	
+	//TODO: test and think if this is a abstract class
 
 	private static Comparator<State> comparator = new Comparator<State>() {
 		public int compare(State s1, State s2) {
@@ -17,8 +19,8 @@ public class AStar {
 		}
 	};
 
-	PriorityQueue<State> openlist; //TODO change vector to a priority queue
-	PriorityQueue<State> closedlist; //TODO change vector to a priority queue
+	PriorityQueue<State> openlist;
+	PriorityQueue<State> closedlist;
 
 	public AStar() {
 		openlist = new PriorityQueue<State>(1,comparator);
