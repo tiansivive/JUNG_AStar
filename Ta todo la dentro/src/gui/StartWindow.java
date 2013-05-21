@@ -16,15 +16,17 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Map;
 
+import javax.swing.ButtonGroup;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.xml.parsers.ParserConfigurationException;
@@ -45,6 +47,7 @@ import dataStructure.graph.CityGraphNetwork;
 import dataStructure.graph.Edge;
 import dataStructure.graph.RoadNetworkGraph;
 import dataStructure.graph.Vertex;
+import dataStructure.graph.VertexType;
 import edu.uci.ics.jung.io.GraphMLMetadata;
 import edu.uci.ics.jung.io.GraphMLReader;
 import edu.uci.ics.jung.io.GraphMLWriter;
@@ -53,11 +56,10 @@ import edu.uci.ics.jung.visualization.decorators.ToStringLabeller;
 
 public class StartWindow implements ActionListener {
 
-	private JMenuItem saveOption;
-
 	private JFrame frame;
 	private JPanel leftPanel;
 	private JPanel buttonsPanel;
+	private JPanel radioButtonPanel;
 
 	private CustomLayout<Vertex,Edge> roadNetworkLayout;
 	private CityGraphNetwork graph;
@@ -75,10 +77,16 @@ public class StartWindow implements ActionListener {
 	private JButton save_button;
 	private JButton load_button;
 	private JButton AStar_button;
+	private JRadioButton vertexType_intersection_radioButton;
+	private JRadioButton vertexType_gasStation_radioButton;	
+	private JRadioButton vertexType_building_radioButton;
+	private ButtonGroup radioButtonsGroup;
+	
 	
 	private GroupLayout gl_buttonsPanel;
 	private GroupLayout gl_leftPanel;
 	private GroupLayout gl_contentPane;
+	private GroupLayout gl_radioButtonPanel;
 
 	/**
 	 * Launch the application.
@@ -89,7 +97,7 @@ public class StartWindow implements ActionListener {
 			// Set System L&F
 			UIManager.setLookAndFeel(
 					UIManager.getSystemLookAndFeelClassName());
-		
+
 		} 
 		catch (UnsupportedLookAndFeelException e) {
 			// handle exception
@@ -127,7 +135,7 @@ public class StartWindow implements ActionListener {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		
+
 		frame = new JFrame("IART");
 		frame.getContentPane().setForeground(new Color(211, 211, 211));
 		frame.getContentPane().setFont(new Font("Segoe Print", Font.PLAIN, 11));
@@ -135,98 +143,26 @@ public class StartWindow implements ActionListener {
 
 		leftPanel = new JPanel();	
 		buttonsPanel = new JPanel();
-
+		radioButtonPanel = new JPanel();
+		
 		initButtons();
 		initLayouts();
-		
+
 		graph = new CityGraphNetwork();
 		roadNetworkLayout = new CustomLayout<Vertex, Edge>(graph.getRoadNetwork());
 		roadNetworkLayout.setSize(new Dimension(Values.window_initial_x_resolution, Values.window_initial_y_resolution));
-		
+
 		initVisualizationViewer();
 		initMouse();
 		arrangeLayouts();
-		
+
 		frame.getContentPane().setLayout(gl_contentPane);
 		frame.setBounds(100, 100, 775, 400);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
+
 		initMenuBar();
 		frame.pack();
 		frame.setVisible(true);
-	}
-
-
-	private void arrangeLayouts() {
-		
-		frame.getContentPane().removeAll();
-		gl_contentPane = new GroupLayout(frame.getContentPane());
-		gl_contentPane.setHorizontalGroup(
-			gl_contentPane.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_contentPane.createSequentialGroup()
-					.addComponent(leftPanel, GroupLayout.PREFERRED_SIZE, 88, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(vv, GroupLayout.DEFAULT_SIZE, 667, Short.MAX_VALUE)
-					.addContainerGap())
-		);
-		gl_contentPane.setVerticalGroup(
-			gl_contentPane.createParallelGroup(Alignment.LEADING)
-				.addComponent(leftPanel, GroupLayout.DEFAULT_SIZE, 361, Short.MAX_VALUE)
-				.addGroup(gl_contentPane.createSequentialGroup()
-					.addGap(16)
-					.addComponent(vv, GroupLayout.DEFAULT_SIZE, 329, Short.MAX_VALUE)
-					.addGap(16))
-		);
-	}
-
-	private void initLayouts() {
-		
-		
-		gl_buttonsPanel = new GroupLayout(buttonsPanel);
-		gl_buttonsPanel.setHorizontalGroup(
-			gl_buttonsPanel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_buttonsPanel.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(gl_buttonsPanel.createParallelGroup(Alignment.TRAILING, false)
-						.addComponent(save_button, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(new_button, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(load_button, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(AStar_button, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-		);
-		gl_buttonsPanel.setVerticalGroup(
-			gl_buttonsPanel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_buttonsPanel.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(new_button, GroupLayout.PREFERRED_SIZE, 41, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(save_button, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(load_button, GroupLayout.PREFERRED_SIZE, 41, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(AStar_button, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(32, Short.MAX_VALUE))
-		);
-		buttonsPanel.setLayout(gl_buttonsPanel);
-		
-		
-		
-		gl_leftPanel = new GroupLayout(leftPanel);
-		gl_leftPanel.setHorizontalGroup(
-			gl_leftPanel.createParallelGroup(Alignment.LEADING)
-				.addGroup(Alignment.TRAILING, gl_leftPanel.createSequentialGroup()
-					.addComponent(buttonsPanel, GroupLayout.DEFAULT_SIZE, 99, Short.MAX_VALUE)
-					.addContainerGap())
-		);
-		gl_leftPanel.setVerticalGroup(
-			gl_leftPanel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_leftPanel.createSequentialGroup()
-					.addGap(29)
-					.addComponent(buttonsPanel, GroupLayout.PREFERRED_SIZE, 225, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(107, Short.MAX_VALUE))
-		);
-		leftPanel.setLayout(gl_leftPanel);
-		
 	}
 
 	private void initButtons() {
@@ -234,7 +170,7 @@ public class StartWindow implements ActionListener {
 		new_button.setAlignmentY(Component.TOP_ALIGNMENT);
 		new_button.setAlignmentX(Component.CENTER_ALIGNMENT);
 		new_button.addActionListener(this);
-		
+
 		save_button = new JButton("Save");
 		save_button.setAlignmentY(Component.TOP_ALIGNMENT);
 		save_button.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -250,10 +186,127 @@ public class StartWindow implements ActionListener {
 		AStar_button.setAlignmentX(Component.CENTER_ALIGNMENT);
 		AStar_button.addActionListener(this);
 		
+		vertexType_intersection_radioButton = new JRadioButton("Intersection");
+		vertexType_intersection_radioButton.setHorizontalAlignment(SwingConstants.LEFT);
+		vertexType_intersection_radioButton.setSelected(true);
+		vertexType_intersection_radioButton.addActionListener(this);
+		
+		vertexType_gasStation_radioButton = new JRadioButton("Gas Station");
+		vertexType_gasStation_radioButton.setHorizontalAlignment(SwingConstants.LEFT);
+		vertexType_gasStation_radioButton.addActionListener(this);
+		
+		vertexType_building_radioButton = new JRadioButton("Building");
+		vertexType_building_radioButton.setHorizontalAlignment(SwingConstants.LEFT);
+		vertexType_building_radioButton.addActionListener(this);
+		
+		radioButtonsGroup = new ButtonGroup();
+		radioButtonsGroup.add(vertexType_intersection_radioButton);
+		radioButtonsGroup.add(vertexType_gasStation_radioButton);
+		radioButtonsGroup.add(vertexType_building_radioButton);
+		
+	}
+
+	private void initLayouts() {
+		
+		gl_buttonsPanel = new GroupLayout(buttonsPanel);
+		gl_buttonsPanel.setHorizontalGroup(
+			gl_buttonsPanel.createParallelGroup(Alignment.LEADING)
+				.addComponent(new_button, GroupLayout.DEFAULT_SIZE, 85, Short.MAX_VALUE)
+				.addComponent(save_button, GroupLayout.DEFAULT_SIZE, 85, Short.MAX_VALUE)
+				.addComponent(load_button, GroupLayout.DEFAULT_SIZE, 85, Short.MAX_VALUE)
+				.addComponent(AStar_button, GroupLayout.DEFAULT_SIZE, 85, Short.MAX_VALUE)
+		);
+		gl_buttonsPanel.setVerticalGroup(
+			gl_buttonsPanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_buttonsPanel.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(new_button, GroupLayout.PREFERRED_SIZE, 41, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(save_button, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(load_button, GroupLayout.PREFERRED_SIZE, 41, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(AStar_button, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+		);
+		buttonsPanel.setLayout(gl_buttonsPanel);
+		
+		gl_leftPanel = new GroupLayout(leftPanel);
+		gl_leftPanel.setHorizontalGroup(
+			gl_leftPanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_leftPanel.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_leftPanel.createParallelGroup(Alignment.TRAILING, false)
+						.addComponent(radioButtonPanel, Alignment.LEADING, 0, 0, Short.MAX_VALUE)
+						.addComponent(buttonsPanel, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+					.addContainerGap(157, Short.MAX_VALUE))
+		);
+		gl_leftPanel.setVerticalGroup(
+			gl_leftPanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_leftPanel.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(buttonsPanel, GroupLayout.PREFERRED_SIZE, 217, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(radioButtonPanel, GroupLayout.DEFAULT_SIZE, 115, Short.MAX_VALUE)
+					.addContainerGap())
+		);
+		leftPanel.setLayout(gl_leftPanel);
+		
+		gl_radioButtonPanel = new GroupLayout(radioButtonPanel);
+		gl_radioButtonPanel.setHorizontalGroup(
+			gl_radioButtonPanel.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_radioButtonPanel.createSequentialGroup()
+					.addGroup(gl_radioButtonPanel.createParallelGroup(Alignment.LEADING)
+						.addComponent(vertexType_intersection_radioButton, GroupLayout.PREFERRED_SIZE, 99, GroupLayout.PREFERRED_SIZE)
+						.addComponent(vertexType_gasStation_radioButton, GroupLayout.PREFERRED_SIZE, 97, GroupLayout.PREFERRED_SIZE)
+						.addComponent(vertexType_building_radioButton, GroupLayout.PREFERRED_SIZE, 77, GroupLayout.PREFERRED_SIZE))
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+		);
+		gl_radioButtonPanel.setVerticalGroup(
+			gl_radioButtonPanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_radioButtonPanel.createSequentialGroup()
+					.addComponent(vertexType_intersection_radioButton)
+					.addGap(8)
+					.addComponent(vertexType_gasStation_radioButton)
+					.addGap(8)
+					.addComponent(vertexType_building_radioButton)
+					.addContainerGap())
+		);
+		radioButtonPanel.setLayout(gl_radioButtonPanel);
+
+	}
+
+	private void arrangeLayouts() {
+
+		frame.getContentPane().removeAll();
+		gl_contentPane = new GroupLayout(frame.getContentPane());
+		gl_contentPane.setHorizontalGroup(
+			gl_contentPane.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_contentPane.createSequentialGroup()
+					.addComponent(leftPanel, GroupLayout.PREFERRED_SIZE, 110, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(vv, GroupLayout.DEFAULT_SIZE, 1013, Short.MAX_VALUE)
+					.addContainerGap())
+		);
+		gl_contentPane.setVerticalGroup(
+			gl_contentPane.createParallelGroup(Alignment.LEADING)
+				.addComponent(leftPanel, GroupLayout.DEFAULT_SIZE, 373, Short.MAX_VALUE)
+				.addGroup(gl_contentPane.createSequentialGroup()
+					.addGap(16)
+					.addComponent(vv, GroupLayout.DEFAULT_SIZE, 341, Short.MAX_VALUE)
+					.addGap(16))
+		);
+	}
+
+	private void initMouse(){	
+
+		// Create a graph mouse and add it to the visualization viewer
+		gm = new InteractiveModalGraphMouse<Vertex, Edge>(vv.getRenderContext(), vertexFactory, edgeFactory);
+		vv.setGraphMouse(gm);
 	}
 
 	private void initVisualizationViewer(){
-				
+
 		vv = new CustomVisualizationViewer<Vertex,Edge>(roadNetworkLayout);
 		vv.setBackground(UIManager.getColor("Panel.background"));
 		vv.setPreferredSize(new Dimension(Values.window_initial_x_resolution +72, Values.window_initial_y_resolution +45)); //Valores para manter a proporcao da resolucao da janela
@@ -273,16 +326,7 @@ public class StartWindow implements ActionListener {
 
 	}
 
-	private void initMouse(){	
-
-		// Create a graph mouse and add it to the visualization viewer
-		gm = new InteractiveModalGraphMouse<Vertex, Edge>(vv.getRenderContext(), vertexFactory, edgeFactory);
-		vv.setGraphMouse(gm);
-	}
-
-
 	private void initMenuBar() {
-
 
 		JMenuBar menuBar = new JMenuBar();
 		JMenu modeMenu = gm.getModeMenu();
@@ -290,30 +334,16 @@ public class StartWindow implements ActionListener {
 		modeMenu.setIcon(null); // I'm using this in a main menu
 		modeMenu.setPreferredSize(new Dimension(80,20)); // Change the size so I can see the text
 		menuBar.add(modeMenu);
-
-		/*SaveLoadMenu fileOp = new SaveLoadMenu(roadNetworkLayout, graph, vv);
-		fileOp.setIcon(null);
-		fileOp.setPreferredSize(new Dimension(90,20));
-		menuBar.add(fileOp);*/
-
-		JMenu fileOp = new JMenu("File Operations");
-		saveOption = new JMenuItem("Save");
-		saveOption.setPreferredSize(new Dimension(90,20));
-		saveOption.addActionListener(this);
-		fileOp.add(saveOption);
-		fileOp.setPreferredSize(new Dimension(90,20));
-		menuBar.add(fileOp);
-
 		frame.setJMenuBar(menuBar);
-		
+
 		gm.setMode(ModalGraphMouse.Mode.EDITING); // Start off in editing mode
 	}
+
 
 	private void save() {
 		try {
 
 			graph.getRoadNetwork().updateVertexPositions(roadNetworkLayout);
-
 
 			GraphMLWriter<Vertex, Edge> graphWriter = new GraphMLWriter<Vertex, Edge> ();
 			PrintWriter out = new PrintWriter( new BufferedWriter( new FileWriter("roadNetworkGraph")));
@@ -338,13 +368,16 @@ public class StartWindow implements ActionListener {
 					return Integer.toString(v.getId());
 				}
 			});
-
-
+			graphWriter.addVertexData("type", "The Vertex type", "null", new Transformer<Vertex, String>(){
+				public String transform(Vertex v){
+					return v.getType().toString();
+				}
+			});
 
 
 			graphWriter.addEdgeData("name", "The Edge name", "E", new Transformer<Edge, String>(){
-				public String transform(Edge v){
-					return v.toString();
+				public String transform(Edge e){
+					return e.toString();
 				}
 			});		
 			graphWriter.addEdgeData("id", "The Edge id", "0", new Transformer<Edge, String>(){
@@ -382,20 +415,6 @@ public class StartWindow implements ActionListener {
 
 	}
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		JButton source = (JButton)(e.getSource());
-
-		if(source.equals(save_button)){
-			save();
-		}else{
-			if(source.equals(load_button)){
-				load();
-			}
-		}	
-
-	}
-
 	private void load(){
 
 		try{
@@ -413,7 +432,27 @@ public class StartWindow implements ActionListener {
 			{	
 				v.setId(Integer.parseInt(vertex_meta.get("id").transformer.transform(v)));
 				v.setName(vertex_meta.get("name").transformer.transform(v));
-
+				
+				String type = vertex_meta.get("type").transformer.transform(v);
+				switch(type){
+					case "INTERSECTION":{
+						v.setType(VertexType.INTERSECTION);
+						break;
+					}
+					case "GAS_STATION":{
+						v.setType(VertexType.GAS_STATION);
+						break;
+					}
+					case "BUILDING":{
+						v.setType(VertexType.BUILDING);
+						break;
+					}
+					default:{
+						v.setType(null);
+						break;
+					}
+				}
+				
 				double x = Double.parseDouble(vertex_meta.get("x").transformer.transform(v));
 				double y = Double.parseDouble(vertex_meta.get("y").transformer.transform(v));
 
@@ -450,7 +489,7 @@ public class StartWindow implements ActionListener {
 			frame.getContentPane().setLayout(gl_contentPane);
 			frame.setBounds(100, 100, 775, 400);
 			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			
+
 			initMenuBar();
 			frame.pack();
 			frame.setVisible(true);
@@ -466,6 +505,65 @@ public class StartWindow implements ActionListener {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} 
+	}
 
+	private void reset() {
+		graph = new CityGraphNetwork();
+
+		roadNetworkLayout = new CustomLayout<Vertex, Edge>(graph.getRoadNetwork());
+		roadNetworkLayout.setSize(new Dimension(Values.window_initial_x_resolution, Values.window_initial_y_resolution));
+
+		Values.VerticesCurrentID = 0;
+
+		initVisualizationViewer();	
+		initMouse();
+		arrangeLayouts();
+
+		frame.getContentPane().setLayout(gl_contentPane);
+		frame.setBounds(100, 100, 775, 400);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+		initMenuBar();
+		frame.pack();
+		frame.setVisible(true);
+	}
+	
+	
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		
+		if(e.getSource() instanceof JButton){
+			JButton source = (JButton)(e.getSource());
+
+			if(source.equals(save_button)){
+				save();
+			}else{
+				if(source.equals(load_button)){
+					load();
+				}else{
+					if(source.equals(new_button)){
+						reset();
+					}
+				}
+			}
+		}else{
+			if(e.getSource() instanceof JRadioButton){
+				JRadioButton source = (JRadioButton) e.getSource();
+				
+				if(source.equals(vertexType_intersection_radioButton)){
+					vertexFactory.setType(VertexType.INTERSECTION);
+				}
+				if(source.equals(vertexType_gasStation_radioButton)){
+					vertexFactory.setType(VertexType.GAS_STATION);
+				}
+				if(source.equals(vertexType_building_radioButton)){
+					vertexFactory.setType(VertexType.BUILDING);
+				}
+				
+			}
+			
+		}
+			
 	}
 }
+

@@ -26,44 +26,31 @@ public class Vertex implements Serializable{
 	public Vertex(){	
 		Values.VerticesCurrentID++;		
 		this.id = Values.VerticesCurrentID;
-		this.name = null;
-		this.zone = null;
-		this.pointOfInterest = null;
+		this.name = "V" + id;
+		type = VertexType.INTERSECTION;
+	}
+	
+	public Vertex(String n){	
+		Values.VerticesCurrentID++;		
+		this.id = Values.VerticesCurrentID;
+		this.name = n;
+		type = VertexType.INTERSECTION;
+	}
+	
+	public Vertex(VertexType t){	
+		Values.VerticesCurrentID++;		
+		this.id = Values.VerticesCurrentID;
+		this.name = "V" + id;
+		type = t;
+	}
+	
+	public Vertex(String n, VertexType t){	
+		Values.VerticesCurrentID++;		
+		this.id = Values.VerticesCurrentID;
+		this.name = n;
+		type = t;
 	}
 
-	
-	public Vertex(CityZone z){	
-		Values.VerticesCurrentID++;		
-		this.id = Values.VerticesCurrentID;
-		this.name = null;
-		this.zone = z;
-		this.pointOfInterest = null;
-	}	
-	
-	public Vertex(String vName, CityZone cZone, VertexType vType){
-		Values.VerticesCurrentID++;		
-		this.id = Values.VerticesCurrentID;
-		this.name = vName;
-		this.zone = cZone;
-		this.type = vType;
-		this.pointOfInterest = null;
-	}
-	
-	public Vertex(String vName, CityZone cZone, VertexType vType, PointOfInterest poi){
-		Values.VerticesCurrentID++;		
-		this.id = Values.VerticesCurrentID;
-		this.name = vName;
-		this.zone = cZone;
-		this.type = vType;
-		if(vType != VertexType.BUILDING_CONNECTION){
-			System.err.println("ERROR: cannot create Vertex with non-null PointOfInterest if VertexType not BUILDING_CONNECTION");
-			throw new IllegalArgumentException();
-		}else{
-			this.pointOfInterest = poi;
-			cZone.addPointOfInterest(poi);
-		}
-	}
-	
 	
 	public int getId() {
 		return id;
@@ -95,17 +82,16 @@ public class Vertex implements Serializable{
 	public void setPointOfInterest(PointOfInterest pointOfInterest) {
 		this.pointOfInterest = pointOfInterest;
 	}
-
-	public double distance(Vertex vertex) {
-		return this.getPosition().distance(vertex.getPosition());
-	}
-	
 	public Point getPosition() { 
 		return pos;
 	}
-	
 	public void setPosition(Point p) {
 		this.pos = p;
+	}
+	
+	
+	public double distance(Vertex vertex) {
+		return this.getPosition().distance(vertex.getPosition());
 	}
 	
 	@Override

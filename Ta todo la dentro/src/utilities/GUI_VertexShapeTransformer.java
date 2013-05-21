@@ -13,11 +13,11 @@ public class GUI_VertexShapeTransformer implements Transformer<Vertex,Shape>{
 	public Shape transform(Vertex arg0) {
 
 		switch(arg0.getType()){
-			case U_TURN:
+			case GAS_STATION:
 			{
 				break;
 			}
-			case BUILDING_CONNECTION:
+			case BUILDING:
 			{
 				break;
 			}

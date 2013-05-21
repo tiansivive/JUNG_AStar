@@ -18,19 +18,25 @@ public class GUI_VertexColoringTransformer implements Transformer<Vertex,Paint> 
 		}
 					
 		@Override
-		public Paint transform(Vertex arg0) {
-			
+		public Paint transform(Vertex v) {
 							
-			if(vv.getPickedVertexState().getPicked().contains(arg0)){
+			if(vv.getPickedVertexState().getPicked().contains(v)){
 				return Color.YELLOW;
 			}else{
-			/*
-			if(arg0.getZone() == null){
-				return Values.default_unassigned_zone_color;
-			}else{
-				return arg0.getZone().getObjectsColor(Vertex.class);
-			}*/
-				return Color.RED;
+				switch(v.getType()){
+					case BUILDING:{
+						return Color.ORANGE;
+					}
+					case GAS_STATION:{
+						return Color.BLUE;
+					}
+					case INTERSECTION:{
+						return Color.RED;
+					}
+					default:{
+						return Color.BLACK;
+					}		
+				}
 			}
 			
 

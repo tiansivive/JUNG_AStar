@@ -1,25 +1,18 @@
 package utilities;
 
 
-import java.awt.MouseInfo;
-import java.awt.Point;
-
-import gui.mouse.plugins.menus.dialogs.VertexCreationDialog;
-
 import org.apache.commons.collections15.Factory;
 
 import dataStructure.graph.Vertex;
+import dataStructure.graph.VertexType;
 
 
 public class GUI_VertexFactory implements Factory<Vertex>{
 
-	public static boolean default_mode;
+	private VertexType type;
 	
 	public GUI_VertexFactory() {  
-		default_mode = true;
-	}
-	public GUI_VertexFactory(boolean defaultMode) {  
-		default_mode = defaultMode;
+		setType(VertexType.INTERSECTION);
 	}
 
 	@Override
@@ -30,7 +23,16 @@ public class GUI_VertexFactory implements Factory<Vertex>{
 
 		v.setLocation((int)pos.getX(), (int)pos.getY()); //TODO some kind of offset might be needed
 		v.setVisible(true);*/
-		return new Vertex();
+	
+		
+		return new Vertex(type);
+	}
+
+	public VertexType getType() {
+		return type;
+	}
+	public void setType(VertexType type) {
+		this.type = type;
 	}
 	
 	
