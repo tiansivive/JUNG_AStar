@@ -55,6 +55,7 @@ public class ClickMenusGraphMousePlugin<V,E> extends AbstractPopupGraphMousePlug
 	}
 
 	
+	@SuppressWarnings("unchecked")
 	private void updateEdgeMenu(E edge, VisualizationViewer<V, E> vv, Point2D pos) {
 		if (edgeClickPopup == null){
 			return;
@@ -71,6 +72,7 @@ public class ClickMenusGraphMousePlugin<V,E> extends AbstractPopupGraphMousePlug
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	private void updateVertexMenu(V v, VisualizationViewer<V, E> vv, Point2D pos) {
 
 		if(vertexClickPopup == null){

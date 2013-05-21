@@ -11,7 +11,6 @@ import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -31,7 +30,6 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-import javax.swing.filechooser.FileFilter;
 import javax.xml.parsers.ParserConfigurationException;
 
 import magicNumbers.Values;
@@ -39,13 +37,14 @@ import magicNumbers.Values;
 import org.apache.commons.collections15.Transformer;
 import org.xml.sax.SAXException;
 
-import utilities.GUI_EdgeColoringTransformer;
-import utilities.GUI_EdgeFactory;
-import utilities.GUI_VertexColoringTransformer;
-import utilities.GUI_VertexFactory;
-import utilities.GUI_VertexShapeTransformer;
-import utilities.Load_EdgeFactory;
-import utilities.Load_VertexFactory;
+import utilities.GraphML_FileExtensionFilter;
+import utilities.factories.GUI_EdgeFactory;
+import utilities.factories.GUI_VertexFactory;
+import utilities.factories.Load_EdgeFactory;
+import utilities.factories.Load_VertexFactory;
+import utilities.transformers.GUI_EdgeColoringTransformer;
+import utilities.transformers.GUI_VertexColoringTransformer;
+import utilities.transformers.GUI_VertexShapeTransformer;
 import dataStructure.graph.CityGraphNetwork;
 import dataStructure.graph.Edge;
 import dataStructure.graph.RoadNetworkGraph;
@@ -435,9 +434,7 @@ public class StartWindow implements ActionListener {
 	}
 
 	private void load(){
-
-		try{
-			
+		try{		
 			JFileChooser chooser = new JFileChooser();
 			GraphML_FileExtensionFilter filter = new GraphML_FileExtensionFilter();
 		    chooser.setFileFilter(filter);

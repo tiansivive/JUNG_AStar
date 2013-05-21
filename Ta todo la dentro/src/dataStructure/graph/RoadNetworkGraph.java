@@ -14,10 +14,17 @@ public class RoadNetworkGraph<V, E> extends DirectedSparseMultigraph<V, E>{
 	
 	private Set<E> selectedEdges;
 	
+	private Set<V> pointsToTraverse;
+	private V initialVertex;
+	private V endVertex;
+	
 	
 	public RoadNetworkGraph(){	
 		super();
 		setSelectedEdges(new HashSet<E>());
+		setPointsToTraverse(new HashSet<V>());
+		initialVertex = null;
+		endVertex = null;
 	}
 	
 	
@@ -32,31 +39,56 @@ public class RoadNetworkGraph<V, E> extends DirectedSparseMultigraph<V, E>{
 		}		
 	}
 	
-	
+	public boolean isInitialVertex(V v){
+		return v.equals(initialVertex);
+	}
+	public boolean isEndVertex(V v){
+		return v.equals(endVertex);
+	}
+	public boolean isPointToTraverse(V v){
+		return pointsToTraverse.contains(v);
+	}
+
+	public void addPointToTraverse(V v){
+		pointsToTraverse.add(v);
+	}
 	public void addSelectedEdge(E edge){	
 		if(super.getEdges().contains(edge)){
 			selectedEdges.add(edge);
 		}
 	}
-	
 	public void clearSelectedEdges(){	
 		selectedEdges.clear();
 	}
-	
 	public void removeSelectedEdge(E edge){
 		selectedEdges.remove(edge);
 	}
-	
 	public boolean isSelected(E edge){
 		return selectedEdges.contains(edge);
 	}
-
 	public Set<E> getSelectedEdges() {
 		return selectedEdges;
 	}
-
 	public void setSelectedEdges(Set<E> selectedEdges) {
 		this.selectedEdges = selectedEdges;
+	}
+	public Set<V> getPointsToTraverse() {
+		return pointsToTraverse;
+	}
+	public void setPointsToTraverse(Set<V> pointsToPass) {
+		this.pointsToTraverse = pointsToPass;
+	}
+	public V getInitialVertex() {
+		return initialVertex;
+	}
+	public void setInitialVertex(V initialVertex) {
+		this.initialVertex = initialVertex;
+	}
+	public V getEndVertex() {
+		return endVertex;
+	}
+	public void setEndVertex(V endVertex) {
+		this.endVertex = endVertex;
 	}
 
 }

@@ -1,4 +1,4 @@
-package utilities;
+package utilities.transformers;
 
 import gui.CustomVisualizationViewer;
 
@@ -19,29 +19,22 @@ public class GUI_EdgeColoringTransformer implements Transformer<Edge,Paint> {
 		this.vv = vv;
 	}
 	@Override
-	public Paint transform(Edge arg0) {
-
-		Graph<?,Edge> graph = vv.getGraphFromCurrentLayout();
-		try{
-			if(graph instanceof RoadNetworkGraph){
-				
-				if(((RoadNetworkGraph<?, Edge>) graph).isSelected(arg0)){
-					
-					return Color.MAGENTA;
-				}else{
-					//System.out.println("Not selected");
+	public Paint transform(Edge e) {
+		
+		if(vv.getPickedEdgeState().getPicked().contains(e)){
+			return Color.CYAN;
+		}else{
+			Graph<?,Edge> graph = vv.getGraphFromCurrentLayout();
+			try{
+				if(graph instanceof RoadNetworkGraph){
+					if(((RoadNetworkGraph<?, Edge>) graph).isSelected(e)){	
+						return Color.MAGENTA;
+					}
 				}
-				
-			}else{
-				
+			}catch(ClassCastException ex){	
+				ex.printStackTrace();
 			}
-		
-		}catch(ClassCastException e){
-
-			e.printStackTrace();
 		}
-		
-		
 		return Color.BLACK;
 	}
 

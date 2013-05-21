@@ -26,11 +26,16 @@ public class Values{
 	
 	public static final String vertex_popupMenu_delete_option = "Delete Vertex";
 	public static final String vertex_popupMenu_name = "Vertex Menu";
+	public static final String vertex_set_as_begin = "Set as begin";
+	public static final String vertex_set_as_end = "Set as end";
+	public static final String vertex_set_as_point_to_traverse = "Set as point to traverse";
 	
 	public static final String edge_popupMenu_delete_option = "Delete Edge";
 	public static final String edge_popupMenu_name = "Edge Menu";
 	public static final String edge_properties_editor_menu_entry = "Edit Edge Properties";
 	public static final String edge_properties_editor_frame_name = "Edge Properties";
+
+	
 	
 	public static final Color default_unassigned_zone_color = Color.BLACK;
 	public static final Color default_selected_vertex_color = Color.YELLOW;	
