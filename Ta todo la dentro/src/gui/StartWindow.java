@@ -14,6 +14,7 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.ParseException;
 import java.util.Map;
 
 import javax.swing.ButtonGroup;
@@ -26,17 +27,19 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.JRadioButtonMenuItem;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.xml.parsers.ParserConfigurationException;
 
-import magicNumbers.Values;
+import de.javasoft.plaf.synthetica.SyntheticaAluOxideLookAndFeel;
 
 import org.apache.commons.collections15.Transformer;
 import org.xml.sax.SAXException;
 
+import magicNumbers.Values;
 import utilities.EdgeLabel;
 import utilities.GraphML_FileExtensionFilter;
 import utilities.factories.GUI_EdgeFactory;
@@ -57,7 +60,6 @@ import edu.uci.ics.jung.io.GraphMLReader;
 import edu.uci.ics.jung.io.GraphMLWriter;
 import edu.uci.ics.jung.visualization.control.ModalGraphMouse;
 import edu.uci.ics.jung.visualization.decorators.ToStringLabeller;
-import javax.swing.JRadioButtonMenuItem;
 
 public class StartWindow implements ActionListener {
 
@@ -112,21 +114,15 @@ public class StartWindow implements ActionListener {
 
 		try { // code retrieved from http://docs.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
 			// Set System L&F
-			UIManager.setLookAndFeel(
-					UIManager.getSystemLookAndFeelClassName());
-
+			//UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+			 UIManager.setLookAndFeel(new SyntheticaAluOxideLookAndFeel());
 		} 
 		catch (UnsupportedLookAndFeelException e) {
 			// handle exception
 		}
-		catch (ClassNotFoundException e) {
-			// handle exception
-		}
-		catch (InstantiationException e) {
-			// handle exception
-		}
-		catch (IllegalAccessException e) {
-			// handle exception
+		catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 
 		EventQueue.invokeLater(new Runnable() {
@@ -253,10 +249,11 @@ public class StartWindow implements ActionListener {
 			gl_leftPanel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_leftPanel.createSequentialGroup()
 					.addContainerGap()
-					.addGroup(gl_leftPanel.createParallelGroup(Alignment.TRAILING, false)
-						.addComponent(radioButtonPanel, Alignment.LEADING, 0, 0, Short.MAX_VALUE)
-						.addComponent(buttonsPanel, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-					.addContainerGap(157, Short.MAX_VALUE))
+					.addComponent(buttonsPanel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap())
+				.addGroup(Alignment.TRAILING, gl_leftPanel.createSequentialGroup()
+					.addComponent(radioButtonPanel, GroupLayout.PREFERRED_SIZE, 97, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap())
 		);
 		gl_leftPanel.setVerticalGroup(
 			gl_leftPanel.createParallelGroup(Alignment.LEADING)
@@ -272,12 +269,9 @@ public class StartWindow implements ActionListener {
 		gl_radioButtonPanel = new GroupLayout(radioButtonPanel);
 		gl_radioButtonPanel.setHorizontalGroup(
 			gl_radioButtonPanel.createParallelGroup(Alignment.TRAILING)
-				.addGroup(gl_radioButtonPanel.createSequentialGroup()
-					.addGroup(gl_radioButtonPanel.createParallelGroup(Alignment.LEADING)
-						.addComponent(vertexType_intersection_radioButton, GroupLayout.PREFERRED_SIZE, 99, GroupLayout.PREFERRED_SIZE)
-						.addComponent(vertexType_gasStation_radioButton, GroupLayout.PREFERRED_SIZE, 97, GroupLayout.PREFERRED_SIZE)
-						.addComponent(vertexType_building_radioButton, GroupLayout.PREFERRED_SIZE, 77, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+				.addComponent(vertexType_intersection_radioButton, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE)
+				.addComponent(vertexType_gasStation_radioButton, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE)
+				.addComponent(vertexType_building_radioButton, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE)
 		);
 		gl_radioButtonPanel.setVerticalGroup(
 			gl_radioButtonPanel.createParallelGroup(Alignment.LEADING)
@@ -300,10 +294,10 @@ public class StartWindow implements ActionListener {
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
-					.addComponent(leftPanel, GroupLayout.PREFERRED_SIZE, 110, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(vv, GroupLayout.DEFAULT_SIZE, 1013, Short.MAX_VALUE)
-					.addContainerGap())
+					.addComponent(leftPanel, GroupLayout.PREFERRED_SIZE, 104, GroupLayout.PREFERRED_SIZE)
+					.addGap(18)
+					.addComponent(vv, GroupLayout.PREFERRED_SIZE, 1004, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(21, Short.MAX_VALUE))
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
