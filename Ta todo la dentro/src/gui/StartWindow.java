@@ -1,0 +1,471 @@
+package gui;
+
+import gui.mouse.InteractiveModalGraphMouse;
+
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Map;
+
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+import javax.xml.parsers.ParserConfigurationException;
+
+import magicNumbers.Values;
+
+import org.apache.commons.collections15.Transformer;
+import org.xml.sax.SAXException;
+
+import utilities.GUI_EdgeColoringTransformer;
+import utilities.GUI_EdgeFactory;
+import utilities.GUI_VertexColoringTransformer;
+import utilities.GUI_VertexFactory;
+import utilities.GUI_VertexShapeTransformer;
+import utilities.Load_EdgeFactory;
+import utilities.Load_VertexFactory;
+import dataStructure.graph.CityGraphNetwork;
+import dataStructure.graph.Edge;
+import dataStructure.graph.RoadNetworkGraph;
+import dataStructure.graph.Vertex;
+import edu.uci.ics.jung.io.GraphMLMetadata;
+import edu.uci.ics.jung.io.GraphMLReader;
+import edu.uci.ics.jung.io.GraphMLWriter;
+import edu.uci.ics.jung.visualization.control.ModalGraphMouse;
+import edu.uci.ics.jung.visualization.decorators.ToStringLabeller;
+
+public class StartWindow implements ActionListener {
+
+	private JMenuItem saveOption;
+
+	private JFrame frame;
+	private JPanel leftPanel;
+	private JPanel buttonsPanel;
+
+	private CustomLayout<Vertex,Edge> roadNetworkLayout;
+	private CityGraphNetwork graph;
+	private CustomVisualizationViewer<Vertex, Edge> vv;
+	private InteractiveModalGraphMouse<Vertex, Edge> gm;
+
+	private GUI_VertexFactory vertexFactory;
+	private GUI_EdgeFactory edgeFactory;
+
+	private GUI_VertexColoringTransformer vertexColoringTransformer;
+	private GUI_VertexShapeTransformer vertexShapeTransformer;
+	private GUI_EdgeColoringTransformer edgeColoringTransformer;
+
+	private JButton new_button;
+	private JButton save_button;
+	private JButton load_button;
+	private JButton AStar_button;
+	
+	private GroupLayout gl_buttonsPanel;
+	private GroupLayout gl_leftPanel;
+	private GroupLayout gl_contentPane;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+
+		try { // code retrieved from http://docs.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
+			// Set System L&F
+			UIManager.setLookAndFeel(
+					UIManager.getSystemLookAndFeelClassName());
+		
+		} 
+		catch (UnsupportedLookAndFeelException e) {
+			// handle exception
+		}
+		catch (ClassNotFoundException e) {
+			// handle exception
+		}
+		catch (InstantiationException e) {
+			// handle exception
+		}
+		catch (IllegalAccessException e) {
+			// handle exception
+		}
+
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					StartWindow window = new StartWindow();
+					window.frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the application.
+	 */
+	public StartWindow() {
+		initialize();
+	}
+
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	private void initialize() {
+		
+		frame = new JFrame("IART");
+		frame.getContentPane().setForeground(new Color(211, 211, 211));
+		frame.getContentPane().setFont(new Font("Segoe Print", Font.PLAIN, 11));
+		frame.getContentPane().setBackground(Color.DARK_GRAY);
+
+		leftPanel = new JPanel();	
+		buttonsPanel = new JPanel();
+
+		initButtons();
+		initLayouts();
+		
+		graph = new CityGraphNetwork();
+		roadNetworkLayout = new CustomLayout<Vertex, Edge>(graph.getRoadNetwork());
+		roadNetworkLayout.setSize(new Dimension(Values.window_initial_x_resolution, Values.window_initial_y_resolution));
+		
+		initVisualizationViewer();
+		initMouse();
+		arrangeLayouts();
+		
+		frame.getContentPane().setLayout(gl_contentPane);
+		frame.setBounds(100, 100, 775, 400);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		initMenuBar();
+		frame.pack();
+		frame.setVisible(true);
+	}
+
+
+	private void arrangeLayouts() {
+		
+		frame.getContentPane().removeAll();
+		gl_contentPane = new GroupLayout(frame.getContentPane());
+		gl_contentPane.setHorizontalGroup(
+			gl_contentPane.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_contentPane.createSequentialGroup()
+					.addComponent(leftPanel, GroupLayout.PREFERRED_SIZE, 88, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(vv, GroupLayout.DEFAULT_SIZE, 667, Short.MAX_VALUE)
+					.addContainerGap())
+		);
+		gl_contentPane.setVerticalGroup(
+			gl_contentPane.createParallelGroup(Alignment.LEADING)
+				.addComponent(leftPanel, GroupLayout.DEFAULT_SIZE, 361, Short.MAX_VALUE)
+				.addGroup(gl_contentPane.createSequentialGroup()
+					.addGap(16)
+					.addComponent(vv, GroupLayout.DEFAULT_SIZE, 329, Short.MAX_VALUE)
+					.addGap(16))
+		);
+	}
+
+	private void initLayouts() {
+		
+		
+		gl_buttonsPanel = new GroupLayout(buttonsPanel);
+		gl_buttonsPanel.setHorizontalGroup(
+			gl_buttonsPanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_buttonsPanel.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_buttonsPanel.createParallelGroup(Alignment.TRAILING, false)
+						.addComponent(save_button, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addComponent(new_button, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addComponent(load_button, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+						.addComponent(AStar_button, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+		);
+		gl_buttonsPanel.setVerticalGroup(
+			gl_buttonsPanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_buttonsPanel.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(new_button, GroupLayout.PREFERRED_SIZE, 41, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(save_button, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(load_button, GroupLayout.PREFERRED_SIZE, 41, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(AStar_button, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(32, Short.MAX_VALUE))
+		);
+		buttonsPanel.setLayout(gl_buttonsPanel);
+		
+		
+		
+		gl_leftPanel = new GroupLayout(leftPanel);
+		gl_leftPanel.setHorizontalGroup(
+			gl_leftPanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(Alignment.TRAILING, gl_leftPanel.createSequentialGroup()
+					.addComponent(buttonsPanel, GroupLayout.DEFAULT_SIZE, 99, Short.MAX_VALUE)
+					.addContainerGap())
+		);
+		gl_leftPanel.setVerticalGroup(
+			gl_leftPanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_leftPanel.createSequentialGroup()
+					.addGap(29)
+					.addComponent(buttonsPanel, GroupLayout.PREFERRED_SIZE, 225, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(107, Short.MAX_VALUE))
+		);
+		leftPanel.setLayout(gl_leftPanel);
+		
+	}
+
+	private void initButtons() {
+		new_button = new JButton("New");
+		new_button.setAlignmentY(Component.TOP_ALIGNMENT);
+		new_button.setAlignmentX(Component.CENTER_ALIGNMENT);
+		new_button.addActionListener(this);
+		
+		save_button = new JButton("Save");
+		save_button.setAlignmentY(Component.TOP_ALIGNMENT);
+		save_button.setAlignmentX(Component.CENTER_ALIGNMENT);
+		save_button.addActionListener(this);
+
+		load_button = new JButton("Load");
+		load_button.setAlignmentY(Component.TOP_ALIGNMENT);
+		load_button.setAlignmentX(Component.CENTER_ALIGNMENT);
+		load_button.addActionListener(this);
+
+		AStar_button = new JButton("AStar");
+		AStar_button.setAlignmentY(Component.TOP_ALIGNMENT);
+		AStar_button.setAlignmentX(Component.CENTER_ALIGNMENT);
+		AStar_button.addActionListener(this);
+		
+	}
+
+	private void initVisualizationViewer(){
+				
+		vv = new CustomVisualizationViewer<Vertex,Edge>(roadNetworkLayout);
+		vv.setBackground(UIManager.getColor("Panel.background"));
+		vv.setPreferredSize(new Dimension(Values.window_initial_x_resolution +72, Values.window_initial_y_resolution +45)); //Valores para manter a proporcao da resolucao da janela
+
+		vertexFactory = new GUI_VertexFactory();
+		edgeFactory = new GUI_EdgeFactory(true); //False para não aparecer aquela box sempre que se cria um edge
+		vertexColoringTransformer = new GUI_VertexColoringTransformer(vv);
+		vertexShapeTransformer = new GUI_VertexShapeTransformer();
+		edgeColoringTransformer = new GUI_EdgeColoringTransformer(vv);
+
+		vv.getRenderContext().setVertexLabelTransformer(new ToStringLabeller<Vertex>());
+		vv.getRenderContext().setEdgeLabelTransformer(new ToStringLabeller<Edge>());
+		vv.getRenderContext().setVertexFillPaintTransformer(vertexColoringTransformer);
+		vv.getRenderContext().setEdgeDrawPaintTransformer(edgeColoringTransformer);
+		//vv.getRenderContext().setVertexShapeTransformer(vertexSize);
+
+
+	}
+
+	private void initMouse(){	
+
+		// Create a graph mouse and add it to the visualization viewer
+		gm = new InteractiveModalGraphMouse<Vertex, Edge>(vv.getRenderContext(), vertexFactory, edgeFactory);
+		vv.setGraphMouse(gm);
+	}
+
+
+	private void initMenuBar() {
+
+
+		JMenuBar menuBar = new JMenuBar();
+		JMenu modeMenu = gm.getModeMenu();
+		modeMenu.setText("Mouse Mode");
+		modeMenu.setIcon(null); // I'm using this in a main menu
+		modeMenu.setPreferredSize(new Dimension(80,20)); // Change the size so I can see the text
+		menuBar.add(modeMenu);
+
+		/*SaveLoadMenu fileOp = new SaveLoadMenu(roadNetworkLayout, graph, vv);
+		fileOp.setIcon(null);
+		fileOp.setPreferredSize(new Dimension(90,20));
+		menuBar.add(fileOp);*/
+
+		JMenu fileOp = new JMenu("File Operations");
+		saveOption = new JMenuItem("Save");
+		saveOption.setPreferredSize(new Dimension(90,20));
+		saveOption.addActionListener(this);
+		fileOp.add(saveOption);
+		fileOp.setPreferredSize(new Dimension(90,20));
+		menuBar.add(fileOp);
+
+		frame.setJMenuBar(menuBar);
+		
+		gm.setMode(ModalGraphMouse.Mode.EDITING); // Start off in editing mode
+	}
+
+	private void save() {
+		try {
+
+			graph.getRoadNetwork().updateVertexPositions(roadNetworkLayout);
+
+
+			GraphMLWriter<Vertex, Edge> graphWriter = new GraphMLWriter<Vertex, Edge> ();
+			PrintWriter out = new PrintWriter( new BufferedWriter( new FileWriter("roadNetworkGraph")));
+
+			graphWriter.addVertexData("x", "The X coordinate", "0", new Transformer<Vertex, String>(){
+				public String transform(Vertex v) {
+					return Double.toString(roadNetworkLayout.getX(v));
+				}
+			});
+			graphWriter.addVertexData("y", "The Y coordinate", "0", new Transformer<Vertex, String>() {
+				public String transform(Vertex v) {
+					return Double.toString(roadNetworkLayout.getY(v));
+				}
+			});	
+			graphWriter.addVertexData("name", "The Vertex name", "V", new Transformer<Vertex, String>(){
+				public String transform(Vertex v){
+					return v.toString();
+				}
+			});		
+			graphWriter.addVertexData("id", "The Vertex id", "0", new Transformer<Vertex, String>(){
+				public String transform(Vertex v){
+					return Integer.toString(v.getId());
+				}
+			});
+
+
+
+
+			graphWriter.addEdgeData("name", "The Edge name", "E", new Transformer<Edge, String>(){
+				public String transform(Edge v){
+					return v.toString();
+				}
+			});		
+			graphWriter.addEdgeData("id", "The Edge id", "0", new Transformer<Edge, String>(){
+				public String transform(Edge e){
+					return Integer.toString(e.getId());
+				}
+			});
+			graphWriter.addEdgeData("speedLimit", "The Edge speedLimit", "0", new Transformer<Edge, String>(){
+				public String transform(Edge e){
+					return Integer.toString(e.getSpeedLimit());
+				}
+			});
+			graphWriter.addEdgeData("distance", "The Edge distance", "0", new Transformer<Edge, String>(){
+				public String transform(Edge e){
+					return Double.toString(e.getDistance());
+				}
+			});
+			graphWriter.addEdgeData("weight", "The Edge weight", "0", new Transformer<Edge, String>(){
+				public String transform(Edge e){
+					return Double.toString(e.getWeight());
+				}
+			});
+			graphWriter.addEdgeData("capacity", "The Edge capacity", "0", new Transformer<Edge, String>(){
+				public String transform(Edge e){
+					return Double.toString(e.getCapacity());
+				}
+			});
+
+
+			graphWriter.save(graph.getRoadNetwork(), out);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		JButton source = (JButton)(e.getSource());
+
+		if(source.equals(save_button)){
+			save();
+		}else{
+			if(source.equals(load_button)){
+				load();
+			}
+		}	
+
+	}
+
+	private void load(){
+
+		try{
+
+			String filename = "RoadNetworkGraph";
+
+			GraphMLReader<RoadNetworkGraph<Vertex,Edge>,Vertex, Edge> graphReader = new GraphMLReader<RoadNetworkGraph<Vertex,Edge>,Vertex, Edge>(new Load_VertexFactory(), new Load_EdgeFactory());			 
+			RoadNetworkGraph<Vertex,Edge> tmpGraph = new RoadNetworkGraph<Vertex,Edge>();
+			graphReader.load(filename, tmpGraph);
+
+			Map<String, GraphMLMetadata<Vertex>> vertex_meta = graphReader.getVertexMetadata(); //Our vertex Metadata is stored in a map.
+			Map<String, GraphMLMetadata<Edge>> edge_meta = graphReader.getEdgeMetadata(); // Our edge Metadata is stored in a map.
+
+			for (Vertex v : tmpGraph.getVertices())
+			{	
+				v.setId(Integer.parseInt(vertex_meta.get("id").transformer.transform(v)));
+				v.setName(vertex_meta.get("name").transformer.transform(v));
+
+				double x = Double.parseDouble(vertex_meta.get("x").transformer.transform(v));
+				double y = Double.parseDouble(vertex_meta.get("y").transformer.transform(v));
+
+				Point pos = new Point();
+				pos.setLocation(x, y);
+				v.setPosition(pos);
+			}	
+			for (Edge e : tmpGraph.getEdges())
+			{		
+				e.setId(Integer.parseInt(edge_meta.get("id").transformer.transform(e)));
+				e.setName(edge_meta.get("name").transformer.transform(e));
+				e.setSpeedLimit(Integer.parseInt(edge_meta.get("speedLimit").transformer.transform(e)));
+				e.setDistance(Double.parseDouble(edge_meta.get("distance").transformer.transform(e)));
+				e.setWeight(Double.parseDouble(edge_meta.get("weight").transformer.transform(e)));
+				e.setCapacity(Double.parseDouble(edge_meta.get("capacity").transformer.transform(e)));
+			}
+
+			graph = new CityGraphNetwork();
+			graph.setRoadNetwork(tmpGraph);
+
+			roadNetworkLayout = new CustomLayout<Vertex, Edge>(graph.getRoadNetwork());
+			roadNetworkLayout.setSize(new Dimension(Values.window_initial_x_resolution, Values.window_initial_y_resolution));
+
+			for(Vertex v : graph.getRoadNetwork().getVertices()){			
+				roadNetworkLayout.setLocation(v, v.getPosition());
+			}
+
+			Values.VerticesCurrentID = graph.getRoadNetwork().getVertexCount();
+
+			initVisualizationViewer();	
+			initMouse();
+			arrangeLayouts();
+
+			frame.getContentPane().setLayout(gl_contentPane);
+			frame.setBounds(100, 100, 775, 400);
+			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			
+			initMenuBar();
+			frame.pack();
+			frame.setVisible(true);
+
+
+		}catch(IOException i){
+			i.printStackTrace();
+			return;
+		} catch (ParserConfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SAXException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+
+	}
+}

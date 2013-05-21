@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<graphml xmlns="http://graphml.graphdrawing.org/xmlns/graphml"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns/graphml">
+<key id="id" for="node">
+<desc>The Vertex id</desc>
+<default>0</default>
+</key>
+<key id="name" for="node">
+<desc>The Vertex name</desc>
+<default>V</default>
+</key>
+<key id="y" for="node">
+<desc>The Y coordinate</desc>
+<default>0</default>
+</key>
+<key id="x" for="node">
+<desc>The X coordinate</desc>
+<default>0</default>
+</key>
+<key id="id" for="edge">
+<desc>The Edge id</desc>
+<default>0</default>
+</key>
+<key id="distance" for="edge">
+<desc>The Edge distance</desc>
+<default>0</default>
+</key>
+<key id="weight" for="edge">
+<desc>The Edge weight</desc>
+<default>0</default>
+</key>
+<key id="speedLimit" for="edge">
+<desc>The Edge speedLimit</desc>
+<default>0</default>
+</key>
+<key id="name" for="edge">
+<desc>The Edge name</desc>
+<default>E</default>
+</key>
+<key id="capacity" for="edge">
+<desc>The Edge capacity</desc>
+<default>0</default>
+</key>
+<graph edgedefault="directed">
+<node id="V3">
+<data key="id">3</data>
+<data key="name">V3</data>
+<data key="y">218.0</data>
+<data key="x">288.0</data>
+</node>
+<node id="V2">
+<data key="id">2</data>
+<data key="name">V2</data>
+<data key="y">128.0</data>
+<data key="x">269.0</data>
+</node>
+<node id="V1">
+<data key="id">1</data>
+<data key="name">V1</data>
+<data key="y">76.0</data>
+<data key="x">143.0</data>
+</node>
+</graph>
+</graphml>
