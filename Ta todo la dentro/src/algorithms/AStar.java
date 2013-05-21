@@ -1,5 +1,7 @@
 package algorithms;
 
+import java.util.Comparator;
+import java.util.PriorityQueue;
 import java.util.Vector;
 
 import dataStructure.city.infraStructure.Vehicle;
@@ -9,31 +11,36 @@ import dataStructure.graph.Vertex;
 
 public class AStar {
 
-	Vector<State> openlist; //TODO change vector to a priority queue
-	Vector<State> closedlist; //TODO change vector to a priority queue
-	
+	private static Comparator<State> comparator = new Comparator<State>() {
+		public int compare(State s1, State s2) {
+			return (int)(s1.getTotal() - s2.getTotal());
+		}
+	};
+
+	PriorityQueue<State> openlist; //TODO change vector to a priority queue
+	PriorityQueue<State> closedlist; //TODO change vector to a priority queue
+
 	public AStar() {
-		openlist = new Vector<State>();
-		closedlist = new Vector<State>();
+		openlist = new PriorityQueue<State>(1,comparator);
+		closedlist = new PriorityQueue<State>(1,comparator);
 	}
-	
+
 	public boolean getPath(Vertex start, Vertex end, Vector<Vertex> toVisit, Vehicle vehicle, RoadNetworkGraph<Vertex, Edge> roadNetwork) {
-		openlist = new Vector<State>();
-		closedlist = new Vector<State>();
-		
+		openlist = new PriorityQueue<State>(1,comparator);
+		closedlist = new PriorityQueue<State>(1,comparator);
+
 		openlist.add(new State(start, toVisit, vehicle, end));
 		State current;
-		
+
 		while(!openlist.isEmpty()) {
-			current = openlist.elementAt(0);
-			openlist.remove(0);
+			current = openlist.poll();
 			closedlist.add(current);
-			
+
 			if(current.isActive()) {
 				if(current.isVertex(end)) {
 					return true; //TODO: change this, return path or current;
 				}
-				
+
 				Vector<State> neighbor = current.getNeighbor(roadNetwork, end);
 				for (State state_neigh : neighbor) {
 					/* THERE IS NO EQUAL STATES, 'cause fuel
@@ -52,7 +59,7 @@ public class AStar {
 			}
 		}
 		return false;
-		
+
 	}
 
 }
