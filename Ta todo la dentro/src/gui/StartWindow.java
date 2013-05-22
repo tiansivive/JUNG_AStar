@@ -15,7 +15,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.ParseException;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Map;
+import java.util.Vector;
 
 import javax.swing.ButtonGroup;
 import javax.swing.GroupLayout;
@@ -597,13 +600,47 @@ public class StartWindow implements ActionListener {
 		frame.setVisible(true);
 	}
 	
+	private void star() {
+		System.out.println("A_STAR!");
+		RoadNetworkGraph<Vertex, Edge> roadnet = graph.getRoadNetwork();
+		System.out.println("1!");
+		Vertex begin = roadnet.getInitialVertex();
+		System.out.println("2!");
+		if(begin != null) {
+			System.out.println("3!");
+			Collection<Edge> test = roadnet.getOutEdges(begin);
+			System.out.println(test.size());
+			for(Edge edg:test) {
+				roadnet.getSelectedEdges().add(edg);
+			}
+			System.out.println("5!");
+		}
+		/*graph = new CityGraphNetwork();
+
+		roadNetworkLayout = new CustomLayout<Vertex, Edge>(graph.getRoadNetwork());
+		roadNetworkLayout.setSize(new Dimension(Values.window_initial_x_resolution, Values.window_initial_y_resolution));
+
+		Values.VerticesCurrentID = 0;
+
+		initVisualizationViewer();	
+		initMouse();
+		arrangeLayouts();
+
+		frame.getContentPane().setLayout(gl_contentPane);
+		frame.setBounds(100, 100, 775, 400);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+		initMenuBar();
+		frame.pack();
+		frame.setVisible(true);*/
+	}
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		
 		if(e.getSource() instanceof JButton){
 			JButton source = (JButton)(e.getSource());
-
+			
 			if(source.equals(save_button)){
 				save();
 			}else{
@@ -612,6 +649,10 @@ public class StartWindow implements ActionListener {
 				}else{
 					if(source.equals(new_button)){
 						reset();
+					} else{
+						if(source.equals(AStar_button)){
+							star();
+						}
 					}
 				}
 			}
