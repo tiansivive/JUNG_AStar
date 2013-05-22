@@ -37,7 +37,7 @@ public class State {
 		
 		cost = 0;	
 		car = veh;
-		if(isActive() /*&& pos.isFuelStation()*/) { //TODO: change this
+		if(isActive() && pos.isFuelStation()) {
 			car.refill();
 		}
 		
@@ -56,7 +56,7 @@ public class State {
 			
 			cost = cos;
 			car = veh;
-			if(isActive() /*&& pos.isFuelStation()*/) { //TODO: change this
+			if(isActive() && pos.isFuelStation()) {
 				car.refill();
 			}
 			

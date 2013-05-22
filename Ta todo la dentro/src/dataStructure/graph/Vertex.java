@@ -4,22 +4,14 @@ import java.awt.Point;
 import java.io.Serializable;
 
 import magicNumbers.Values;
-import dataStructure.city.infraStructure.CityZone;
-import dataStructure.city.infraStructure.PointOfInterest;
 
 public class Vertex implements Serializable{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 5790657416363651850L;
+	
 	private int id;
 	private String name;
-	
 	private Point pos;
-	
-	private CityZone zone;
-	private PointOfInterest pointOfInterest;
 	
 	private VertexType type;
 
@@ -64,23 +56,11 @@ public class Vertex implements Serializable{
 	public void setName(String name) {
 		this.name = name;
 	}
-	public CityZone getZone() {
-		return zone;
-	}
-	public void setZone(CityZone zone) {
-		this.zone = zone;
-	}
 	public VertexType getType() {
 		return type;
 	}
 	public void setType(VertexType type) {
 		this.type = type;
-	}
-	public PointOfInterest getPointOfInterest() {
-		return pointOfInterest;
-	}
-	public void setPointOfInterest(PointOfInterest pointOfInterest) {
-		this.pointOfInterest = pointOfInterest;
 	}
 	public Point getPosition() { 
 		return pos;
@@ -92,6 +72,10 @@ public class Vertex implements Serializable{
 	
 	public double distance(Vertex vertex) {
 		return this.getPosition().distance(vertex.getPosition());
+	}
+	
+	public boolean isFuelStation() {
+		return type == VertexType.GAS_STATION;
 	}
 	
 	@Override

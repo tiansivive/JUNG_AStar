@@ -1,4 +1,4 @@
-package dataStructure.city.infraStructure;
+/*package dataStructure.city.infraStructure;
 
 import java.util.Set;
 
@@ -33,4 +33,4 @@ public class City {
 		this.cityZones = cityZones;
 	}
 	
-}
+}*/ //TODO: remove this class

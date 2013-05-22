@@ -1,4 +1,4 @@
-package dataStructure.city.infraStructure;
+/*package dataStructure.city.infraStructure;
 
 import java.awt.Color;
 import java.io.Serializable;
@@ -12,9 +12,6 @@ import magicNumbers.Values;
 public class CityZone implements Serializable {
 
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 6428675141467588918L;
 	private String name;
 	private int id;
@@ -81,4 +78,4 @@ public class CityZone implements Serializable {
 	public void setPointsOfInterest(Set<PointOfInterest> pointsOfInterest) {
 		this.pointsOfInterest = pointsOfInterest;
 	}
-}
+}*/ //TODO: remove this class
