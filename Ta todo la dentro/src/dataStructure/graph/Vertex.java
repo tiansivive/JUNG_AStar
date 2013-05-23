@@ -87,6 +87,7 @@ public class Vertex implements Serializable{
 		}else{
 			toReturn += "V" +id;
 		}
+		toReturn += getPosition();
 		return toReturn;
 	}
 

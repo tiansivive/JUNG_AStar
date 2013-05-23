@@ -2,6 +2,7 @@ package algorithms;
 
 import java.util.Comparator;
 import java.util.PriorityQueue;
+import java.util.Set;
 import java.util.Vector;
 
 import dataStructure.city.infraStructure.Vehicle;
@@ -27,7 +28,7 @@ public class AStar {
 		closedlist = new PriorityQueue<State>(1,comparator);
 	}
 
-	public boolean getPath(Vertex start, Vertex end, Vector<Vertex> toVisit, Vehicle vehicle, RoadNetworkGraph<Vertex, Edge> roadNetwork) {
+	public State getPath(Vertex start, Vertex end, Vector<Vertex> toVisit, Vehicle vehicle, RoadNetworkGraph<Vertex, Edge> roadNetwork) {
 		openlist = new PriorityQueue<State>(1,comparator);
 		closedlist = new PriorityQueue<State>(1,comparator);
 
@@ -39,8 +40,8 @@ public class AStar {
 			closedlist.add(current);
 
 			if(current.isActive()) {
-				if(current.isVertex(end)) {
-					return true; //TODO: change this, return path or current;
+				if(current.isVertex(end) && current.getToVisit().size() == 0) {
+					return current; //TODO: change this, return path or current;
 				}
 
 				Vector<State> neighbor = current.getNeighbor(roadNetwork, end);
@@ -60,8 +61,32 @@ public class AStar {
 				}
 			}
 		}
-		return false;
-
+		return null;
 	}
 
+	public Vector<State> getPathState(State last) {
+		Vector<State> path = new Vector<>();
+		if(last != null) {
+			State current = last;
+			while(current.getFrom() != null) {
+				path.add(current);
+				current = current.getFrom();
+			}
+			path.add(current);
+		}
+		return path;
+	}
+	
+	public Vector<Vertex> getPathVertex(State last) {
+		Vector<Vertex> path = new Vector<>();
+		if(last != null) {
+			State current = last;
+			while(current.getFrom() != null) {
+				path.add(current.getPosition());
+				current = current.getFrom();
+			}
+			path.add(current.getPosition());
+		}
+		return path;
+	}
 }

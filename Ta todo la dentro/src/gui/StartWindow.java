@@ -18,6 +18,7 @@ import java.text.ParseException;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
+import java.util.Set;
 import java.util.Vector;
 
 import javax.swing.ButtonGroup;
@@ -42,6 +43,9 @@ import de.javasoft.plaf.synthetica.SyntheticaAluOxideLookAndFeel;
 import org.apache.commons.collections15.Transformer;
 import org.xml.sax.SAXException;
 
+import algorithms.AStar;
+import algorithms.State;
+
 import magicNumbers.Values;
 import utilities.EdgeLabel;
 import utilities.GraphML_FileExtensionFilter;
@@ -53,6 +57,7 @@ import utilities.transformers.EdgeLabellerTransformer;
 import utilities.transformers.GUI_EdgeColoringTransformer;
 import utilities.transformers.GUI_VertexColoringTransformer;
 import utilities.transformers.GUI_VertexShapeTransformer;
+import dataStructure.city.infraStructure.Vehicle;
 import dataStructure.graph.CityGraphNetwork;
 import dataStructure.graph.Edge;
 import dataStructure.graph.RoadNetworkGraph;
@@ -602,10 +607,36 @@ public class StartWindow implements ActionListener {
 	
 	private void star() {
 		System.out.println("A_STAR!");
-		RoadNetworkGraph<Vertex, Edge> roadnet = graph.getRoadNetwork();
-		System.out.println("1!");
-		Vertex begin = roadnet.getInitialVertex();
-		System.out.println("2!");
+		RoadNetworkGraph<Vertex, Edge> roadNetwork = graph.getRoadNetwork();
+		Vertex begin = roadNetwork.getInitialVertex();
+		Vertex end = roadNetwork.getEndVertex();
+		Set<Vertex> toTravelSet = roadNetwork.getPointsToTraverse();
+		Vector<Vertex> toTravelVec = new Vector<>();
+		Vehicle car = new Vehicle(100,100,0.1);
+		AStar star = new AStar();
+		
+		for(Vertex vertex: toTravelSet) {
+			toTravelVec.add(vertex);
+		}
+		
+		System.out.println("begin :" + begin.toString());
+		System.out.println("end :" + end.toString());
+		
+		/*if(begin != null && end != null) {
+			State lastState = star.getPath(begin, end, toTravelVec, car, roadNetwork);
+			Vector<Vertex> pathVertex = star.getPathVertex(lastState);
+			System.out.println("size = " + pathVertex.size());
+			for(int i = 1; i < pathVertex.size(); ++i) {
+				System.out.println("i = " +i);
+				Vertex arg0 = pathVertex.elementAt(i);
+				Vertex arg1 = pathVertex.elementAt(i-1);
+				Edge edge = roadNetwork.findEdge(arg0, arg1);
+				roadNetwork.getSelectedEdges().add(edge);
+			}
+			System.out.println("2");
+		}*/
+		
+		/*
 		if(begin != null) {
 			System.out.println("3!");
 			Collection<Edge> test = roadnet.getOutEdges(begin);
@@ -614,25 +645,8 @@ public class StartWindow implements ActionListener {
 				roadnet.getSelectedEdges().add(edg);
 			}
 			System.out.println("5!");
-		}
-		/*graph = new CityGraphNetwork();
-
-		roadNetworkLayout = new CustomLayout<Vertex, Edge>(graph.getRoadNetwork());
-		roadNetworkLayout.setSize(new Dimension(Values.window_initial_x_resolution, Values.window_initial_y_resolution));
-
-		Values.VerticesCurrentID = 0;
-
-		initVisualizationViewer();	
-		initMouse();
-		arrangeLayouts();
-
-		frame.getContentPane().setLayout(gl_contentPane);
-		frame.setBounds(100, 100, 775, 400);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-		initMenuBar();
-		frame.pack();
-		frame.setVisible(true);*/
+		}*/
+		
 	}
 	
 	@Override

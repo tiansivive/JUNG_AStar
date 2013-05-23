@@ -1,5 +1,7 @@
 package algorithms;
 
+import java.util.Collection;
+import java.util.Set;
 import java.util.Vector;
 
 import dataStructure.city.infraStructure.Vehicle;
@@ -27,7 +29,7 @@ public class State {
 		cost = 0;
 		heuristic = 0;
 		total = 0;
-		toVisit = new Vector<>();
+		toVisit = new Vector<Vertex>();
 		car = null;
 	}
 	
@@ -35,7 +37,9 @@ public class State {
 		from = null;
 		position = pos;
 		
-		cost = 0;	
+		cost = 0;
+		heuristic = 0;
+		total = 0;
 		car = veh;
 		if(isActive() && pos.isFuelStation()) {
 			car.refill();
@@ -46,7 +50,13 @@ public class State {
 		order = new Vector<Integer>();
 			
 		calcHeurWithoutEnd();
-		heuristic += toVis.elementAt(order.lastElement()).distance(end);
+		if(order.size() > 0) {
+			heuristic += toVis.elementAt(order.lastElement()).distance(end);
+		} else {
+			System.out.println("position = " + position.toString());
+			System.out.println("end = " + end.toString());
+			heuristic += position.distance(end);
+		}
 		calcTotal();
 }
 	
@@ -54,7 +64,9 @@ public class State {
 			from = fr;
 			position = pos;
 			
-			cost = cos;
+			cost = 0;
+			heuristic = 0;
+			total = 0;
 			car = veh;
 			if(isActive() && pos.isFuelStation()) {
 				car.refill();
@@ -65,7 +77,11 @@ public class State {
 			order = new Vector<Integer>();
 
 			calcHeurWithoutEnd();
-			heuristic += toVis.elementAt(order.lastElement()).distance(end);
+			if(order.size() > 0) {
+				heuristic += toVis.elementAt(order.lastElement()).distance(end);
+			} else {
+				heuristic += position.distance(end);
+			}
 			calcTotal();
 	}
 
@@ -142,7 +158,7 @@ public class State {
 
 	public Vector<State> getNeighbor(RoadNetworkGraph<Vertex, Edge> roadNetwork, Vertex end) {
 		Vector<State> neighbor = new Vector<State>();
-		Vector<Edge> paths = (Vector<Edge>) roadNetwork.getOutEdges(position);
+		Collection<Edge> paths = roadNetwork.getOutEdges(position);
 		
 		for(Edge edge : paths) {
 			Vertex newVertex = roadNetwork.getDest(edge);
