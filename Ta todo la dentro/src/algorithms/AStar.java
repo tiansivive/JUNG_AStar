@@ -27,6 +27,14 @@ public class AStar {
 		openlist = new PriorityQueue<State>(1,comparator);
 		closedlist = new PriorityQueue<State>(1,comparator);
 	}
+	
+	public int openSize() {
+		return openlist.size();
+	}
+	
+	public int closedSize() {
+		return closedlist.size();
+	}
 
 	public State getPath(Vertex start, Vertex end, Vector<Vertex> toVisit, Vehicle vehicle, RoadNetworkGraph<Vertex, Edge> roadNetwork) {
 		openlist = new PriorityQueue<State>(1,comparator);
@@ -46,6 +54,14 @@ public class AStar {
 
 				Vector<State> neighbor = current.getNeighbor(roadNetwork, end);
 				for (State state_neigh : neighbor) {
+					boolean worst = false;
+					for(State state_close : closedlist) {
+						if(state_neigh.isWorst(state_close)) {
+							worst = true;
+							continue;
+						}
+					}
+					
 					/* THERE IS NO EQUAL STATES, 'cause fuel
 					// apply score to state_neigh if not applied at getNeightbor
 					boolean found = false;
@@ -57,7 +73,9 @@ public class AStar {
 							}
 						}
 					}*/
-					openlist.add(state_neigh);
+					if(!worst) {
+						openlist.add(state_neigh);
+					}
 				}
 			}
 		}

@@ -53,8 +53,6 @@ public class State {
 		if(order.size() > 0) {
 			heuristic += toVis.elementAt(order.lastElement()).distance(end);
 		} else {
-			System.out.println("position = " + position.toString());
-			System.out.println("end = " + end.toString());
 			heuristic += position.distance(end);
 		}
 		calcTotal();
@@ -188,6 +186,17 @@ public class State {
 		}
 		
 		return true;
+	}
+	
+	public boolean isWorst(State state) {
+		if(position == state.position) {
+			if(car.getCurrentFuel() <= state.car.getCurrentFuel()) {
+				if(state.toVisit.containsAll(toVisit)) {
+					return true;	
+				}
+			}
+		}
+		return false;
 	}
 
 }

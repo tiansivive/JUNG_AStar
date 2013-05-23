@@ -625,24 +625,32 @@ public class StartWindow implements ActionListener {
 		Set<Vertex> toTravelSet = roadNetwork.getPointsToTraverse();
 		Vector<Vertex> toTravelVec = new Vector<>();
 		for(Vertex vertex: toTravelSet) {
-			toTravelVec.add(vertex);
+			if(vertex != null) {
+				toTravelVec.add(vertex);
+			} else {
+				System.out.println("null!"); //TODO: remove this
+			}
 		}
+		
 		
 		Vehicle car = new Vehicle(100,100,0.1); //TODO: change this
 		AStar star = new AStar(); //TODO: change this		
 		
 		if(begin != null && end != null) { //TODO: test if lastState not null
 			State lastState = star.getPath(begin, end, toTravelVec, car, roadNetwork);
+			if(lastState == null) {
+				System.out.println("PATH NOT FOUND!");
+				return;
+			}
+			System.out.println("OPEN: " + star.openSize());
+			System.out.println("CLOS: " + star.closedSize());
 			Vector<Vertex> pathVertex = star.getPathVertex(lastState);
-			System.out.println("size = " + pathVertex.size());
 			for(int i = 1; i < pathVertex.size(); ++i) {
-				System.out.println("i = " +i);
 				Vertex arg0 = pathVertex.elementAt(i);
 				Vertex arg1 = pathVertex.elementAt(i-1);
 				Edge edge = roadNetwork.findEdge(arg0, arg1);
 				roadNetwork.getSelectedEdges().add(edge);
 			}
-			System.out.println("2");
 		}
 		
 		/*
