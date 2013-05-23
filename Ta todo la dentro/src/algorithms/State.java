@@ -134,6 +134,7 @@ public class State {
 					Vertex vertex = toVisit.elementAt(i);
 				if(vertex.getOrder() != 0) {
 						if(vertex.getOrder() < minOrder) {
+							minDistance = current.distance(vertex);
 							minOrder = vertex.getOrder();
 							index = i;
 						} else {
