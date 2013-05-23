@@ -70,7 +70,7 @@ import edu.uci.ics.jung.visualization.control.ModalGraphMouse;
 import edu.uci.ics.jung.visualization.decorators.ToStringLabeller;
 
 public class StartWindow implements ActionListener {
-
+	
 	private JFrame frame;
 	private JPanel leftPanel;
 	private JPanel buttonsPanel;
@@ -637,7 +637,7 @@ public class StartWindow implements ActionListener {
 		AStar star = new AStar(); //TODO: change this		
 		
 		if(begin != null && end != null) { //TODO: test if lastState not null
-			State lastState = star.getPath(begin, end, toTravelVec, car, roadNetwork);
+			State lastState = star.getPath(begin, end, toTravelVec, car, roadNetwork, true);
 			if(lastState == null) {
 				System.out.println("PATH NOT FOUND!");
 				return;

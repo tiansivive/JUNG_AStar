@@ -36,7 +36,8 @@ public class AStar {
 		return closedlist.size();
 	}
 
-	public State getPath(Vertex start, Vertex end, Vector<Vertex> toVisit, Vehicle vehicle, RoadNetworkGraph<Vertex, Edge> roadNetwork) {
+	//TODO: change or remove test
+	public State getPath(Vertex start, Vertex end, Vector<Vertex> toVisit, Vehicle vehicle, RoadNetworkGraph<Vertex, Edge> roadNetwork, boolean test) {
 		openlist = new PriorityQueue<State>(1,comparator);
 		closedlist = new PriorityQueue<State>(1,comparator);
 
@@ -55,10 +56,18 @@ public class AStar {
 				Vector<State> neighbor = current.getNeighbor(roadNetwork, end);
 				for (State state_neigh : neighbor) {
 					boolean worst = false;
-					for(State state_close : closedlist) {
-						if(state_neigh.isWorst(state_close)) {
-							worst = true;
-							continue;
+					if(test) {
+						for(State state_close : closedlist) {
+							if(state_neigh.isWorst(state_close)) {
+								worst = true;
+								continue;
+							}
+						}
+						for(State state_close : openlist) {
+							if(state_neigh.isWorst(state_close)) {
+								worst = true;
+								continue;
+							}
 						}
 					}
 					
