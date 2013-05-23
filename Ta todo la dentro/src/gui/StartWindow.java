@@ -635,6 +635,10 @@ public class StartWindow implements ActionListener {
 			}
 		}
 		
+		for(Vertex vertex: toTravelVec) {
+			System.out.println(vertex);
+		}
+		
 		
 		Vehicle car = new Vehicle(100,100,0.1); //TODO: change this
 		AStar star = new AStar(); //TODO: change this		
@@ -655,17 +659,6 @@ public class StartWindow implements ActionListener {
 				roadNetwork.getSelectedEdges().add(edge);
 			}
 		}
-		
-		/*
-		if(begin != null) {
-			System.out.println("3!");
-			Collection<Edge> test = roadnet.getOutEdges(begin);
-			System.out.println(test.size());
-			for(Edge edg:test) {
-				roadnet.getSelectedEdges().add(edg);
-			}
-			System.out.println("5!");
-		}*/
 		
 	}
 	
