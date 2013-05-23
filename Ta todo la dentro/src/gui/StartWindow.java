@@ -562,11 +562,14 @@ public class StartWindow implements ActionListener {
 			roadNetworkLayout = new CustomLayout<Vertex, Edge>(graph.getRoadNetwork());
 			roadNetworkLayout.setSize(new Dimension(Values.window_initial_x_resolution, Values.window_initial_y_resolution));
 
+			int biggestID = 0;
 			for(Vertex v : graph.getRoadNetwork().getVertices()){			
 				roadNetworkLayout.setLocation(v, v.getPosition());
+				if(v.getId() > biggestID){
+					biggestID = v.getId();
+				}
 			}
-
-			Values.VerticesCurrentID = graph.getRoadNetwork().getVertexCount();
+			Values.VerticesCurrentID = biggestID +1;
 
 			initVisualizationViewer();	
 			initMouse();
