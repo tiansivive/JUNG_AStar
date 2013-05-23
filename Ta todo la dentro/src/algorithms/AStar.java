@@ -47,10 +47,13 @@ public class AStar {
 		while(!openlist.isEmpty()) {
 			current = openlist.poll();
 			closedlist.add(current);
+			
+			//TODO: remove this
+			//System.out.println("current- " + current.getPosition().getName() + " - " + current.getToVisit().size());
 
 			if(current.isActive()) {
 				if(current.isVertex(end) && current.getToVisit().size() == 0) {
-					return current; //TODO: change this, return path or current;
+					return current;
 				}
 
 				Vector<State> neighbor = current.getNeighbor(roadNetwork, end);
@@ -70,18 +73,6 @@ public class AStar {
 							}
 						}
 					}
-					
-					/* THERE IS NO EQUAL STATES, 'cause fuel
-					// apply score to state_neigh if not applied at getNeightbor
-					boolean found = false;
-					for(State state_close : closedlist) {
-						if(state_neigh == state_close) {
-							found = true;
-							if(state_neigh.score < state_close.score) {
-								change state_close
-							}
-						}
-					}*/
 					if(!worst) {
 						openlist.add(state_neigh);
 					}

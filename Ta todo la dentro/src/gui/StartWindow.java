@@ -623,13 +623,13 @@ public class StartWindow implements ActionListener {
 		roadNetwork.updateVertexPositions(roadNetworkLayout);
 		roadNetwork.getSelectedEdges().clear();
 		
-		System.out.println("\nVERTEXES IN GRAPH:");
+		/*System.out.println("\nVERTEXES IN GRAPH:"); //TODO: remove this
 		int ind = 1;
 		for(Vertex v : graph.getRoadNetwork().getVertices()){
 			
 			System.out.println(ind + ": " + v.toString());
 		}
-		System.out.println("END VERTEXES IN GRAPH\n");
+		System.out.println("END VERTEXES IN GRAPH\n"); */
 		
 		
 		
@@ -644,24 +644,25 @@ public class StartWindow implements ActionListener {
 				System.out.println("null!"); //TODO: remove this
 			}
 		}
-		System.out.println("POINTS TO TRAVERSE");
-		for(Vertex vertex: toTravelVec) {
-			System.out.println(vertex);
+		//System.out.println("POINTS TO TRAVERSE"); //TODO: remove this
+		/*for(Vertex vertex: toTravelVec) {
+			System.out.println("To visit " + vertex.getName());
 		}
-		System.out.println("END POINTS TO TRAVERSE\n");
-		
+		//System.out.println("END POINTS TO TRAVERSE\n");*/
+		//System.out.println(toTravelVec.size());
 		
 		Vehicle car = new Vehicle(100,100,0.1); //TODO: change this
 		AStar star = new AStar(); //TODO: change this		
 		
 		if(begin != null && end != null) { //TODO: test if lastState not null
 			State lastState = star.getPath(begin, end, toTravelVec, car, roadNetwork, true);
+			//System.out.println("OPEN: " + star.openSize());  
+			//System.out.println("CLOS: " + star.closedSize()); //TODO: remove this
 			if(lastState == null) {
 				System.out.println("PATH NOT FOUND!");
+				vv.repaint();
 				return;
 			}
-			System.out.println("OPEN: " + star.openSize());
-			System.out.println("CLOS: " + star.closedSize());
 			Vector<Vertex> pathVertex = star.getPathVertex(lastState);
 			for(int i = 1; i < pathVertex.size(); ++i) {
 				Vertex arg0 = pathVertex.elementAt(i);
@@ -670,7 +671,7 @@ public class StartWindow implements ActionListener {
 				roadNetwork.getSelectedEdges().add(edge);
 			}
 		}
-		
+		vv.repaint();		
 	}
 	
 	private void update() {

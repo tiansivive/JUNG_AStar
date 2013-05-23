@@ -45,7 +45,10 @@ public class State {
 			car.refill();
 		}
 		
-		toVisit = toVis;
+		toVisit = new Vector<>();
+		for(Vertex vertex : toVis) {
+			toVisit.add(vertex);
+		}
 		reCalcToVisit();
 		order = new Vector<Integer>();
 			
@@ -70,7 +73,10 @@ public class State {
 				car.refill();
 			}
 			
-			toVisit = toVis;
+			toVisit = new Vector<>();
+			for(Vertex vertex : toVis) {
+				toVisit.add(vertex);
+			}
 			reCalcToVisit();
 			order = new Vector<Integer>();
 
@@ -115,19 +121,36 @@ public class State {
 	
 	
 	private void calcHeurWithoutEnd() {
-		// tested
 		Vertex current = this.position;
 		heuristic = 0;
+		
 		while(order.size() < toVisit.size()) {
+			int index = 0;		
 			double minDistance = Double.POSITIVE_INFINITY;
-			int index = 0;
+			int minOrder = Integer.MAX_VALUE;
 			
 			for(int i=0; i<toVisit.size(); ++i) {
 				if(!order.contains((Integer)i)){
-					double testDistance = current.distance(toVisit.elementAt(i));
-					if(testDistance < minDistance) {
-						minDistance = testDistance;
-						index = i;
+					Vertex vertex = toVisit.elementAt(i);
+				if(vertex.getOrder() != 0) {
+						if(vertex.getOrder() < minOrder) {
+							minOrder = vertex.getOrder();
+							index = i;
+						} else {
+							if(vertex.getOrder() == minOrder) {
+								double testDistance = current.distance(vertex);
+								if(testDistance < minDistance) {
+									minDistance = testDistance;
+									index = i;
+								}
+							}
+						}
+					} else {
+						double testDistance = current.distance(vertex);
+						if(testDistance < minDistance) {
+							minDistance = testDistance;
+							index = i;
+						}
 					}
 				}
 			}
@@ -144,8 +167,14 @@ public class State {
 	}
 	
 	private void reCalcToVisit() {
+		int minOrder = Integer.MAX_VALUE;
+		for (Vertex vertex : toVisit) {
+			if(vertex.getOrder() > 0 && vertex.getOrder() < minOrder) {
+				minOrder = vertex.getOrder();
+			}
+		}
 		for(int i = 0; i<toVisit.size(); ++i) {
-			if (position.equals(toVisit.elementAt(i))) {
+			if (position.equals(toVisit.elementAt(i)) && toVisit.elementAt(i).getOrder() <= minOrder) {
 				toVisit.remove(i);
 				--i;
 			}
@@ -191,7 +220,7 @@ public class State {
 	public boolean isWorst(State state) {
 		if(position == state.position) {
 			if(car.getCurrentFuel() <= state.car.getCurrentFuel()) {
-				if(state.toVisit.containsAll(toVisit)) {
+				if(state.toVisit.containsAll(toVisit) && state.toVisit.size() == toVisit.size()) {
 					return true;	
 				}
 			}

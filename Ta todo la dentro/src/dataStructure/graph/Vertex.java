@@ -14,12 +14,14 @@ public class Vertex implements Serializable{
 	private Point pos;
 	
 	private VertexType type;
+	private int order;
 
 	public Vertex(){	
 		Values.VerticesCurrentID++;		
 		this.id = Values.VerticesCurrentID;
 		this.name = "V" + id;
 		type = VertexType.INTERSECTION;
+		order = 0;
 	}
 	
 	public Vertex(String n){	
@@ -27,6 +29,7 @@ public class Vertex implements Serializable{
 		this.id = Values.VerticesCurrentID;
 		this.name = n;
 		type = VertexType.INTERSECTION;
+		order = 0;
 	}
 	
 	public Vertex(VertexType t){	
@@ -34,6 +37,7 @@ public class Vertex implements Serializable{
 		this.id = Values.VerticesCurrentID;
 		this.name = "V" + id;
 		type = t;
+		order = 0;
 	}
 	
 	public Vertex(String n, VertexType t){	
@@ -41,6 +45,7 @@ public class Vertex implements Serializable{
 		this.id = Values.VerticesCurrentID;
 		this.name = n;
 		type = t;
+		order = 0;
 	}
 
 	
@@ -67,6 +72,12 @@ public class Vertex implements Serializable{
 	}
 	public void setPosition(Point p) {
 		this.pos = p;
+	}
+	public int getOrder() {
+		return order;
+	}
+	public void setOrder(int order) {
+		this.order = order;
 	}
 	
 	
