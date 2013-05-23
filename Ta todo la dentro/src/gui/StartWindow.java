@@ -179,7 +179,7 @@ public class StartWindow implements ActionListener {
 		arrangeLayouts();
 
 		frame.getContentPane().setLayout(gl_contentPane);
-		frame.setBounds(100, 100, 775, 400);
+		frame.setBounds(100, 100, 1163, 449);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		initMenuBar();
@@ -312,17 +312,17 @@ public class StartWindow implements ActionListener {
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addComponent(leftPanel, GroupLayout.PREFERRED_SIZE, 104, GroupLayout.PREFERRED_SIZE)
-					.addGap(18)
-					.addComponent(vv, GroupLayout.PREFERRED_SIZE, 1004, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(21, Short.MAX_VALUE))
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(vv, GroupLayout.DEFAULT_SIZE, 1019, Short.MAX_VALUE)
+					.addContainerGap())
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
-				.addComponent(leftPanel, GroupLayout.DEFAULT_SIZE, 373, Short.MAX_VALUE)
+				.addComponent(leftPanel, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addGap(16)
-					.addComponent(vv, GroupLayout.DEFAULT_SIZE, 341, Short.MAX_VALUE)
-					.addGap(16))
+					.addComponent(vv, GroupLayout.DEFAULT_SIZE, 374, Short.MAX_VALUE)
+					.addContainerGap())
 		);
 	}
 
@@ -623,6 +623,16 @@ public class StartWindow implements ActionListener {
 		roadNetwork.updateVertexPositions(roadNetworkLayout);
 		roadNetwork.getSelectedEdges().clear();
 		
+		System.out.println("\nVERTEXES IN GRAPH:");
+		int ind = 1;
+		for(Vertex v : graph.getRoadNetwork().getVertices()){
+			
+			System.out.println(ind + ": " + v.toString());
+		}
+		System.out.println("END VERTEXES IN GRAPH\n");
+		
+		
+		
 		Vertex begin = roadNetwork.getInitialVertex();
 		Vertex end = roadNetwork.getEndVertex();
 		Set<Vertex> toTravelSet = roadNetwork.getPointsToTraverse();
@@ -634,10 +644,11 @@ public class StartWindow implements ActionListener {
 				System.out.println("null!"); //TODO: remove this
 			}
 		}
-		
+		System.out.println("POINTS TO TRAVERSE");
 		for(Vertex vertex: toTravelVec) {
 			System.out.println(vertex);
 		}
+		System.out.println("END POINTS TO TRAVERSE\n");
 		
 		
 		Vehicle car = new Vehicle(100,100,0.1); //TODO: change this

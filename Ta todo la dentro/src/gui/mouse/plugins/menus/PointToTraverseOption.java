@@ -11,20 +11,23 @@ import edu.uci.ics.jung.graph.Graph;
 import edu.uci.ics.jung.visualization.VisualizationViewer;
 import gui.mouse.plugins.menus.auxiliarInterfaces.VertexMenuListener;
 
-public class SetAsPointToTraverseOption<V> extends JMenuItem implements VertexMenuListener<V>{
+public class PointToTraverseOption<V> extends JMenuItem implements VertexMenuListener<V>{
 
 	private static final long serialVersionUID = -2003267797469062963L;
 
 	private V vertex;
 	private VisualizationViewer<V, ?> vv;
 
-	public SetAsPointToTraverseOption(){
-		super(Values.vertex_set_as_point_to_traverse);
+	public PointToTraverseOption(){
+		
+		super();		
 		this.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {	
 				Graph<V,?> g = vv.getGraphLayout().getGraph();
-				if(g instanceof RoadNetworkGraph){
-					((RoadNetworkGraph<V,?>) g).addPointToTraverse(vertex);
+				if(isVertexAlreadyPointToTraverse()){
+					((RoadNetworkGraph<V, ?>) g).removePointToTraverse(vertex);		
+				}else{
+					((RoadNetworkGraph<V, ?>) g).addPointToTraverse(vertex);
 				}
 				vv.repaint();
 			}
@@ -35,6 +38,22 @@ public class SetAsPointToTraverseOption<V> extends JMenuItem implements VertexMe
 	public void setVertexAndView(V v, VisualizationViewer<V, ?> visComp) {
 		this.vertex = v;
 		this.vv = visComp;
+		
+		if(isVertexAlreadyPointToTraverse()){
+			this.setText(Values.vertex_remove_as_point_to_traverse);
+		}else{
+			this.setText(Values.vertex_set_as_point_to_traverse);
+		}
+
+	}
+	
+	private boolean isVertexAlreadyPointToTraverse(){
+		
+		Graph<V,?> g = vv.getGraphLayout().getGraph();
+		if(g instanceof RoadNetworkGraph){
+			return ((RoadNetworkGraph<V,?>) g).isPointToTraverse(vertex);
+		}
+		return false;
 	}
 	
 }

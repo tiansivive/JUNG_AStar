@@ -33,6 +33,7 @@ public class Values{
 	public static final String vertex_set_as_begin = "Set as begin";
 	public static final String vertex_set_as_end = "Set as end";
 	public static final String vertex_set_as_point_to_traverse = "Set as point to traverse";
+	public static final String vertex_remove_as_point_to_traverse = "Remove as point to traverse";
 	
 	public static final String edge_popupMenu_delete_option = "Delete Edge";
 	public static final String edge_popupMenu_name = "Edge Menu";

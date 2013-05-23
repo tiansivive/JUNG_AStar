@@ -16,7 +16,7 @@ public class VertexPopupMenu extends JPopupMenu {
 		this.addSeparator();
 		this.add(new SetAsBeginOption<Vertex>());
 		this.add(new SetAsEndOption<Vertex>());
-		this.add(new SetAsPointToTraverseOption<Vertex>());
+		this.add(new PointToTraverseOption<Vertex>());
 		
 		//TODO other options
 	}

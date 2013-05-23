@@ -11,14 +11,14 @@ import edu.uci.ics.jung.graph.DirectedSparseMultigraph;
 public class RoadNetworkGraph<V, E> extends DirectedSparseMultigraph<V, E>{
 
 	private static final long serialVersionUID = 6095920704525216086L;
-	
+
 	private Set<E> selectedEdges;
-	
+
 	private Set<V> pointsToTraverse;
 	private V initialVertex;
 	private V endVertex;
-	
-	
+
+
 	public RoadNetworkGraph(){	
 		super();
 		setSelectedEdges(new HashSet<E>());
@@ -26,19 +26,36 @@ public class RoadNetworkGraph<V, E> extends DirectedSparseMultigraph<V, E>{
 		initialVertex = null;
 		endVertex = null;
 	}
-	
-	
+
+
 	@SuppressWarnings("unchecked")
 	public void updateVertexPositions(AbstractLayout<Vertex, Edge> layout){
-		
+
 		for(Vertex v : (Collection<Vertex>)getVertices()){
-			
+
 			Point position = new Point();
 			position.setLocation(layout.getX(v), layout.getY(v));
 			v.setPosition(position);	
 		}		
 	}
-	
+
+	public boolean removeVertex(V vertex) {
+		if (!containsVertex(vertex))
+			return false;
+
+		// copy to avoid concurrent modification in removeEdge
+		Set<E> incident = new HashSet<E>(getIncoming_internal(vertex));
+		incident.addAll(getOutgoing_internal(vertex));
+
+		for (E edge : incident)
+			removeEdge(edge);
+
+		vertices.remove(vertex);
+		pointsToTraverse.remove(vertex);
+
+		return true;
+	}
+
 	public boolean isInitialVertex(V v){
 		return v.equals(initialVertex);
 	}
@@ -51,6 +68,10 @@ public class RoadNetworkGraph<V, E> extends DirectedSparseMultigraph<V, E>{
 
 	public void addPointToTraverse(V v){
 		pointsToTraverse.add(v);
+	}
+	
+	public void removePointToTraverse(V v){
+		pointsToTraverse.remove(v);
 	}
 	public void addSelectedEdge(E edge){	
 		if(super.getEdges().contains(edge)){
