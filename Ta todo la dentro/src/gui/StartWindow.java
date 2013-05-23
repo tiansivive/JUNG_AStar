@@ -93,6 +93,7 @@ public class StartWindow implements ActionListener {
 	private JButton save_button;
 	private JButton load_button;
 	private JButton AStar_button;
+	private JButton Update_button;
 	private JRadioButton vertexType_intersection_radioButton;
 	private JRadioButton vertexType_gasStation_radioButton;	
 	private JRadioButton vertexType_building_radioButton;
@@ -207,6 +208,11 @@ public class StartWindow implements ActionListener {
 		AStar_button.setAlignmentX(Component.CENTER_ALIGNMENT);
 		AStar_button.addActionListener(this);
 		
+		Update_button = new JButton("Update dist.");
+		Update_button.setAlignmentY(Component.TOP_ALIGNMENT);
+		Update_button.setAlignmentX(Component.CENTER_ALIGNMENT);
+		Update_button.addActionListener(this);
+		
 		vertexType_intersection_radioButton = new JRadioButton("Intersection");
 		vertexType_intersection_radioButton.setHorizontalAlignment(SwingConstants.LEFT);
 		vertexType_intersection_radioButton.setSelected(true);
@@ -236,18 +242,21 @@ public class StartWindow implements ActionListener {
 				.addComponent(save_button, GroupLayout.DEFAULT_SIZE, 85, Short.MAX_VALUE)
 				.addComponent(load_button, GroupLayout.DEFAULT_SIZE, 85, Short.MAX_VALUE)
 				.addComponent(AStar_button, GroupLayout.DEFAULT_SIZE, 85, Short.MAX_VALUE)
+				.addComponent(Update_button, GroupLayout.DEFAULT_SIZE, 85, Short.MAX_VALUE)
 		);
 		gl_buttonsPanel.setVerticalGroup(
 			gl_buttonsPanel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_buttonsPanel.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(new_button, GroupLayout.PREFERRED_SIZE, 41, GroupLayout.PREFERRED_SIZE)
+					.addComponent(new_button, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(save_button, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)
+					.addComponent(save_button, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(load_button, GroupLayout.PREFERRED_SIZE, 41, GroupLayout.PREFERRED_SIZE)
+					.addComponent(load_button, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(AStar_button, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)
+					.addComponent(AStar_button, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(Update_button, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
 		buttonsPanel.setLayout(gl_buttonsPanel);
@@ -267,7 +276,7 @@ public class StartWindow implements ActionListener {
 			gl_leftPanel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_leftPanel.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(buttonsPanel, GroupLayout.PREFERRED_SIZE, 217, GroupLayout.PREFERRED_SIZE)
+					.addComponent(buttonsPanel, GroupLayout.PREFERRED_SIZE, 250, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(radioButtonPanel, GroupLayout.DEFAULT_SIZE, 115, Short.MAX_VALUE)
 					.addContainerGap())
@@ -606,23 +615,23 @@ public class StartWindow implements ActionListener {
 	}
 	
 	private void star() {
-		System.out.println("A_STAR!");
+		System.out.println("A_STAR!"); //TODO: remove this
 		RoadNetworkGraph<Vertex, Edge> roadNetwork = graph.getRoadNetwork();
+		roadNetwork.updateVertexPositions(roadNetworkLayout);
+		roadNetwork.getSelectedEdges().clear();
+		
 		Vertex begin = roadNetwork.getInitialVertex();
 		Vertex end = roadNetwork.getEndVertex();
 		Set<Vertex> toTravelSet = roadNetwork.getPointsToTraverse();
 		Vector<Vertex> toTravelVec = new Vector<>();
-		Vehicle car = new Vehicle(100,100,0.1);
-		AStar star = new AStar();
-		
 		for(Vertex vertex: toTravelSet) {
 			toTravelVec.add(vertex);
 		}
 		
-		System.out.println("begin :" + begin.toString());
-		System.out.println("end :" + end.toString());
+		Vehicle car = new Vehicle(100,100,0.1); //TODO: change this
+		AStar star = new AStar(); //TODO: change this		
 		
-		/*if(begin != null && end != null) {
+		if(begin != null && end != null) { //TODO: test if lastState not null
 			State lastState = star.getPath(begin, end, toTravelVec, car, roadNetwork);
 			Vector<Vertex> pathVertex = star.getPathVertex(lastState);
 			System.out.println("size = " + pathVertex.size());
@@ -634,7 +643,7 @@ public class StartWindow implements ActionListener {
 				roadNetwork.getSelectedEdges().add(edge);
 			}
 			System.out.println("2");
-		}*/
+		}
 		
 		/*
 		if(begin != null) {
@@ -646,6 +655,19 @@ public class StartWindow implements ActionListener {
 			}
 			System.out.println("5!");
 		}*/
+		
+	}
+	
+	private void update() {
+		System.out.println("Update Distances of edges"); //TODO: remove this
+		RoadNetworkGraph<Vertex, Edge> roadNetwork = graph.getRoadNetwork();
+		roadNetwork.updateVertexPositions(roadNetworkLayout);
+		
+		for(Edge edge: roadNetwork.getEdges()) {
+			Vertex vertex0 = roadNetwork.getSource(edge);
+			Vertex vertex1 = roadNetwork.getDest(edge);
+			edge.setDistance(vertex0.distance(vertex1));
+		}
 		
 	}
 	
@@ -666,6 +688,10 @@ public class StartWindow implements ActionListener {
 					} else{
 						if(source.equals(AStar_button)){
 							star();
+						} else {
+							if(source.equals(Update_button)){
+								update();
+							}
 						}
 					}
 				}
@@ -711,5 +737,6 @@ public class StartWindow implements ActionListener {
 		}
 			
 	}
+	
 }
 

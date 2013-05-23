@@ -34,6 +34,7 @@ public class GUI_EdgeFactory implements Factory<Edge>{
 			EdgePropertyDialog dialog = new EdgePropertyDialog(e);
 
 			Point pos = MouseInfo.getPointerInfo().getLocation();
+			System.out.println(pos.toString());
 
 			dialog.setLocation((int)pos.getX(), (int)pos.getY()); //TODO some kind of offset might be needed
 			dialog.setVisible(true);

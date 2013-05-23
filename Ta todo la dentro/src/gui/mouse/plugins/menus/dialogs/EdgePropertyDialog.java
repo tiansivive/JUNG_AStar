@@ -36,7 +36,7 @@ public class EdgePropertyDialog extends JDialog {
   
     
     /** Creates new form EdgePropertyDialog */
-    public EdgePropertyDialog(Edge edge) {
+   public EdgePropertyDialog(Edge edge) {
         super(new JFrame(), true);
         initComponents();
         this.edge = edge;
@@ -128,10 +128,15 @@ public class EdgePropertyDialog extends JDialog {
     }
 
     private void okButtonHandler(java.awt.event.ActionEvent evt) {
-        edge.setCapacity((Double)this.capacityFormattedTextField.getValue());
-        edge.setWeight((Double)this.weightFormattedTextField.getValue());
-        edge.setDistance((Double)this.distanceFormattedTextField.getValue());
-        edge.setSpeedLimit((int)this.speedLimitFormattedTextField.getValue());
+    	if(		(Double)this.capacityFormattedTextField.getValue() > Values.min_edge_capacity &&
+    			(Double)this.weightFormattedTextField.getValue() > Values.min_edge_weight &&
+    			(Double)this.distanceFormattedTextField.getValue() > Values.min_edge_distance &&
+    			(int)this.speedLimitFormattedTextField.getValue() > Values.min_edge_speedLimit ) {
+	        edge.setCapacity((Double)this.capacityFormattedTextField.getValue());
+	        edge.setWeight((Double)this.weightFormattedTextField.getValue());
+	        edge.setDistance((Double)this.distanceFormattedTextField.getValue());
+	        edge.setSpeedLimit((int)this.speedLimitFormattedTextField.getValue());
+    	} //TODO: appear error
         dispose();
     }
        
