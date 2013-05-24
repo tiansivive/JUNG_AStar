@@ -6,6 +6,7 @@ import org.apache.commons.collections15.Transformer;
 
 import utilities.enums.EdgeShapeType;
 
+
 import dataStructure.graph.Edge;
 import dataStructure.graph.Vertex;
 import edu.uci.ics.jung.graph.Graph;
@@ -41,6 +42,6 @@ public class GUI_EdgeShapeTransformer implements Transformer<Context<Graph<Verte
 		return type;
 	}
 	public void setType(EdgeShapeType type) {
-		this.type = type;
+		GUI_EdgeShapeTransformer.type = type;
 	}
 }
