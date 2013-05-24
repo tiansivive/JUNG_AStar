@@ -10,6 +10,7 @@ import dataStructure.graph.RoadNetworkGraph;
 import edu.uci.ics.jung.graph.Graph;
 import edu.uci.ics.jung.visualization.VisualizationViewer;
 import gui.mouse.plugins.menus.auxiliarInterfaces.VertexMenuListener;
+import gui.mouse.plugins.menus.dialogs.DialogResponse;
 import gui.mouse.plugins.menus.dialogs.VertexPriorityDialog;
 
 public class PointToTraverseOption<V> extends JMenuItem implements VertexMenuListener<V>{
@@ -25,15 +26,17 @@ public class PointToTraverseOption<V> extends JMenuItem implements VertexMenuLis
 		this.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {	
 				
-				VertexPriorityDialog<V> priority = new VertexPriorityDialog<V>(vertex);
-				priority.setVisible(true);
-		
-				
 				Graph<V,?> g = vv.getGraphLayout().getGraph();
 				if(isVertexAlreadyPointToTraverse()){
 					((RoadNetworkGraph<V, ?>) g).removePointToTraverse(vertex);		
 				}else{
-					((RoadNetworkGraph<V, ?>) g).addPointToTraverse(vertex);
+					
+					VertexPriorityDialog<V> priority = new VertexPriorityDialog<V>(vertex);
+					priority.setVisible(true);
+					
+					if(priority.getResponse() == DialogResponse.OK){
+						((RoadNetworkGraph<V, ?>) g).addPointToTraverse(vertex);
+					}
 				}
 				vv.repaint();
 			}
