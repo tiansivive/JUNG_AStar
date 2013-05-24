@@ -216,6 +216,7 @@ public class ModifiedEditGraphModalMousePlugin<V,E> extends AbstractGraphMousePl
     class EdgePaintable implements VisualizationServer.Paintable {
         
         public void paint(Graphics g) {
+        	
             if(edgeShape != null) {
                 Color oldColor = g.getColor();
                 g.setColor(Color.black);

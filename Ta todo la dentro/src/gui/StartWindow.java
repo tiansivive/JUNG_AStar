@@ -15,8 +15,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.ParseException;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
@@ -38,15 +36,11 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.xml.parsers.ParserConfigurationException;
 
-import de.javasoft.plaf.synthetica.SyntheticaAluOxideLookAndFeel;
+import magicNumbers.Values;
 
 import org.apache.commons.collections15.Transformer;
 import org.xml.sax.SAXException;
 
-import algorithms.AStar;
-import algorithms.State;
-
-import magicNumbers.Values;
 import utilities.EdgeLabel;
 import utilities.GraphML_FileExtensionFilter;
 import utilities.factories.GUI_EdgeFactory;
@@ -54,18 +48,25 @@ import utilities.factories.GUI_VertexFactory;
 import utilities.factories.Load_EdgeFactory;
 import utilities.factories.Load_VertexFactory;
 import utilities.transformers.EdgeLabellerTransformer;
+import utilities.transformers.EdgeShapeType;
 import utilities.transformers.GUI_EdgeColoringTransformer;
+import utilities.transformers.GUI_EdgeShapeTransformer;
+import utilities.transformers.GUI_EdgeStrokeTransformer;
 import utilities.transformers.GUI_VertexColoringTransformer;
 import utilities.transformers.GUI_VertexShapeTransformer;
+import algorithms.AStar;
+import algorithms.State;
 import dataStructure.city.infraStructure.Vehicle;
 import dataStructure.graph.CityGraphNetwork;
 import dataStructure.graph.Edge;
 import dataStructure.graph.RoadNetworkGraph;
 import dataStructure.graph.Vertex;
 import dataStructure.graph.VertexType;
+import de.javasoft.plaf.synthetica.SyntheticaAluOxideLookAndFeel;
 import edu.uci.ics.jung.io.GraphMLMetadata;
 import edu.uci.ics.jung.io.GraphMLReader;
 import edu.uci.ics.jung.io.GraphMLWriter;
+import edu.uci.ics.jung.visualization.RenderContext;
 import edu.uci.ics.jung.visualization.control.ModalGraphMouse;
 import edu.uci.ics.jung.visualization.decorators.ToStringLabeller;
 
@@ -87,6 +88,8 @@ public class StartWindow implements ActionListener {
 	private GUI_VertexColoringTransformer vertexColoringTransformer;
 	private GUI_VertexShapeTransformer vertexShapeTransformer;
 	private GUI_EdgeColoringTransformer edgeColoringTransformer;
+	private GUI_EdgeShapeTransformer edgeShapeTransformer;
+	private GUI_EdgeStrokeTransformer edgeStrokeTransformer;
 	private EdgeLabellerTransformer edgeLabelTransformer;
 
 	private JButton new_button;
@@ -100,6 +103,7 @@ public class StartWindow implements ActionListener {
 	
 	private ButtonGroup radioButtonsGroup;
 	private ButtonGroup edgeLabelMenuButtonGroup;
+	private ButtonGroup edgeShapeMenuButtonGroup;
 	
 	private GroupLayout gl_buttonsPanel;
 	private GroupLayout gl_leftPanel;
@@ -109,11 +113,18 @@ public class StartWindow implements ActionListener {
 	private JMenuBar menuBar;
 	private JMenu modeMenu;
 	private JMenu edgeLabelMenu;
+	private JMenu edgeShapeMenu;
+	
 	private JRadioButtonMenuItem nameLabel_radioButton;
 	private JRadioButtonMenuItem speedLimitLabel_radioButton;
 	private JRadioButtonMenuItem distanceLabel_radioButton;
 	private JRadioButtonMenuItem weightLabel_radioButton;
 	private JRadioButtonMenuItem capacityLabel_radioButton;
+	private JRadioButtonMenuItem edgeLineShape_radioButton;
+	private JRadioButtonMenuItem edgeBentLineShape_radioButton;
+	private JRadioButtonMenuItem edgeCubicCurve_radioButton;
+	private JRadioButtonMenuItem edgeQuadCurve_radioButton;
+	
 
 
 	/**
@@ -345,11 +356,18 @@ public class StartWindow implements ActionListener {
 		vertexShapeTransformer = new GUI_VertexShapeTransformer();
 		edgeColoringTransformer = new GUI_EdgeColoringTransformer(vv);
 		edgeLabelTransformer = new EdgeLabellerTransformer();
+		edgeShapeTransformer = new GUI_EdgeShapeTransformer();
+		edgeStrokeTransformer = new GUI_EdgeStrokeTransformer(vv);
 		
 		vv.getRenderContext().setVertexLabelTransformer(new ToStringLabeller<Vertex>());
 		vv.getRenderContext().setEdgeLabelTransformer(edgeLabelTransformer);
 		vv.getRenderContext().setVertexFillPaintTransformer(vertexColoringTransformer);
 		vv.getRenderContext().setEdgeDrawPaintTransformer(edgeColoringTransformer);
+		vv.getRenderContext().setEdgeShapeTransformer(edgeShapeTransformer);
+		vv.getRenderContext().setEdgeStrokeTransformer(edgeStrokeTransformer);
+		
+		//vv.getRenderContext().getedge
+		//vv.getRenderContext().setedge
 		//vv.getRenderContext().setVertexShapeTransformer(vertexSize);
 
 	}
@@ -364,6 +382,7 @@ public class StartWindow implements ActionListener {
 		menuBar.add(modeMenu);
 		frame.setJMenuBar(menuBar);
 		
+		/**************************************************************************/
 		
 		edgeLabelMenu = new JMenu("Edge Label");
 		edgeLabelMenuButtonGroup = new ButtonGroup();
@@ -397,10 +416,41 @@ public class StartWindow implements ActionListener {
 		edgeLabelMenu.add(weightLabel_radioButton);
 		edgeLabelMenu.add(capacityLabel_radioButton);
 		menuBar.add(edgeLabelMenu);
+		
+		/**************************************************************************/
+		
+		edgeShapeMenu = new JMenu("Edge Shape");
+		edgeShapeMenuButtonGroup = new ButtonGroup();
+		
+		edgeQuadCurve_radioButton = new JRadioButtonMenuItem("Quad Curve");
+		edgeQuadCurve_radioButton.addActionListener(this);
+		edgeQuadCurve_radioButton.setSelected(true);
+		
+		edgeLineShape_radioButton = new JRadioButtonMenuItem("Straight Line");
+		edgeLineShape_radioButton.addActionListener(this);
+		
+		edgeBentLineShape_radioButton = new JRadioButtonMenuItem("Bent Line");
+		edgeBentLineShape_radioButton.addActionListener(this);
+		
+		edgeCubicCurve_radioButton = new JRadioButtonMenuItem("Cubic Curve");
+		edgeCubicCurve_radioButton.addActionListener(this);
+		
+		
+		edgeShapeMenuButtonGroup.add(edgeLineShape_radioButton);
+		edgeShapeMenuButtonGroup.add(edgeBentLineShape_radioButton);
+		edgeShapeMenuButtonGroup.add(edgeCubicCurve_radioButton);
+		edgeShapeMenuButtonGroup.add(edgeQuadCurve_radioButton);
+		
+		edgeShapeMenu.add(edgeLineShape_radioButton);
+		edgeShapeMenu.add(edgeBentLineShape_radioButton);
+		edgeShapeMenu.add(edgeCubicCurve_radioButton);
+		edgeShapeMenu.add(edgeQuadCurve_radioButton);
+		menuBar.add(edgeShapeMenu);
+		
+		/**************************************************************************/
 
 		gm.setMode(ModalGraphMouse.Mode.EDITING); // Start off in editing mode
 	}
-
 
 	private void save() {
 		try {
@@ -725,8 +775,7 @@ public class StartWindow implements ActionListener {
 				if(source.equals(vertexType_building_radioButton)){
 					vertexFactory.setType(VertexType.BUILDING);
 				}
-				
-			}else{
+			}else{	
 				if(e.getSource() instanceof JRadioButtonMenuItem){
 					JRadioButtonMenuItem source = (JRadioButtonMenuItem) e.getSource();
 					
@@ -744,6 +793,18 @@ public class StartWindow implements ActionListener {
 					}
 					if(source.equals(capacityLabel_radioButton)){
 						edgeLabelTransformer.setLabelType(EdgeLabel.CAPACITY);
+					}
+					if(source.equals(edgeBentLineShape_radioButton)){
+						edgeShapeTransformer.setType(EdgeShapeType.BENT_LINE);
+					}
+					if(source.equals(edgeLineShape_radioButton)){
+						edgeShapeTransformer.setType(EdgeShapeType.LINE);
+					}
+					if(source.equals(edgeQuadCurve_radioButton)){
+						edgeShapeTransformer.setType(EdgeShapeType.QUAD_CURVE);
+					}
+					if(source.equals(edgeCubicCurve_radioButton)){
+						edgeShapeTransformer.setType(EdgeShapeType.CUBIC_CURVE);
 					}
 					vv.repaint();
 				}

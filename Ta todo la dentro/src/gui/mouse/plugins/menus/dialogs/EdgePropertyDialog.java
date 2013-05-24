@@ -77,6 +77,8 @@ public class EdgePropertyDialog extends JDialog implements ActionListener {
 		initLayouts();
 		initButtonPanel();
 		
+		getRootPane().setDefaultButton(okButton);
+		
 	}
 	
 	
@@ -303,8 +305,7 @@ public class EdgePropertyDialog extends JDialog implements ActionListener {
 					}
 				}
 			}
-		}
-		
+		}	
 	}
 
 
