@@ -21,10 +21,10 @@ public class Values{
 	public static final double min_edge_capacity = 0;
 	public static final double min_edge_distance = 0;
 	
-	public static final int default_edge_speedLimit = 1;
-	public static final double default_edge_weight = 1;
-	public static final double default_edge_capacity = 1;
-	public static final double default_edge_distance = 1;
+	public static int default_edge_speedLimit = 1;
+	public static double default_edge_weight = 1;
+	public static double default_edge_capacity = 1;
+	public static double default_edge_distance = 1;
 	// public static final boolean default_edge_bidirectionality = true; //TODO: remove this
 	
 	

@@ -36,7 +36,8 @@ public class PointToTraverseOption<V> extends JMenuItem implements VertexMenuLis
 					
 					if(priority.getResponse() == DialogResponse.OK){
 						((RoadNetworkGraph<V, ?>) g).addPointToTraverse(vertex);
-					}
+					}				
+					priority.dispose();
 				}
 				vv.repaint();
 			}

@@ -1,5 +1,6 @@
 package utilities.factories;
 
+import gui.mouse.plugins.menus.dialogs.DialogResponse;
 import gui.mouse.plugins.menus.dialogs.EdgePropertyDialog;
 
 import java.awt.MouseInfo;
@@ -31,13 +32,20 @@ public class GUI_EdgeFactory implements Factory<Edge>{
 				Values.default_edge_capacity);
 
 		if(default_mode){
-			EdgePropertyDialog dialog = new EdgePropertyDialog(e);
 
-			Point pos = MouseInfo.getPointerInfo().getLocation();
-			System.out.println(pos.toString());
+			if(!EdgePropertyDialog.templateEnabled){
+				EdgePropertyDialog dialog = new EdgePropertyDialog(e);
 
-			dialog.setLocation((int)pos.getX(), (int)pos.getY()); //TODO some kind of offset might be needed
-			dialog.setVisible(true);
+				Point pos = MouseInfo.getPointerInfo().getLocation();
+				dialog.setLocation(
+						(int)(pos.getX() - (dialog.getWidth()/2)),
+						(int)(pos.getY() - (dialog.getHeight()/2))); //TODO some kind of offset might be needed
+				dialog.setVisible(true);
+
+				if(dialog.getResponse() == DialogResponse.OK){
+					//TODO Do we need this?
+				}
+			}
 		}
 
 		return e;
