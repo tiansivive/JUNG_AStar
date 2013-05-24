@@ -57,7 +57,11 @@ public class VertexPriorityDialog<V> extends JDialog implements ActionListener{
 			priority_slider.setMinimum(-10);
 			priority_slider.setMinorTickSpacing(1);
 			priority_slider.setMaximum(-1);
-			priority_slider.setValue(priority_slider.getMaximum());
+			if((-1*v.getOrder()) < priority_slider.getMinimum() || (-1*v.getOrder()) > priority_slider.getMaximum()) { 
+				priority_slider.setValue(priority_slider.getMaximum());
+			} else {
+				priority_slider.setValue(-1*v.getOrder());
+			}
 		}
 		
 		btnLowPriority = new JButton("Lowest Priority");
@@ -127,12 +131,12 @@ public class VertexPriorityDialog<V> extends JDialog implements ActionListener{
 						priority_slider.setValue(priority_slider.getMinimum());
 					}else{
 						if(source.equals(okButton)){
-							v.setOrder(priority_slider.getValue());
-							System.out.println("ok");
+							v.setOrder(-1*priority_slider.getValue());
+							System.out.println("ok"); //TODO: remove this?
 							this.dispose();
 						}else{
 							if(source.equals(cancelButton)){
-								System.out.println("cancel");
+								System.out.println("cancel"); //TODO: remove this?
 								this.dispose();
 							}
 						}
