@@ -5,12 +5,13 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JMenuItem;
 
+import utilities.enums.DialogResponse;
+
 import magicNumbers.Values;
 import dataStructure.graph.RoadNetworkGraph;
 import edu.uci.ics.jung.graph.Graph;
 import edu.uci.ics.jung.visualization.VisualizationViewer;
 import gui.mouse.plugins.menus.auxiliarInterfaces.VertexMenuListener;
-import gui.mouse.plugins.menus.dialogs.DialogResponse;
 import gui.mouse.plugins.menus.dialogs.VertexPriorityDialog;
 
 public class PointToTraverseOption<V> extends JMenuItem implements VertexMenuListener<V>{

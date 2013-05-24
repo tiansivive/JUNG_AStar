@@ -1,4 +1,4 @@
-package gui.mouse.plugins.menus.dialogs;
+package utilities.enums;
 
 public enum DialogResponse{
 	OK, CANCEL

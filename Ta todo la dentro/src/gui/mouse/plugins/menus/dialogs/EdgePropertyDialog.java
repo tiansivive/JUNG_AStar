@@ -21,6 +21,8 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
 
+import utilities.enums.DialogResponse;
+
 import magicNumbers.Values;
 import dataStructure.graph.Edge;
 

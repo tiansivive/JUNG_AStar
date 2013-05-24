@@ -3,8 +3,9 @@ package utilities.factories;
 
 import org.apache.commons.collections15.Factory;
 
+import utilities.enums.VertexType;
+
 import dataStructure.graph.Vertex;
-import dataStructure.graph.VertexType;
 
 
 public class GUI_VertexFactory implements Factory<Vertex>{

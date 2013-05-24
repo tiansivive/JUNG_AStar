@@ -1,6 +1,5 @@
 package utilities.factories;
 
-import gui.mouse.plugins.menus.dialogs.DialogResponse;
 import gui.mouse.plugins.menus.dialogs.EdgePropertyDialog;
 
 import java.awt.MouseInfo;
@@ -9,6 +8,8 @@ import java.awt.Point;
 import magicNumbers.Values;
 
 import org.apache.commons.collections15.Factory;
+
+import utilities.enums.DialogResponse;
 
 import dataStructure.graph.Edge;
 

@@ -3,6 +3,8 @@ package dataStructure.graph;
 import java.awt.Point;
 import java.io.Serializable;
 
+import utilities.enums.VertexType;
+
 import magicNumbers.Values;
 
 public class Vertex implements Serializable{

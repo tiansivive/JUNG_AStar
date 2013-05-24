@@ -1,4 +1,4 @@
-package dataStructure.graph;
+package utilities.enums;
 
 public enum VertexType{
 	INTERSECTION,

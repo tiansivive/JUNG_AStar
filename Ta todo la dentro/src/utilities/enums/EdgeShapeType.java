@@ -1,4 +1,4 @@
-package utilities.transformers;
+package utilities.enums;
 
 public enum EdgeShapeType {
 

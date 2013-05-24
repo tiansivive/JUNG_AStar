@@ -20,6 +20,8 @@ import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JCheckBox;
 
+import utilities.enums.DialogResponse;
+
 public class VertexPriorityDialog<V> extends JDialog implements ActionListener{
 
 	private static final long serialVersionUID = -4642561891243761662L;

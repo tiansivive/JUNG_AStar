@@ -4,6 +4,8 @@ import java.awt.Shape;
 
 import org.apache.commons.collections15.Transformer;
 
+import utilities.enums.EdgeShapeType;
+
 import dataStructure.graph.Edge;
 import dataStructure.graph.Vertex;
 import edu.uci.ics.jung.graph.Graph;
