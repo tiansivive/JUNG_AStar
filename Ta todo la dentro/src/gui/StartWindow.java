@@ -645,8 +645,8 @@ public class StartWindow implements ActionListener {
 			}
 		}
 		//System.out.println("POINTS TO TRAVERSE"); //TODO: remove this
-		/*for(Vertex vertex: toTravelVec) {
-			System.out.println("To visit " + vertex.getName());
+		for(Vertex vertex: toTravelVec) {
+			System.out.println("To visit " + vertex.getName() + "| order " + vertex.getOrder());
 		}
 		//System.out.println("END POINTS TO TRAVERSE\n");*/
 		//System.out.println(toTravelVec.size());
