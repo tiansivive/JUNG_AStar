@@ -626,6 +626,36 @@ public class StartWindow implements ActionListener {
 			initMenuBar();
 			frame.pack();
 			frame.setVisible(true);
+			
+			System.out.println("FILENAME: " + filename);
+			
+			if(filename.matches("OneCuteGraph.graphml")){
+				
+				System.out.println("AQUI ESTOU EU");
+				
+				for(Edge e : graph.getRoadNetwork().getEdges()){
+					
+					if(e.getDistance() < 5){
+						e.setSpeedLimit(50);
+						e.setCapacity(200);
+					}else{
+						if(e.getDistance() < 10){
+							e.setSpeedLimit(70);
+							e.setCapacity(500);
+						}else{
+							if(e.getDistance() < 20){
+								e.setSpeedLimit(90);
+								e.setCapacity(1000);
+							}else{
+								e.setSpeedLimit(120);
+								e.setCapacity(5000);
+							}
+						}
+					}
+					
+				}
+				
+			}
 
 
 		}catch(IOException i){
