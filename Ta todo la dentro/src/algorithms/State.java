@@ -14,9 +14,10 @@ public class State {
 	State from;
 	Vertex position;
 	
-	double cost;
+	double distance;
+	double time; //TODO: add this
 	double heuristic;
-	double total;
+	//double total; //TODO: remove this
 	
 	Vector<Vertex> toVisit;
 	Vector<Integer> order;
@@ -26,9 +27,9 @@ public class State {
 	public State() {
 		from = null;
 		position = null;
-		cost = 0;
+		distance = 0;
+		time = 0;
 		heuristic = 0;
-		total = 0;
 		toVisit = new Vector<Vertex>();
 		car = null;
 	}
@@ -37,9 +38,9 @@ public class State {
 		from = null;
 		position = pos;
 		
-		cost = 0;
+		distance = 0;
+		time = 0;
 		heuristic = 0;
-		total = 0;
 		car = veh;
 		if(isActive() && pos.isFuelStation()) {
 			car.refill();
@@ -58,16 +59,15 @@ public class State {
 		} else {
 			heuristic += position.distance(end);
 		}
-		calcTotal();
 }
 	
-	public State(State fr, Vertex pos, double cos, Vector<Vertex> toVis, Vehicle veh, Vertex end) {
+	public State(State fr, Vertex pos, double dist, double tim, Vector<Vertex> toVis, Vehicle veh, Vertex end) {
 			from = fr;
 			position = pos;
 			
-			cost = 0;
+			distance = dist;
+			time = tim;
 			heuristic = 0;
-			total = 0;
 			car = veh;
 			if(isActive() && pos.isFuelStation()) {
 				car.refill();
@@ -86,7 +86,6 @@ public class State {
 			} else {
 				heuristic += position.distance(end);
 			}
-			calcTotal();
 	}
 
 	//Getters
@@ -98,16 +97,16 @@ public class State {
 		return position;
 	}
 
-	public double getCost() {
-		return cost;
+	public double getDistance() {
+		return distance;
+	}
+	
+	public double getTime() {
+		return time;
 	}
 
 	public double getHeuristic() {
 		return heuristic;
-	}
-	
-	public double getTotal() {
-		return total;
 	}
 
 	public Vector<Vertex> getToVisit() {
@@ -117,7 +116,18 @@ public class State {
 	public Vehicle getCar() {
 		return car;
 	}
-	
+	public double getCost(int type) {
+		double ret = 0;
+		if(type == AStar.DISTANCE) {
+			ret += distance;
+		} else {
+			if(type == AStar.TIME) {
+				ret += time;
+			}
+		}
+		ret += heuristic;
+		return ret;
+	}
 	
 	
 	private void calcHeurWithoutEnd() {
@@ -163,10 +173,6 @@ public class State {
 		
 	}
 	
-	private void calcTotal() {
-		total = cost + heuristic;
-	}
-	
 	private void reCalcToVisit() {
 		int minOrder = Integer.MAX_VALUE;
 		for (Vertex vertex : toVisit) {
@@ -191,12 +197,15 @@ public class State {
 		for(Edge edge : paths) {
 			Vertex newVertex = roadNetwork.getDest(edge);
 			
-			double distance = edge.getDistance();
-			double newCost = this.cost + distance;
+			double dist = edge.getDistance();
+			int maxSpd = Math.min(edge.getSpeedLimit(), car.getMaxSpeed());
+			double tim = dist/(double)(maxSpd);
+			double newDist = this.distance + dist;
+			double newTime = this.time + tim;
 			Vehicle newCar = new Vehicle(car);
-			newCar.travel(distance);
+			newCar.travel(dist);
 			if(newCar.getCurrentFuel() >= 0) {
-				neighbor.add(new State(this,newVertex,newCost,toVisit,newCar, end));
+				neighbor.add(new State(this,newVertex,newDist,newTime,toVisit,newCar, end));
 			}
 		}
 		return neighbor;
@@ -218,11 +227,13 @@ public class State {
 		return true;
 	}
 	
-	public boolean isWorst(State state) {
+	public boolean isWorst(State state, int type) {
 		if(position == state.position) {
 			if(car.getCurrentFuel() <= state.car.getCurrentFuel()) {
-				if(state.toVisit.containsAll(toVisit) && state.toVisit.size() == toVisit.size()) {
-					return true;	
+				if((type == AStar.DISTANCE  && distance >= state.distance) || (type == AStar.TIME  && time >= state.time)) {
+					if(state.toVisit.containsAll(toVisit) && state.toVisit.size() == toVisit.size()) {
+						return true;	
+					}
 				}
 			}
 		}
