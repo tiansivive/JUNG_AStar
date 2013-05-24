@@ -701,11 +701,10 @@ public class StartWindow implements ActionListener {
 		//System.out.println("END POINTS TO TRAVERSE\n");*/
 		//System.out.println(toTravelVec.size());
 		
-		Vehicle car = new Vehicle(100,100,0.1); //TODO: change this
-		AStar star = new AStar(); //TODO: change this		
+		Vehicle car = new Vehicle(100,100,0.1, 100); //TODO: change this
 		
 		if(begin != null && end != null) { //TODO: test if lastState not null
-			State lastState = star.getPath(begin, end, toTravelVec, car, roadNetwork, true);
+			State lastState = AStar.getPath(begin, end, toTravelVec, car, roadNetwork, AStar.DISTANCE);
 			//System.out.println("OPEN: " + star.openSize());  
 			//System.out.println("CLOS: " + star.closedSize()); //TODO: remove this
 			if(lastState == null) {
@@ -713,7 +712,9 @@ public class StartWindow implements ActionListener {
 				vv.repaint();
 				return;
 			}
-			Vector<Vertex> pathVertex = star.getPathVertex(lastState);
+			System.out.println("Distance: " + lastState.getDistance());
+			System.out.println("Time: " + lastState.getTime());
+			Vector<Vertex> pathVertex = AStar.getPathVertex(lastState);
 			for(int i = 1; i < pathVertex.size(); ++i) {
 				Vertex arg0 = pathVertex.elementAt(i);
 				Vertex arg1 = pathVertex.elementAt(i-1);
