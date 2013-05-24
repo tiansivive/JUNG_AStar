@@ -17,15 +17,12 @@ public class Values{
 	public static final int window_initial_y_resolution = 550;
 	
 	public static final int min_edge_speedLimit = 0;
-	public static final double min_edge_weight = 0;
 	public static final double min_edge_capacity = 0;
 	public static final double min_edge_distance = 0;
 	
-	public static int default_edge_speedLimit = 1;
-	public static double default_edge_weight = 1;
+	public static int default_edge_speedLimit = 100;
 	public static double default_edge_capacity = 1;
 	public static double default_edge_distance = 1;
-	// public static final boolean default_edge_bidirectionality = true; //TODO: remove this
 	
 	
 	public static final String vertex_popupMenu_delete_option = "Delete Vertex";

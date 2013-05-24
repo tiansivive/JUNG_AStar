@@ -523,11 +523,6 @@ public class StartWindow implements ActionListener {
 					return Double.toString(e.getDistance());
 				}
 			});
-			graphWriter.addEdgeData("weight", "The Edge weight", "0", new Transformer<Edge, String>(){
-				public String transform(Edge e){
-					return Double.toString(e.getWeight());
-				}
-			});
 			graphWriter.addEdgeData("capacity", "The Edge capacity", "0", new Transformer<Edge, String>(){
 				public String transform(Edge e){
 					return Double.toString(e.getCapacity());
@@ -602,7 +597,6 @@ public class StartWindow implements ActionListener {
 				e.setName(edge_meta.get("name").transformer.transform(e));
 				e.setSpeedLimit(Integer.parseInt(edge_meta.get("speedLimit").transformer.transform(e)));
 				e.setDistance(Double.parseDouble(edge_meta.get("distance").transformer.transform(e)));
-				e.setWeight(Double.parseDouble(edge_meta.get("weight").transformer.transform(e)));
 				e.setCapacity(Double.parseDouble(edge_meta.get("capacity").transformer.transform(e)));
 			}
 

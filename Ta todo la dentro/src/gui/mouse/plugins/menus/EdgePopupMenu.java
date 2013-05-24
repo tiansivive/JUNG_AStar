@@ -22,7 +22,6 @@ public class EdgePopupMenu extends JPopupMenu {
 		super(Values.edge_popupMenu_name);
 		this.add(new DeleteEdgeMenuOption<Edge>());
 		this.addSeparator();
-		this.add(new WeightDisplay());
 		this.add(new CapacityDisplay());
 		this.add(new SpeedLimitDisplay());
 		this.add(new DistanceDisplay());
@@ -30,13 +29,7 @@ public class EdgePopupMenu extends JPopupMenu {
 		this.add(new ChangeEdgePropertiesMenuOption(frame)); 
 	}
 
-	private static class WeightDisplay extends JMenuItem implements EdgeMenuListener<Edge> {
-
-		private static final long serialVersionUID = 2148473634887218435L;
-		public void setEdgeAndView(Edge e, VisualizationViewer<?, Edge> visComp) {
-			this.setText("Weight of " + e + ": " + e.getWeight());
-		}
-	}
+	
 	private static class CapacityDisplay extends JMenuItem implements EdgeMenuListener<Edge> {
 
 		private static final long serialVersionUID = -1423088391223512823L;

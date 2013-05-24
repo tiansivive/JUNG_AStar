@@ -16,7 +16,6 @@ public class Edge implements Serializable{
 	
 	private int speedLimit;
 	private double distance;
-	private double weight;
 	private double capacity; //TODO not for now
 	
 	private String name;
@@ -27,7 +26,6 @@ public class Edge implements Serializable{
 		this.id = Values.EdgesCurrentID;
 		this.speedLimit = Values.default_edge_speedLimit;
 		this.distance = Values.default_edge_distance;
-		this.weight = Values.default_edge_weight;
 		this.capacity = Values.default_edge_capacity;
 		
 	}
@@ -38,7 +36,6 @@ public class Edge implements Serializable{
 		this.id = Values.EdgesCurrentID;
 		this.speedLimit = speed;
 		this.distance = dist;
-		this.weight = w;
 		this.capacity = -1;
 	}
 
@@ -48,7 +45,6 @@ public class Edge implements Serializable{
 		this.id = Values.EdgesCurrentID;
 		this.speedLimit = speed;
 		this.distance = dist;
-		this.weight = w;
 		this.capacity = c;
 
 	}
@@ -76,12 +72,6 @@ public class Edge implements Serializable{
 	}
 	public void setDistance(double distance) {
 		this.distance = distance;
-	}
-	public double getWeight() {
-		return weight;
-	}
-	public void setWeight(double weight) {
-		this.weight = weight;
 	}
 	public double getCapacity() {
 		return capacity;

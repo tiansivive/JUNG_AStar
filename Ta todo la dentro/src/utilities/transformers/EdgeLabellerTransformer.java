@@ -26,9 +26,6 @@ public class EdgeLabellerTransformer implements Transformer<Edge, String>{
 			case DISTANCE:{
 				return Double.toString(e.getDistance());
 			}
-			case WEIGHT:{
-				return Double.toString(e.getWeight());
-			}
 			case CAPACITY:{
 				return Double.toString(e.getCapacity());
 			}
