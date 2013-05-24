@@ -30,7 +30,7 @@ public class Edge implements Serializable{
 		
 	}
 	
-	public Edge(int speed, double dist, double w){
+	public Edge(int speed, double dist){
 
 		Values.EdgesCurrentID++;
 		this.id = Values.EdgesCurrentID;
@@ -39,7 +39,7 @@ public class Edge implements Serializable{
 		this.capacity = -1;
 	}
 
-	public Edge(int speed, double dist, double w, double c){
+	public Edge(int speed, double dist, double c){
 		
 		Values.EdgesCurrentID++;
 		this.id = Values.EdgesCurrentID;
