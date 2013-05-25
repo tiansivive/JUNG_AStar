@@ -11,6 +11,7 @@ import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -741,13 +742,6 @@ public class StartWindow implements ActionListener {
 		roadNetwork.updateVertexPositions(roadNetworkLayout);
 		roadNetwork.getSelectedEdges().clear();
 
-		/*System.out.println("\nVERTEXES IN GRAPH:"); //TODO: remove this
-			int ind = 1;
-			for(Vertex v : graph.getRoadNetwork().getVertices()){
-
-				System.out.println(ind + ": " + v.toString());
-			}
-			System.out.println("END VERTEXES IN GRAPH\n"); */
 
 		Vertex begin = roadNetwork.getInitialVertex();
 		Vertex end = roadNetwork.getEndVertex();
@@ -756,24 +750,11 @@ public class StartWindow implements ActionListener {
 		for(Vertex vertex: toTravelSet) {
 			if(vertex != null) {
 				toTravelVec.add(vertex);
-			} else {
-				System.out.println("null!"); //TODO: remove this
 			}
-
 		}
 
-		//System.out.println("POINTS TO TRAVERSE"); //TODO: remove this
-		/*for(Vertex vertex: toTravelVec) {
-				System.out.println("To visit " + vertex.getName() + "| order " + vertex.getOrder());
-			}
-			//System.out.println("END POINTS TO TRAVERSE\n");*/
-		//System.out.println(toTravelVec.size());
-
-		if(begin != null && end != null) { //TODO: test if lastState not null
+		if(begin != null && end != null) {
 			State lastState = AStar.getPath(begin, end, toTravelVec, car, roadNetwork, type);
-
-			//System.out.println("OPEN: " + star.openSize());  
-			//System.out.println("CLOS: " + star.closedSize()); //TODO: remove this
 			if(lastState == null) {
 				System.out.println("PATH NOT FOUND!");
 				vv.repaint();
@@ -888,7 +869,6 @@ public class StartWindow implements ActionListener {
 							vDialog.dispose();
 						}
 						if(source.equals(resetTempl_menuButton)){
-							System.out.println("TEMPLATE");
 							edgeFactory.resetTemplate();
 						}
 						if(source.equals(updateDist_menuButton)){
@@ -902,6 +882,57 @@ public class StartWindow implements ActionListener {
 			
 		}
 			
+	}
+	
+	public void testAlg() { //for test purposes
+		long startTime = 0;
+		long endTime = 0;
+		long difTime = 0;
+		
+		File file = new File("test.txt");
+		System.out.println(file.getAbsolutePath());
+		
+		FileWriter fileWriter = null;
+		try {
+			fileWriter = new FileWriter(file);
+		} catch (IOException e) {e.printStackTrace();}		
+		
+		Vehicle car = new Vehicle(
+				Values.default_vehicle_fuel,
+				Values.default_vehicle_fuel_tank_capacity,
+				Values.default_vehicle_consumption,
+				Values.default_vehicle_speed); 
+
+		System.out.println("TEST STARTED!");
+		RoadNetworkGraph<Vertex, Edge> roadNetwork = graph.getRoadNetwork();
+		roadNetwork.updateVertexPositions(roadNetworkLayout);
+		
+		Vector<Vertex> toTravelVec = new Vector<>();
+		State testState;
+		String testString = "";
+		
+		for(Vertex v1: roadNetworkLayout.getGraph().getVertices()) {
+			for(Vertex v2: roadNetworkLayout.getGraph().getVertices()) {
+				startTime = System.currentTimeMillis();
+				testState = AStar.getPath(v1, v2, toTravelVec, car, roadNetwork, type);
+				endTime = System.currentTimeMillis();
+				difTime = endTime - startTime;
+				if(testState != null) {
+					testString = "Found path between ";
+				} else {
+					testString= "Path not founded between ";
+				}
+				try {
+					fileWriter.write(testString+v1.getName()+" to "+v2.getName()+" in "+difTime+"\n");
+				} catch (IOException e) {e.printStackTrace();}
+			}
+		}
+
+		try {
+			fileWriter.close();
+		} catch (IOException e) {e.printStackTrace();}
+		
+		System.out.println("TEST ENDED!");
 	}
 }
 
