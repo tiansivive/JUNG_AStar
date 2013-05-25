@@ -30,7 +30,6 @@ public class DeleteVertexMenuOption<V> extends JMenuItem implements VertexMenuLi
 		this.vertex = vert;
 		this.visComp = visComp;
 		this.setText("Delete " + vert.toString()); //TODO something else in message
-
 	}
-
+	
 }

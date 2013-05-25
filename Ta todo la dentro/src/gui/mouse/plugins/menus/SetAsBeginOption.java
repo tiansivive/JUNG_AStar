@@ -14,9 +14,6 @@ import magicNumbers.Values;
 
 public class SetAsBeginOption<V> extends JMenuItem implements VertexMenuListener<V> {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -3734921165888918221L;
 	
 	private V vertex;
@@ -38,9 +35,7 @@ public class SetAsBeginOption<V> extends JMenuItem implements VertexMenuListener
 	@Override
 	public void setVertexAndView(V v, VisualizationViewer<V, ?> visComp) {
 		this.vertex = v;
-		this.vv = visComp;
-
-		
+		this.vv = visComp;	
 	}
 
 }

@@ -15,9 +15,8 @@ public class State {
 	Vertex position;
 	
 	double distance;
-	double time; //TODO: add this
+	double time;
 	double heuristic;
-	//double total; //TODO: remove this
 	
 	Vector<Vertex> toVisit;
 	Vector<Integer> order;
@@ -169,8 +168,7 @@ public class State {
 			order.add(index);
 			heuristic += minDistance;
 			current = toVisit.elementAt(index);
-		}
-		
+		}	
 	}
 	
 	private void reCalcToVisit() {
@@ -185,8 +183,7 @@ public class State {
 				toVisit.remove(i);
 				--i;
 			}
-		}
-		
+		}	
 	}	
 	
 
@@ -216,14 +213,12 @@ public class State {
 	}
 
 	public boolean isActive() {
-	
 		if(position == null) {
 			return false;
 		}
 		if(car.getCurrentFuel() < 0) {
 			return false;
 		}
-		
 		return true;
 	}
 	

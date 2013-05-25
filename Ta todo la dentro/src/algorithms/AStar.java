@@ -38,7 +38,6 @@ public class AStar {
 		return closedlist.size();
 	}
 
-	//TODO: change or remove test
 	public static State getPath(Vertex start, Vertex end, Vector<Vertex> toVisit, Vehicle vehicle, RoadNetworkGraph<Vertex, Edge> roadNetwork, int type) {
 		openlist = new PriorityQueue<State>(1,comparatorDistance);
 		closedlist = new PriorityQueue<State>(1,comparatorDistance);
@@ -54,9 +53,6 @@ public class AStar {
 		while(!openlist.isEmpty()) {
 			current = openlist.poll();
 			closedlist.add(current);
-
-			//TODO: remove this
-			//System.out.println("current- " + current.getPosition().getName() + " - " + current.getToVisit().size());
 
 			if(current.isActive()) {
 				if(current.isVertex(end) && current.getToVisit().size() == 0) {

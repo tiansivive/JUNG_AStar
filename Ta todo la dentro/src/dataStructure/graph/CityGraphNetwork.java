@@ -6,9 +6,6 @@ import java.io.Serializable;
 
 public class CityGraphNetwork implements Serializable{
 	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 4952680776769615259L;
 	private RoadNetworkGraph<Vertex, Edge> roadNetwork;
 
