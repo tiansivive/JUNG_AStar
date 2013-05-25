@@ -104,6 +104,7 @@ public class StartWindow implements ActionListener {
 	private ButtonGroup radioButtonsGroup;
 	private ButtonGroup edgeLabelMenuButtonGroup;
 	private ButtonGroup edgeShapeMenuButtonGroup;
+	private ButtonGroup algTypeMenuButtonGroup;
 	private ButtonGroup otherMenuButtonGroup;
 	
 	private GroupLayout gl_buttonsPanel;
@@ -115,6 +116,7 @@ public class StartWindow implements ActionListener {
 	private JMenu modeMenu;
 	private JMenu edgeMenu;
 	private JMenu edgeShapeMenu;
+	private JMenu algTypeMenu;
 	private JMenu otherMenu;
 	
 	private JRadioButtonMenuItem nameLabel_radioButton;
@@ -125,12 +127,13 @@ public class StartWindow implements ActionListener {
 	private JRadioButtonMenuItem edgeBentLineShape_radioButton;
 	private JRadioButtonMenuItem edgeCubicCurve_radioButton;
 	private JRadioButtonMenuItem edgeQuadCurve_radioButton;
+	private JRadioButtonMenuItem distance_radioButton;
+	private JRadioButtonMenuItem time_radioButton;
 	private JMenuItem vehicle_menuButton;
 	private JMenuItem resetTempl_menuButton;
 	private JMenuItem updateDist_menuButton;
 	
-
-
+	private int type = AStar.DISTANCE;
 	/**
 	 * Launch the application.
 	 */
@@ -427,7 +430,6 @@ public class StartWindow implements ActionListener {
 		edgeShapeMenu.add(edgeBentLineShape_radioButton);
 		edgeShapeMenu.add(edgeCubicCurve_radioButton);
 		edgeShapeMenu.add(edgeQuadCurve_radioButton);
-		//menuBar.add(edgeShapeMenu);
 		
 		/**************************************************************************/
 		
@@ -462,16 +464,38 @@ public class StartWindow implements ActionListener {
 		
 		/**************************************************************************/
 		
+		algTypeMenu = new JMenu("Alg Type"); //TODO: change the text of menu
+		algTypeMenuButtonGroup = new ButtonGroup();
+		
+		distance_radioButton = new JRadioButtonMenuItem("Distance");
+		distance_radioButton.addActionListener(this);
+		if(type == AStar.DISTANCE) {
+			distance_radioButton.setSelected(true);
+		}
+		
+		time_radioButton = new JRadioButtonMenuItem("Time");
+		time_radioButton.addActionListener(this);
+		if(type == AStar.TIME) {
+			time_radioButton.setSelected(true);
+		}
+		
+		algTypeMenuButtonGroup.add(distance_radioButton);
+		algTypeMenuButtonGroup.add(time_radioButton);
+		
+		algTypeMenu.add(distance_radioButton);
+		algTypeMenu.add(time_radioButton);
+		menuBar.add(algTypeMenu);
+		
+		/**************************************************************************/
+		
 		otherMenu = new JMenu("Other Options");
 		otherMenuButtonGroup = new ButtonGroup();
-		
 		
 		vehicle_menuButton = new JMenuItem("Edit Vehicle");
 		vehicle_menuButton.addActionListener(this);
 		
 		resetTempl_menuButton = new JMenuItem("Reset edges template");
 		resetTempl_menuButton.addActionListener(this);
-		//resetTempl_radioButton.setEnabled(edgeFactory.getTemplate()); //TODO: add this!
 		
 		updateDist_menuButton = new JMenuItem("Update distance");
 		updateDist_menuButton.addActionListener(this);		
@@ -737,7 +761,7 @@ public class StartWindow implements ActionListener {
 		Vehicle car = new Vehicle(100,100,0.1, 100); //TODO: change this
 		
 		if(begin != null && end != null) { //TODO: test if lastState not null
-			State lastState = AStar.getPath(begin, end, toTravelVec, car, roadNetwork, AStar.DISTANCE);
+			State lastState = AStar.getPath(begin, end, toTravelVec, car, roadNetwork, type);
 			//System.out.println("OPEN: " + star.openSize());  
 			//System.out.println("CLOS: " + star.closedSize()); //TODO: remove this
 			if(lastState == null) {
@@ -832,6 +856,12 @@ public class StartWindow implements ActionListener {
 					}
 					if(source.equals(edgeCubicCurve_radioButton)){
 						edgeShapeTransformer.setType(EdgeShapeType.CUBIC_CURVE);
+					}
+					if(source.equals(distance_radioButton)){
+						type = AStar.DISTANCE;
+					}
+					if(source.equals(time_radioButton)){
+						type = AStar.TIME;
 					}
 					vv.repaint();
 				} else {
