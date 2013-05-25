@@ -762,8 +762,8 @@ public class StartWindow implements ActionListener {
 		
 		if(begin != null && end != null) { //TODO: test if lastState not null
 			State lastState = AStar.getPath(begin, end, toTravelVec, car, roadNetwork, type);
-			//System.out.println("OPEN: " + star.openSize());  
-			//System.out.println("CLOS: " + star.closedSize()); //TODO: remove this
+			//System.out.println("OPEN: " + AStar.openSize());  
+			//System.out.println("CLOS: " + AStar.closedSize()); //TODO: remove this
 			if(lastState == null) {
 				System.out.println("PATH NOT FOUND!");
 				vv.repaint();
@@ -783,7 +783,6 @@ public class StartWindow implements ActionListener {
 	}
 	
 	private void update() {
-		System.out.println("Update distances of edges"); //TODO: remove this
 		RoadNetworkGraph<Vertex, Edge> roadNetwork = graph.getRoadNetwork();
 		roadNetwork.updateVertexPositions(roadNetworkLayout);
 		
