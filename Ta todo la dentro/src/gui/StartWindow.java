@@ -27,6 +27,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JRadioButtonMenuItem;
@@ -67,12 +68,8 @@ import de.javasoft.plaf.synthetica.SyntheticaAluOxideLookAndFeel;
 import edu.uci.ics.jung.io.GraphMLMetadata;
 import edu.uci.ics.jung.io.GraphMLReader;
 import edu.uci.ics.jung.io.GraphMLWriter;
-import edu.uci.ics.jung.visualization.RenderContext;
 import edu.uci.ics.jung.visualization.control.ModalGraphMouse;
 import edu.uci.ics.jung.visualization.decorators.ToStringLabeller;
-import javax.swing.JTabbedPane;
-import javax.swing.border.TitledBorder;
-import javax.swing.JToggleButton;
 
 public class StartWindow implements ActionListener {
 	
@@ -99,8 +96,9 @@ public class StartWindow implements ActionListener {
 	private JButton new_button;
 	private JButton save_button;
 	private JButton load_button;
+
 	private JButton solve_button;
-	private JButton pixelizeDistances_button;
+
 	private JRadioButton vertexType_intersection_radioButton;
 	private JRadioButton vertexType_gasStation_radioButton;	
 	private JRadioButton vertexType_building_radioButton;
@@ -108,6 +106,8 @@ public class StartWindow implements ActionListener {
 	private ButtonGroup radioButtonsGroup;
 	private ButtonGroup edgeLabelMenuButtonGroup;
 	private ButtonGroup edgeShapeMenuButtonGroup;
+	private ButtonGroup algTypeMenuButtonGroup;
+	private ButtonGroup otherMenuButtonGroup;
 	
 	private GroupLayout gl_buttonsPanel;
 	private GroupLayout gl_leftPanel;
@@ -116,21 +116,26 @@ public class StartWindow implements ActionListener {
 	
 	private JMenuBar menuBar;
 	private JMenu modeMenu;
-	private JMenu edgeLabelMenu;
+	private JMenu edgeMenu;
 	private JMenu edgeShapeMenu;
+	private JMenu algTypeMenu;
+	private JMenu otherMenu;
 	
 	private JRadioButtonMenuItem nameLabel_radioButton;
 	private JRadioButtonMenuItem speedLimitLabel_radioButton;
 	private JRadioButtonMenuItem distanceLabel_radioButton;
-	private JRadioButtonMenuItem weightLabel_radioButton;
 	private JRadioButtonMenuItem capacityLabel_radioButton;
 	private JRadioButtonMenuItem edgeLineShape_radioButton;
 	private JRadioButtonMenuItem edgeBentLineShape_radioButton;
 	private JRadioButtonMenuItem edgeCubicCurve_radioButton;
 	private JRadioButtonMenuItem edgeQuadCurve_radioButton;
+	private JRadioButtonMenuItem distance_radioButton;
+	private JRadioButtonMenuItem time_radioButton;
+	private JMenuItem vehicle_menuButton;
+	private JMenuItem resetTempl_menuButton;
+	private JMenuItem updateDist_menuButton;
 	
-
-
+	private int type = AStar.DISTANCE;
 	/**
 	 * Launch the application.
 	 */
@@ -218,16 +223,11 @@ public class StartWindow implements ActionListener {
 		load_button.setAlignmentX(Component.CENTER_ALIGNMENT);
 		load_button.addActionListener(this);
 		
-		pixelizeDistances_button = new JButton("Pixelize");
-		pixelizeDistances_button.setAlignmentY(Component.TOP_ALIGNMENT);
-		pixelizeDistances_button.setAlignmentX(Component.CENTER_ALIGNMENT);
-		pixelizeDistances_button.addActionListener(this);
-		
 		solve_button = new JButton("Solve");
 		solve_button.setAlignmentY(Component.TOP_ALIGNMENT);
 		solve_button.setAlignmentX(Component.CENTER_ALIGNMENT);
 		solve_button.addActionListener(this);
-		
+
 		vertexType_intersection_radioButton = new JRadioButton("Intersection");
 		vertexType_intersection_radioButton.setHorizontalAlignment(SwingConstants.LEFT);
 		vertexType_intersection_radioButton.setSelected(true);
@@ -253,11 +253,10 @@ public class StartWindow implements ActionListener {
 		gl_buttonsPanel = new GroupLayout(buttonsPanel);
 		gl_buttonsPanel.setHorizontalGroup(
 			gl_buttonsPanel.createParallelGroup(Alignment.LEADING)
-				.addComponent(pixelizeDistances_button, GroupLayout.DEFAULT_SIZE, 99, Short.MAX_VALUE)
-				.addComponent(save_button, GroupLayout.DEFAULT_SIZE, 99, Short.MAX_VALUE)
-				.addComponent(load_button, GroupLayout.DEFAULT_SIZE, 99, Short.MAX_VALUE)
-				.addComponent(new_button, GroupLayout.DEFAULT_SIZE, 99, Short.MAX_VALUE)
-				.addComponent(solve_button, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 91, Short.MAX_VALUE)
+				.addComponent(save_button, GroupLayout.DEFAULT_SIZE, 91, Short.MAX_VALUE)
+				.addComponent(load_button, GroupLayout.DEFAULT_SIZE, 91, Short.MAX_VALUE)
+				.addComponent(new_button, GroupLayout.DEFAULT_SIZE, 91, Short.MAX_VALUE)
+				.addComponent(solve_button, GroupLayout.DEFAULT_SIZE, 91, Short.MAX_VALUE)
 		);
 		gl_buttonsPanel.setVerticalGroup(
 			gl_buttonsPanel.createParallelGroup(Alignment.LEADING)
@@ -269,10 +268,8 @@ public class StartWindow implements ActionListener {
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(load_button, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(pixelizeDistances_button, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(solve_button, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+					.addContainerGap(57, Short.MAX_VALUE))
 		);
 		buttonsPanel.setLayout(gl_buttonsPanel);
 		
@@ -287,13 +284,13 @@ public class StartWindow implements ActionListener {
 					.addContainerGap())
 		);
 		gl_leftPanel.setVerticalGroup(
-			gl_leftPanel.createParallelGroup(Alignment.LEADING)
-				.addGroup(Alignment.TRAILING, gl_leftPanel.createSequentialGroup()
+			gl_leftPanel.createParallelGroup(Alignment.TRAILING)
+				.addGroup(Alignment.LEADING, gl_leftPanel.createSequentialGroup()
 					.addGap(18)
-					.addComponent(buttonsPanel, GroupLayout.PREFERRED_SIZE, 260, Short.MAX_VALUE)
-					.addGap(18)
+					.addComponent(buttonsPanel, GroupLayout.PREFERRED_SIZE, 227, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(radioButtonPanel, GroupLayout.PREFERRED_SIZE, 118, GroupLayout.PREFERRED_SIZE)
-					.addGap(32))
+					.addContainerGap(74, Short.MAX_VALUE))
 		);
 		leftPanel.setLayout(gl_leftPanel);
 		
@@ -351,12 +348,32 @@ public class StartWindow implements ActionListener {
 
 	private void initVisualizationViewer(){
 
-		vv = new CustomVisualizationViewer<Vertex,Edge>(roadNetworkLayout);
+		vv = new CustomVisualizationViewer<Vertex,Edge>(roadNetworkLayout) {
+			@Override
+			public void repaint() {
+				RoadNetworkGraph<Vertex, Edge> roadNetwork = graph.getRoadNetwork();
+				Vertex arg0 = roadNetwork.getInitialVertex();
+				Vertex arg1 = roadNetwork.getEndVertex();
+				if(arg0 != null && arg1 != null) {
+					if(solve_button != null) {
+						solve_button.setEnabled(true);
+					}
+				} else {
+					if(solve_button != null) {
+						solve_button.setEnabled(false);
+					}
+				}
+				if(resetTempl_menuButton!= null && edgeFactory != null) {
+					resetTempl_menuButton.setEnabled(edgeFactory.getTemplate());
+				}
+				super.repaint();
+			}
+		};
 		vv.setBackground(UIManager.getColor("Panel.background"));
 		vv.setPreferredSize(new Dimension(Values.window_initial_x_resolution +72, Values.window_initial_y_resolution +45)); //Valores para manter a proporcao da resolucao da janela
 
 		vertexFactory = new GUI_VertexFactory();
-		edgeFactory = new GUI_EdgeFactory(true); //False para n„o aparecer aquela box sempre que se cria um edge
+		edgeFactory = new GUI_EdgeFactory(true); //False para n√£o aparecer aquela box sempre que se cria um edge
 		vertexColoringTransformer = new GUI_VertexColoringTransformer(vv);
 		vertexShapeTransformer = new GUI_VertexShapeTransformer();
 		edgeColoringTransformer = new GUI_EdgeColoringTransformer(vv);
@@ -386,45 +403,9 @@ public class StartWindow implements ActionListener {
 		modeMenu.setPreferredSize(new Dimension(80,20)); // Change the size so I can see the text
 		menuBar.add(modeMenu);
 		frame.setJMenuBar(menuBar);
-		
 		/**************************************************************************/
 		
-		edgeLabelMenu = new JMenu("Edge Label");
-		edgeLabelMenuButtonGroup = new ButtonGroup();
-		
-		nameLabel_radioButton = new JRadioButtonMenuItem("Name");
-		nameLabel_radioButton.addActionListener(this);
-		nameLabel_radioButton.setSelected(true);
-		
-		speedLimitLabel_radioButton = new JRadioButtonMenuItem("Speed Limit");
-		speedLimitLabel_radioButton.addActionListener(this);
-		
-		distanceLabel_radioButton = new JRadioButtonMenuItem("Distance");
-		distanceLabel_radioButton.addActionListener(this);
-		
-		weightLabel_radioButton = new JRadioButtonMenuItem("Weight");
-		weightLabel_radioButton.addActionListener(this);
-		
-		capacityLabel_radioButton = new JRadioButtonMenuItem("Capacity");
-		capacityLabel_radioButton.addActionListener(this);
-		
-		
-		edgeLabelMenuButtonGroup.add(nameLabel_radioButton);
-		edgeLabelMenuButtonGroup.add(speedLimitLabel_radioButton);
-		edgeLabelMenuButtonGroup.add(distanceLabel_radioButton);
-		edgeLabelMenuButtonGroup.add(weightLabel_radioButton);
-		edgeLabelMenuButtonGroup.add(capacityLabel_radioButton);
-		
-		edgeLabelMenu.add(nameLabel_radioButton);
-		edgeLabelMenu.add(speedLimitLabel_radioButton);
-		edgeLabelMenu.add(distanceLabel_radioButton);
-		edgeLabelMenu.add(weightLabel_radioButton);
-		edgeLabelMenu.add(capacityLabel_radioButton);
-		menuBar.add(edgeLabelMenu);
-		
-		/**************************************************************************/
-		
-		edgeShapeMenu = new JMenu("Edge Shape");
+		edgeShapeMenu = new JMenu("Shape");
 		edgeShapeMenuButtonGroup = new ButtonGroup();
 		
 		edgeQuadCurve_radioButton = new JRadioButtonMenuItem("Quad Curve");
@@ -450,7 +431,84 @@ public class StartWindow implements ActionListener {
 		edgeShapeMenu.add(edgeBentLineShape_radioButton);
 		edgeShapeMenu.add(edgeCubicCurve_radioButton);
 		edgeShapeMenu.add(edgeQuadCurve_radioButton);
-		menuBar.add(edgeShapeMenu);
+		
+		/**************************************************************************/
+		
+		edgeMenu = new JMenu("Edge");
+		edgeLabelMenuButtonGroup = new ButtonGroup();
+		
+		nameLabel_radioButton = new JRadioButtonMenuItem("Name");
+		nameLabel_radioButton.addActionListener(this);
+		nameLabel_radioButton.setSelected(true);
+		
+		speedLimitLabel_radioButton = new JRadioButtonMenuItem("Speed Limit");
+		speedLimitLabel_radioButton.addActionListener(this);
+		
+		distanceLabel_radioButton = new JRadioButtonMenuItem("Distance");
+		distanceLabel_radioButton.addActionListener(this);
+		
+		capacityLabel_radioButton = new JRadioButtonMenuItem("Capacity");
+		capacityLabel_radioButton.addActionListener(this);
+		
+		edgeLabelMenuButtonGroup.add(nameLabel_radioButton);
+		edgeLabelMenuButtonGroup.add(speedLimitLabel_radioButton);
+		edgeLabelMenuButtonGroup.add(distanceLabel_radioButton);
+		edgeLabelMenuButtonGroup.add(capacityLabel_radioButton);
+		
+		edgeMenu.add(nameLabel_radioButton);
+		edgeMenu.add(speedLimitLabel_radioButton);
+		edgeMenu.add(distanceLabel_radioButton);
+		edgeMenu.add(capacityLabel_radioButton);
+		edgeMenu.addSeparator();
+		edgeMenu.add(edgeShapeMenu);
+		menuBar.add(edgeMenu);
+		
+		/**************************************************************************/
+		
+		algTypeMenu = new JMenu("Algorithm");
+		algTypeMenuButtonGroup = new ButtonGroup();
+		
+		distance_radioButton = new JRadioButtonMenuItem("Distance");
+		distance_radioButton.addActionListener(this);
+		if(type == AStar.DISTANCE) {
+			distance_radioButton.setSelected(true);
+		}
+		
+		time_radioButton = new JRadioButtonMenuItem("Time");
+		time_radioButton.addActionListener(this);
+		if(type == AStar.TIME) {
+			time_radioButton.setSelected(true);
+		}
+		
+		algTypeMenuButtonGroup.add(distance_radioButton);
+		algTypeMenuButtonGroup.add(time_radioButton);
+		
+		algTypeMenu.add(distance_radioButton);
+		algTypeMenu.add(time_radioButton);
+		menuBar.add(algTypeMenu);
+		
+		/**************************************************************************/
+		
+		otherMenu = new JMenu("Other Options");
+		otherMenuButtonGroup = new ButtonGroup();
+		
+		vehicle_menuButton = new JMenuItem("Edit Vehicle");
+		vehicle_menuButton.addActionListener(this);
+		
+		resetTempl_menuButton = new JMenuItem("Reset edges template");
+		resetTempl_menuButton.addActionListener(this);
+		
+		updateDist_menuButton = new JMenuItem("Update distance");
+		updateDist_menuButton.addActionListener(this);		
+		
+		otherMenuButtonGroup.add(vehicle_menuButton);
+		otherMenuButtonGroup.add(resetTempl_menuButton);
+		otherMenuButtonGroup.add(updateDist_menuButton);
+		
+		otherMenu.add(vehicle_menuButton);
+		otherMenu.add(resetTempl_menuButton);
+		otherMenu.add(updateDist_menuButton);
+		menuBar.add(otherMenu);
 		
 		/**************************************************************************/
 
@@ -666,83 +724,76 @@ public class StartWindow implements ActionListener {
 		frame.pack();
 		frame.setVisible(true);
 	}
-	
+
 	private void solve() {
-		
-	
+
+
 		Vehicle car = new Vehicle(
 				Values.default_vehicle_fuel,
 				Values.default_vehicle_fuel_tank_capacity,
 				Values.default_vehicle_consumption,
 				Values.default_vehicle_speed); 
-		
-		
-		AlgorithmDialog options = new AlgorithmDialog(car);
-		options.setVisible(true);
 
-		int algorithmType = options.getAlgorithmType();
-		
-		if(options.getResponse() == DialogResponse.OK){
-			options.dispose();
-			
-			System.out.println("A_STAR!"); //TODO: remove this
-			RoadNetworkGraph<Vertex, Edge> roadNetwork = graph.getRoadNetwork();
-			roadNetwork.updateVertexPositions(roadNetworkLayout);
-			roadNetwork.getSelectedEdges().clear();
-			
-			/*System.out.println("\nVERTEXES IN GRAPH:"); //TODO: remove this
+
+
+		System.out.println("A_STAR!"); //TODO: remove this
+		RoadNetworkGraph<Vertex, Edge> roadNetwork = graph.getRoadNetwork();
+		roadNetwork.updateVertexPositions(roadNetworkLayout);
+		roadNetwork.getSelectedEdges().clear();
+
+		/*System.out.println("\nVERTEXES IN GRAPH:"); //TODO: remove this
 			int ind = 1;
 			for(Vertex v : graph.getRoadNetwork().getVertices()){
-				
+
 				System.out.println(ind + ": " + v.toString());
 			}
 			System.out.println("END VERTEXES IN GRAPH\n"); */
-			
-			Vertex begin = roadNetwork.getInitialVertex();
-			Vertex end = roadNetwork.getEndVertex();
-			Set<Vertex> toTravelSet = roadNetwork.getPointsToTraverse();
-			Vector<Vertex> toTravelVec = new Vector<>();
-			for(Vertex vertex: toTravelSet) {
-				if(vertex != null) {
-					toTravelVec.add(vertex);
-				} else {
-					System.out.println("null!"); //TODO: remove this
-				}
+
+		Vertex begin = roadNetwork.getInitialVertex();
+		Vertex end = roadNetwork.getEndVertex();
+		Set<Vertex> toTravelSet = roadNetwork.getPointsToTraverse();
+		Vector<Vertex> toTravelVec = new Vector<>();
+		for(Vertex vertex: toTravelSet) {
+			if(vertex != null) {
+				toTravelVec.add(vertex);
+			} else {
+				System.out.println("null!"); //TODO: remove this
 			}
-			
-			//System.out.println("POINTS TO TRAVERSE"); //TODO: remove this
-			/*for(Vertex vertex: toTravelVec) {
+
+		}
+
+		//System.out.println("POINTS TO TRAVERSE"); //TODO: remove this
+		/*for(Vertex vertex: toTravelVec) {
 				System.out.println("To visit " + vertex.getName() + "| order " + vertex.getOrder());
 			}
 			//System.out.println("END POINTS TO TRAVERSE\n");*/
-			//System.out.println(toTravelVec.size());
-			
-			if(begin != null && end != null) { //TODO: test if lastState not null
-				State lastState = AStar.getPath(begin, end, toTravelVec, car, roadNetwork, algorithmType);
-				
-				//System.out.println("OPEN: " + star.openSize());  
-				//System.out.println("CLOS: " + star.closedSize()); //TODO: remove this
-				if(lastState == null) {
-					System.out.println("PATH NOT FOUND!");
-					vv.repaint();
-					return;
-				}
-				System.out.println("Distance: " + lastState.getDistance());
-				System.out.println("Time: " + lastState.getTime());
-				Vector<Vertex> pathVertex = AStar.getPathVertex(lastState);
-				for(int i = 1; i < pathVertex.size(); ++i) {
-					Vertex arg0 = pathVertex.elementAt(i);
-					Vertex arg1 = pathVertex.elementAt(i-1);
-					Edge edge = roadNetwork.findEdge(arg0, arg1);
-					roadNetwork.getSelectedEdges().add(edge);
-				}
+		//System.out.println(toTravelVec.size());
+
+		if(begin != null && end != null) { //TODO: test if lastState not null
+			State lastState = AStar.getPath(begin, end, toTravelVec, car, roadNetwork, type);
+
+			//System.out.println("OPEN: " + star.openSize());  
+			//System.out.println("CLOS: " + star.closedSize()); //TODO: remove this
+			if(lastState == null) {
+				System.out.println("PATH NOT FOUND!");
+				vv.repaint();
+				return;
+			}
+			System.out.println("Distance: " + lastState.getDistance());
+			System.out.println("Time: " + lastState.getTime());
+			Vector<Vertex> pathVertex = AStar.getPathVertex(lastState);
+			for(int i = 1; i < pathVertex.size(); ++i) {
+				Vertex arg0 = pathVertex.elementAt(i);
+				Vertex arg1 = pathVertex.elementAt(i-1);
+				Edge edge = roadNetwork.findEdge(arg0, arg1);
+				roadNetwork.getSelectedEdges().add(edge);
 			}
 		}
+
 		vv.repaint();		
 	}
 	
-	private void update() {
-		System.out.println("Update Distances of edges"); //TODO: remove this
+	private void pixelize() {
 		RoadNetworkGraph<Vertex, Edge> roadNetwork = graph.getRoadNetwork();
 		roadNetwork.updateVertexPositions(roadNetworkLayout);
 		
@@ -751,6 +802,8 @@ public class StartWindow implements ActionListener {
 			Vertex vertex1 = roadNetwork.getDest(edge);
 			edge.setDistance(vertex0.distance(vertex1));
 		}
+		
+		vv.repaint();
 		
 	}
 	
@@ -771,10 +824,6 @@ public class StartWindow implements ActionListener {
 					} else{
 						if(source.equals(solve_button)){
 							solve();
-						} else {
-							if(source.equals(pixelizeDistances_button)){
-								update();
-							}
 						}
 					}
 				}
@@ -805,9 +854,6 @@ public class StartWindow implements ActionListener {
 					if(source.equals(distanceLabel_radioButton)){
 						edgeLabelTransformer.setLabelType(EdgeLabel.DISTANCE);
 					}
-					if(source.equals(weightLabel_radioButton)){
-						edgeLabelTransformer.setLabelType(EdgeLabel.WEIGHT);
-					}
 					if(source.equals(capacityLabel_radioButton)){
 						edgeLabelTransformer.setLabelType(EdgeLabel.CAPACITY);
 					}
@@ -823,7 +869,33 @@ public class StartWindow implements ActionListener {
 					if(source.equals(edgeCubicCurve_radioButton)){
 						edgeShapeTransformer.setType(EdgeShapeType.CUBIC_CURVE);
 					}
+					if(source.equals(distance_radioButton)){
+						type = AStar.DISTANCE;
+					}
+					if(source.equals(time_radioButton)){
+						type = AStar.TIME;
+					}
 					vv.repaint();
+				} else {
+					if(e.getSource() instanceof JMenuItem){
+						JMenuItem source = (JMenuItem) e.getSource();
+						
+						if(source.equals(vehicle_menuButton)){
+							
+							VehicleDialog vDialog = new VehicleDialog();
+							vDialog.setLocation(frame.getWidth()/2 -vDialog.getWidth()/2, frame.getHeight()/2);
+							vDialog.setVisible(true);
+							vDialog.dispose();
+						}
+						if(source.equals(resetTempl_menuButton)){
+							System.out.println("TEMPLATE");
+							edgeFactory.resetTemplate();
+						}
+						if(source.equals(updateDist_menuButton)){
+							pixelize();
+						}
+						vv.repaint();
+					}
 				}
 				
 			}

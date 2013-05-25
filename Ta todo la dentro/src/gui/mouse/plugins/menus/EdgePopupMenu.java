@@ -13,7 +13,6 @@ import gui.mouse.plugins.menus.auxiliarInterfaces.EdgeMenuListener;
 import magicNumbers.Values;
 
 
-
 public class EdgePopupMenu extends JPopupMenu {        
 	
 	private static final long serialVersionUID = -9054754601674300108L;

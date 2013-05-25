@@ -7,16 +7,13 @@ import magicNumbers.Values;
 
 public class Edge implements Serializable{
 	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1678390781343595348L;
 
 	private int id;
 	
 	private int speedLimit;
 	private double distance;
-	private double capacity; //TODO not for now
+	private double capacity;
 	
 	private String name;
 	

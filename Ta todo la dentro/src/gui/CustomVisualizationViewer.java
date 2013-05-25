@@ -9,9 +9,6 @@ import edu.uci.ics.jung.visualization.VisualizationViewer;
 
 public class CustomVisualizationViewer<V, E> extends VisualizationViewer<V, E>{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -8191211546759881598L;
 	
 	
@@ -19,32 +16,26 @@ public class CustomVisualizationViewer<V, E> extends VisualizationViewer<V, E>{
 	
 
 	public CustomVisualizationViewer(Layout<V, E> layout) {
-		super(layout);
-		
+		super(layout);	
 	}
 	
 	
-	public Graph<V,E> getGraphFromCurrentLayout(){
-			
+	public Graph<V,E> getGraphFromCurrentLayout(){		
        return getModel().getGraphLayout().getGraph();
 	}
 	
 	
-	public void addLayout(Layout<V,E> layout){
-		
+	public void addLayout(Layout<V,E> layout){		
 		this.layouts.add(layout);
 	}
 	
 	public void removeLayout(Layout<V,E> layout){
-		
 		this.layouts.remove(layout);
 	}
 	
-	public void setActiveLayout(Layout<V,E> layout){
-		
-		if(layouts.contains(layout)){
-			
-			//TODO
+	public void setActiveLayout(Layout<V,E> layout){		
+		if(layouts.contains(layout)){		
+			//TODO: this!!!!
 		}
 	}
 	

@@ -50,6 +50,14 @@ public class GUI_EdgeFactory implements Factory<Edge>{
 
 		return e;
 	}
+	
+	public boolean getTemplate() {
+		return EdgePropertyDialog.templateEnabled;
+	}
+	
+	public void resetTemplate() {
+		EdgePropertyDialog.templateEnabled = false;
+	}
 
 
 }
