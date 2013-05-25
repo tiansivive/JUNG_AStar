@@ -53,7 +53,7 @@ public class Vehicle {
 		return maxSpeed;
 	}
 
-	public void setCurrentFuel(int fuel) {
+	public void setCurrentFuel(double fuel) {
 		if(fuel > maxCapacity){
 			currentFuel = maxCapacity;
 		} else {

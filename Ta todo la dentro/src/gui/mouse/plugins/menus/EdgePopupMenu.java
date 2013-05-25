@@ -27,6 +27,7 @@ public class EdgePopupMenu extends JPopupMenu {
 		this.add(new DistanceDisplay());
 		this.addSeparator();
 		this.add(new ChangeEdgePropertiesMenuOption(frame)); 
+		this.add(new RenameEdgeOption<Edge>());
 	}
 
 	

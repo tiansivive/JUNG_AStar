@@ -29,6 +29,11 @@ public class GUI_EdgeShapeTransformer implements Transformer<Context<Graph<Verte
 	@Override
 	public Shape transform(Context<Graph<Vertex, Edge>, Edge> context) {
 		
+		
+		
+		
+		
+		
 		switch(type){
 			case LINE: return new Line<Vertex, Edge>().transform(context);
 			case BENT_LINE: return new BentLine<Vertex, Edge>().transform(context);

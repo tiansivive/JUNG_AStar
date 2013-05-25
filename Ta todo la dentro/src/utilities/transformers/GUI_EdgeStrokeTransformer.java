@@ -2,16 +2,14 @@ package utilities.transformers;
 
 import java.awt.BasicStroke;
 import java.awt.Stroke;
-import java.util.Collection;
 
 import org.apache.commons.collections15.Transformer;
 
-import utilities.enums.EdgeShapeType;
 import dataStructure.graph.Edge;
 import dataStructure.graph.RoadNetworkGraph;
 import dataStructure.graph.Vertex;
+import edu.uci.ics.jung.algorithms.layout.GraphElementAccessor;
 import edu.uci.ics.jung.graph.Graph;
-import edu.uci.ics.jung.graph.util.Pair;
 import edu.uci.ics.jung.visualization.VisualizationViewer;
 
 public class GUI_EdgeStrokeTransformer implements Transformer<Edge, Stroke> {
@@ -28,7 +26,7 @@ public class GUI_EdgeStrokeTransformer implements Transformer<Edge, Stroke> {
 	@Override
 	public Stroke transform(Edge edge) {
 		
-		
+
 		Graph<Vertex, Edge> g = vv.getGraphLayout().getGraph();
 		if(g instanceof RoadNetworkGraph){
 			

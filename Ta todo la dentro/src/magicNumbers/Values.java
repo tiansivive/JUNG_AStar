@@ -25,6 +25,11 @@ public class Values{
 	public static double default_edge_distance = 1;
 	
 	
+	public static double default_vehicle_fuel = 100;
+	public static double default_vehicle_fuel_tank_capacity = 100;
+	public static double default_vehicle_consumption = 0.1;
+	public static int default_vehicle_speed = 100;
+	
 	public static final String vertex_popupMenu_delete_option = "Delete Vertex";
 	public static final String vertex_popupMenu_name = "Vertex Menu";
 	public static final String vertex_set_as_begin = "Set as begin";

@@ -30,7 +30,7 @@ public class DeleteEdgeMenuOption<E> extends JMenuItem implements EdgeMenuListen
     public void setEdgeAndView(E edge, VisualizationViewer<?, E> visComp) {
         this.edge = edge;
         this.visComp = visComp;
-        this.setText(edge.toString());
+        this.setText("Delete " + edge.toString());
     }
 
 }
