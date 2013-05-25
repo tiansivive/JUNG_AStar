@@ -113,14 +113,13 @@ public class StartWindow implements ActionListener {
 	
 	private JMenuBar menuBar;
 	private JMenu modeMenu;
-	private JMenu edgeLabelMenu;
+	private JMenu edgeMenu;
 	private JMenu edgeShapeMenu;
 	private JMenu otherMenu;
 	
 	private JRadioButtonMenuItem nameLabel_radioButton;
 	private JRadioButtonMenuItem speedLimitLabel_radioButton;
 	private JRadioButtonMenuItem distanceLabel_radioButton;
-	private JRadioButtonMenuItem weightLabel_radioButton;
 	private JRadioButtonMenuItem capacityLabel_radioButton;
 	private JRadioButtonMenuItem edgeLineShape_radioButton;
 	private JRadioButtonMenuItem edgeBentLineShape_radioButton;
@@ -400,45 +399,9 @@ public class StartWindow implements ActionListener {
 		modeMenu.setPreferredSize(new Dimension(80,20)); // Change the size so I can see the text
 		menuBar.add(modeMenu);
 		frame.setJMenuBar(menuBar);
-		
 		/**************************************************************************/
 		
-		edgeLabelMenu = new JMenu("Edge Label");
-		edgeLabelMenuButtonGroup = new ButtonGroup();
-		
-		nameLabel_radioButton = new JRadioButtonMenuItem("Name");
-		nameLabel_radioButton.addActionListener(this);
-		nameLabel_radioButton.setSelected(true);
-		
-		speedLimitLabel_radioButton = new JRadioButtonMenuItem("Speed Limit");
-		speedLimitLabel_radioButton.addActionListener(this);
-		
-		distanceLabel_radioButton = new JRadioButtonMenuItem("Distance");
-		distanceLabel_radioButton.addActionListener(this);
-		
-		weightLabel_radioButton = new JRadioButtonMenuItem("Weight");
-		weightLabel_radioButton.addActionListener(this);
-		
-		capacityLabel_radioButton = new JRadioButtonMenuItem("Capacity");
-		capacityLabel_radioButton.addActionListener(this);
-		
-		
-		edgeLabelMenuButtonGroup.add(nameLabel_radioButton);
-		edgeLabelMenuButtonGroup.add(speedLimitLabel_radioButton);
-		edgeLabelMenuButtonGroup.add(distanceLabel_radioButton);
-		edgeLabelMenuButtonGroup.add(weightLabel_radioButton);
-		edgeLabelMenuButtonGroup.add(capacityLabel_radioButton);
-		
-		edgeLabelMenu.add(nameLabel_radioButton);
-		edgeLabelMenu.add(speedLimitLabel_radioButton);
-		edgeLabelMenu.add(distanceLabel_radioButton);
-		edgeLabelMenu.add(weightLabel_radioButton);
-		edgeLabelMenu.add(capacityLabel_radioButton);
-		menuBar.add(edgeLabelMenu);
-		
-		/**************************************************************************/
-		
-		edgeShapeMenu = new JMenu("Edge Shape");
+		edgeShapeMenu = new JMenu("Shape");
 		edgeShapeMenuButtonGroup = new ButtonGroup();
 		
 		edgeQuadCurve_radioButton = new JRadioButtonMenuItem("Quad Curve");
@@ -464,7 +427,38 @@ public class StartWindow implements ActionListener {
 		edgeShapeMenu.add(edgeBentLineShape_radioButton);
 		edgeShapeMenu.add(edgeCubicCurve_radioButton);
 		edgeShapeMenu.add(edgeQuadCurve_radioButton);
-		menuBar.add(edgeShapeMenu);
+		//menuBar.add(edgeShapeMenu);
+		
+		/**************************************************************************/
+		
+		edgeMenu = new JMenu("Edge");
+		edgeLabelMenuButtonGroup = new ButtonGroup();
+		
+		nameLabel_radioButton = new JRadioButtonMenuItem("Name");
+		nameLabel_radioButton.addActionListener(this);
+		nameLabel_radioButton.setSelected(true);
+		
+		speedLimitLabel_radioButton = new JRadioButtonMenuItem("Speed Limit");
+		speedLimitLabel_radioButton.addActionListener(this);
+		
+		distanceLabel_radioButton = new JRadioButtonMenuItem("Distance");
+		distanceLabel_radioButton.addActionListener(this);
+		
+		capacityLabel_radioButton = new JRadioButtonMenuItem("Capacity");
+		capacityLabel_radioButton.addActionListener(this);
+		
+		edgeLabelMenuButtonGroup.add(nameLabel_radioButton);
+		edgeLabelMenuButtonGroup.add(speedLimitLabel_radioButton);
+		edgeLabelMenuButtonGroup.add(distanceLabel_radioButton);
+		edgeLabelMenuButtonGroup.add(capacityLabel_radioButton);
+		
+		edgeMenu.add(nameLabel_radioButton);
+		edgeMenu.add(speedLimitLabel_radioButton);
+		edgeMenu.add(distanceLabel_radioButton);
+		edgeMenu.add(capacityLabel_radioButton);
+		edgeMenu.addSeparator();
+		edgeMenu.add(edgeShapeMenu);
+		menuBar.add(edgeMenu);
 		
 		/**************************************************************************/
 		
@@ -823,9 +817,6 @@ public class StartWindow implements ActionListener {
 					}
 					if(source.equals(distanceLabel_radioButton)){
 						edgeLabelTransformer.setLabelType(EdgeLabel.DISTANCE);
-					}
-					if(source.equals(weightLabel_radioButton)){
-						edgeLabelTransformer.setLabelType(EdgeLabel.WEIGHT);
 					}
 					if(source.equals(capacityLabel_radioButton)){
 						edgeLabelTransformer.setLabelType(EdgeLabel.CAPACITY);
