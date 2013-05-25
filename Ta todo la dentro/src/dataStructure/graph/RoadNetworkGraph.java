@@ -52,6 +52,12 @@ public class RoadNetworkGraph<V, E> extends DirectedSparseMultigraph<V, E>{
 
 		vertices.remove(vertex);
 		pointsToTraverse.remove(vertex);
+		if(initialVertex.equals(vertex)){
+			initialVertex = null;
+		}
+		if(endVertex.equals(vertex)){
+			endVertex = null;
+		}
 
 		return true;
 	}
