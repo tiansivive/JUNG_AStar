@@ -88,7 +88,7 @@ public class StartWindow implements ActionListener {
 	private GUI_EdgeFactory edgeFactory;
 
 	private GUI_VertexColoringTransformer vertexColoringTransformer;
-	private GUI_VertexShapeTransformer vertexShapeTransformer;
+	//private GUI_VertexShapeTransformer vertexShapeTransformer;
 	private GUI_EdgeColoringTransformer edgeColoringTransformer;
 	private GUI_EdgeShapeTransformer edgeShapeTransformer;
 	private GUI_EdgeStrokeTransformer edgeStrokeTransformer;
@@ -151,7 +151,7 @@ public class StartWindow implements ActionListener {
 			// handle exception
 		}
 		catch (ParseException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 
@@ -350,6 +350,11 @@ public class StartWindow implements ActionListener {
 	private void initVisualizationViewer(){
 
 		vv = new CustomVisualizationViewer<Vertex,Edge>(roadNetworkLayout) {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = -3215633595132747268L;
+
 			@Override
 			public void repaint() {
 				RoadNetworkGraph<Vertex, Edge> roadNetwork = graph.getRoadNetwork();
@@ -376,7 +381,7 @@ public class StartWindow implements ActionListener {
 		vertexFactory = new GUI_VertexFactory();
 		edgeFactory = new GUI_EdgeFactory(true); //False para não aparecer aquela box sempre que se cria um edge
 		vertexColoringTransformer = new GUI_VertexColoringTransformer(vv);
-		vertexShapeTransformer = new GUI_VertexShapeTransformer();
+		//vertexShapeTransformer = new GUI_VertexShapeTransformer();
 		edgeColoringTransformer = new GUI_EdgeColoringTransformer(vv);
 		edgeLabelTransformer = new EdgeLabellerTransformer();
 		edgeShapeTransformer = new GUI_EdgeShapeTransformer(vv);
@@ -697,10 +702,10 @@ public class StartWindow implements ActionListener {
 			i.printStackTrace();
 			return;
 		} catch (ParserConfigurationException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		} catch (SAXException e) {
-			// TODO Auto-generated catch block
+		
 			e.printStackTrace();
 		} 
 	}
@@ -788,14 +793,14 @@ public class StartWindow implements ActionListener {
 		
 	}
 	
-	
+	/*
 	private void teste(){
 		
 		
 	//	vv.getRenderContext().g
 		
 		
-	}
+	}*/
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
