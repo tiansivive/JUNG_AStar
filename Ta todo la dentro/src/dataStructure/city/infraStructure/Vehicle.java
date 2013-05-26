@@ -12,7 +12,11 @@ public class Vehicle {
 		currentFuel = car.getCurrentFuel();
 		maxCapacity = car.getMaxCapacity();
 		consumption = car.getConsumption();
-		maxSpeed = car.getMaxSpeed();
+		if(car.getMaxSpeed() != 0) {
+			maxSpeed = car.getMaxSpeed();
+		} else {
+			maxSpeed = 1;
+		}
 	}
 
 	public Vehicle(double start, double max){
@@ -34,7 +38,11 @@ public class Vehicle {
 		}
 		maxCapacity = max;
 		consumption = cons;
-		maxSpeed = speed;
+		if(speed != 0) {
+			maxSpeed = speed;
+		} else {
+			maxSpeed = 1;
+		}
 	}
 
 	public double getCurrentFuel(){
@@ -78,7 +86,11 @@ public class Vehicle {
 	}
 	
 	public void setMaxSpeed(int speed) {
-		maxSpeed = speed;
+		if(speed != 0) {
+			maxSpeed = speed;
+		} else {
+			maxSpeed = 1;
+		}
 	}
 
 }

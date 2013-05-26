@@ -119,12 +119,13 @@ public class State {
 		double ret = 0;
 		if(type == AStar.DISTANCE) {
 			ret += distance;
+			ret += heuristic;
 		} else {
 			if(type == AStar.TIME) {
 				ret += time;
+				ret += heuristic/(double)(car.getMaxSpeed());
 			}
 		}
-		ret += heuristic;
 		return ret;
 	}
 	
