@@ -601,7 +601,6 @@ public class StartWindow implements ActionListener {
 
 			graphWriter.save(graph.getRoadNetwork(), out);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -741,8 +740,6 @@ public class StartWindow implements ActionListener {
 				Values.default_vehicle_speed); 
 
 
-
-		System.out.println("A_STAR!"); //TODO: remove this
 		RoadNetworkGraph<Vertex, Edge> roadNetwork = graph.getRoadNetwork();
 		roadNetwork.updateVertexPositions(roadNetworkLayout);
 		roadNetwork.getSelectedEdges().clear();
