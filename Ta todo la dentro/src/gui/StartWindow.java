@@ -378,7 +378,7 @@ public class StartWindow implements ActionListener {
 		vertexShapeTransformer = new GUI_VertexShapeTransformer();
 		edgeColoringTransformer = new GUI_EdgeColoringTransformer(vv);
 		edgeLabelTransformer = new EdgeLabellerTransformer();
-		edgeShapeTransformer = new GUI_EdgeShapeTransformer();
+		edgeShapeTransformer = new GUI_EdgeShapeTransformer(vv);
 		edgeStrokeTransformer = new GUI_EdgeStrokeTransformer(vv);
 		
 		vv.getRenderContext().setVertexLabelTransformer(new ToStringLabeller<Vertex>());
@@ -804,6 +804,15 @@ public class StartWindow implements ActionListener {
 		}
 		
 		vv.repaint();
+		
+	}
+	
+	
+	private void teste(){
+		
+		
+	//	vv.getRenderContext().g
+		
 		
 	}
 	

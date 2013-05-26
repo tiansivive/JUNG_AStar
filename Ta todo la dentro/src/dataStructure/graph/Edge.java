@@ -17,6 +17,8 @@ public class Edge implements Serializable{
 	
 	private String name;
 	
+	private boolean animated;
+	
 	public Edge(){
 		
 		Values.EdgesCurrentID++;
@@ -24,6 +26,7 @@ public class Edge implements Serializable{
 		this.speedLimit = Values.default_edge_speedLimit;
 		this.distance = Values.default_edge_distance;
 		this.capacity = Values.default_edge_capacity;
+		animated = false;
 		
 	}
 	
@@ -34,6 +37,7 @@ public class Edge implements Serializable{
 		this.speedLimit = speed;
 		this.distance = dist;
 		this.capacity = -1;
+		animated = false;
 	}
 
 	public Edge(int speed, double dist, double c){
@@ -43,6 +47,7 @@ public class Edge implements Serializable{
 		this.speedLimit = speed;
 		this.distance = dist;
 		this.capacity = c;
+		animated = false;
 
 	}
 	
@@ -94,5 +99,13 @@ public class Edge implements Serializable{
 	public void setId(int ID) {
 		
 		this.id = ID;
+	}
+
+	public boolean isAnimated() {
+		return animated;
+	}
+
+	public void setAnimated(boolean animated) {
+		this.animated = animated;
 	}
 }

@@ -58,7 +58,7 @@ public class RoadNetworkGraph<V, E> extends DirectedSparseMultigraph<V, E>{
 		if(endVertex.equals(vertex)){
 			endVertex = null;
 		}
-
+		
 		return true;
 	}
 
